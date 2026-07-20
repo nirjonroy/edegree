@@ -260,11 +260,7 @@ class DashboardController extends Controller
             'breadcrumbs',
             'stats',
             'revenueChart',
-            'salesSparkline',
-            'sidebarMenu',
-            'messages',
-            'notifications',
-            'notificationCount'
+            'salesSparkline'
         ));
     }
 }

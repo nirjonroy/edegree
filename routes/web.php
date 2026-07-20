@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\BlogCategoryController;
+use App\Http\Controllers\Admin\BlogCommentController;
+use App\Http\Controllers\Admin\BlogPageController;
+use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -34,6 +38,10 @@ Route::redirect('/admin/index3.html', '/admin/dashboard');
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('siteinfo', SiteinfoController::class);
+    Route::resource('blog-categories', BlogCategoryController::class);
+    Route::resource('blog-pages', BlogPageController::class);
+    Route::resource('blog-posts', BlogPostController::class);
+    Route::resource('blog-comments', BlogCommentController::class);
 });
 
 Route::get('/dashboard', function () {

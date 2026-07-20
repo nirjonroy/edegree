@@ -44,6 +44,18 @@ class AppServiceProvider extends ServiceProvider
                 'active' => request()->is('admin/dashboard'),
             ],
             ['label' => 'Site Info', 'url' => '/admin/siteinfo', 'icon' => 'bi-gear-fill', 'active' => request()->is('admin/siteinfo*')],
+            [
+                'label' => 'Blog',
+                'url' => '#',
+                'icon' => 'bi-journal-text',
+                'open' => request()->is('admin/blog-*'),
+                'children' => [
+                    ['label' => 'Categories', 'url' => '/admin/blog-categories', 'active' => request()->is('admin/blog-categories*')],
+                    ['label' => 'Posts', 'url' => '/admin/blog-posts', 'active' => request()->is('admin/blog-posts*')],
+                    ['label' => 'Comments', 'url' => '/admin/blog-comments', 'active' => request()->is('admin/blog-comments*')],
+                    ['label' => 'Pages', 'url' => '/admin/blog-pages', 'active' => request()->is('admin/blog-pages*')],
+                ],
+            ],
             ['label' => 'Theme Generate', 'url' => '/adminlte/generate/theme.html', 'icon' => 'bi-palette'],
             [
                 'label' => 'Widgets',
