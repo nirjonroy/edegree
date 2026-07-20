@@ -43,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'bi-speedometer',
                 'active' => request()->is('admin/dashboard'),
             ],
+            ['label' => 'About', 'url' => '/admin/abouts', 'icon' => 'bi-info-circle-fill', 'active' => request()->is('admin/abouts*')],
             ['label' => 'Site Info', 'url' => '/admin/siteinfo', 'icon' => 'bi-gear-fill', 'active' => request()->is('admin/siteinfo*')],
             [
                 'label' => 'Blog',

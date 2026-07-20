@@ -21,8 +21,8 @@
                     @else
                         <label class="form-label">{{ $field['label'] }} @if (! empty($field['required']))<span class="text-danger">*</span>@endif</label>
 
-                        @if ($type === 'textarea')
-                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control" @required(! empty($field['required']))>{{ $value }}</textarea>
+                        @if ($type === 'textarea' || $type === 'summernote')
+                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control {{ $type === 'summernote' ? 'js-summernote' : '' }}" @required(! empty($field['required']))>{{ $value }}</textarea>
                         @elseif ($type === 'select')
                             <select name="{{ $name }}" class="form-select" @required(! empty($field['required']))>
                                 <option value="">Select {{ $field['label'] }}</option>
@@ -30,6 +30,13 @@
                                     <option value="{{ $optionValue }}" @selected((string) $value === (string) $optionValue)>{{ $optionLabel }}</option>
                                 @endforeach
                             </select>
+                        @elseif ($type === 'file')
+                            <input type="file" name="{{ $name }}" class="form-control" accept="{{ $field['accept'] ?? '' }}" @required(! empty($field['required']))>
+                            @if ($value)
+                                <div class="mt-2">
+                                    <img src="/{{ $value }}" alt="{{ $field['label'] }}" class="img-thumbnail" style="max-height: 90px">
+                                </div>
+                            @endif
                         @else
                             <input type="{{ $type }}" name="{{ $name }}" value="{{ $value }}" class="form-control" @required(! empty($field['required']))>
                         @endif
@@ -43,3 +50,24 @@
         <button type="submit" class="btn btn-primary">{{ $record->exists ? 'Update' : 'Create' }}</button>
     </div>
 </div>
+
+@once
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.jQuery && jQuery.fn.summernote) {
+                    jQuery('.js-summernote').summernote({
+                        height: 240,
+                        toolbar: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'italic', 'underline', 'clear']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['insert', ['link', 'picture']],
+                            ['view', ['fullscreen', 'codeview']],
+                        ],
+                    });
+                }
+            });
+        </script>
+    @endpush
+@endonce

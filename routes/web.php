@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogCommentController;
@@ -37,6 +38,7 @@ Route::redirect('/admin/index3.html', '/admin/dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('abouts', AboutController::class);
     Route::resource('siteinfo', SiteinfoController::class);
     Route::resource('blog-categories', BlogCategoryController::class);
     Route::resource('blog-pages', BlogPageController::class);

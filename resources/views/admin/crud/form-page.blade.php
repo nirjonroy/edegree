@@ -30,7 +30,7 @@
                 </div>
             @endif
 
-            <form action="{{ $record->exists ? $routeBase.'/'.$record->id : $routeBase }}" method="POST">
+            <form action="{{ $record->exists ? $routeBase.'/'.$record->id : $routeBase }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($record->exists)
                     @method('PUT')
