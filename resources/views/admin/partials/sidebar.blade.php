@@ -1,7 +1,7 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-brand">
         <a href="/admin/dashboard" class="brand-link">
-            <img src="/admin/assets/img/AdminLTELogo.png" alt="Admin Logo" class="brand-image opacity-75 shadow">
+            <img src="/adminlte/assets/img/AdminLTELogo.png" alt="Admin Logo" class="brand-image opacity-75 shadow">
             <span class="brand-text fw-light">AdminLTE 4</span>
         </a>
     </div>

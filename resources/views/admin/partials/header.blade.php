@@ -32,7 +32,7 @@
                         <a href="{{ $message['url'] ?? '#' }}" class="dropdown-item">
                             <div class="d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ $message['avatar'] ?? '/admin/assets/img/user1-128x128.jpg' }}" alt="User Avatar" class="img-size-50 rounded-circle me-3">
+                                    <img src="{{ $message['avatar'] ?? '/adminlte/assets/img/user1-128x128.jpg' }}" alt="User Avatar" class="img-size-50 rounded-circle me-3">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h3 class="dropdown-item-title">
@@ -85,12 +85,12 @@
             </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="/admin/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image">
+                    <img src="/adminlte/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image">
                     <span class="d-none d-md-inline">{{ auth()->user()->name ?? 'Admin' }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <li class="user-header text-bg-primary">
-                        <img src="/admin/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image">
+                        <img src="/adminlte/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image">
                         <p>
                             {{ auth()->user()->name ?? 'Admin' }}
                             <small>{{ auth()->user()->email ?? '' }}</small>
