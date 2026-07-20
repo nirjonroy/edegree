@@ -30,6 +30,12 @@ class AdminAuthTest extends TestCase
 
         $this->assertAuthenticatedAs($admin);
         $response->assertRedirect(route('admin.dashboard'));
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('small-box text-bg-primary', false)
+            ->assertSee('Sales Value');
     }
 
     public function test_non_admin_cannot_login_through_admin_login(): void

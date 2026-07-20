@@ -24,12 +24,19 @@ Route::middleware('guest')->group(function () {
     Route::post('/admin/login', [AuthenticatedSessionController::class, 'storeAdmin'])->name('admin.login.store');
 });
 
+Route::redirect('/admin/admin/login', '/admin/login');
+Route::redirect('/admin/admin/dashboard', '/admin/dashboard');
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (auth()->user()?->is_admin) {
+        return redirect('/admin/dashboard');
+    }
+
+    return redirect()->route('frontend.home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

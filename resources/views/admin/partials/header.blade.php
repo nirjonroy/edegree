@@ -3,11 +3,107 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="bi bi-list"></i>
                 </a>
             </li>
             <li class="nav-item d-none d-md-block">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="/admin/dashboard" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                    <i class="bi bi-search"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                    <i class="bi bi-chat-text"></i>
+                    <span class="navbar-badge badge text-bg-danger">{{ count($messages ?? []) }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <span class="dropdown-item dropdown-header">{{ count($messages ?? []) }} Messages</span>
+                    <div class="dropdown-divider"></div>
+                    @forelse ($messages ?? [] as $message)
+                        <a href="{{ $message['url'] ?? '#' }}" class="dropdown-item">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ $message['avatar'] ?? '/admin/assets/img/user1-128x128.jpg' }}" alt="User Avatar" class="img-size-50 rounded-circle me-3">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h3 class="dropdown-item-title">
+                                        {{ $message['name'] ?? '' }}
+                                        <span class="float-end fs-7 {{ $message['star'] ?? 'text-secondary' }}">
+                                            <i class="bi bi-star-fill"></i>
+                                        </span>
+                                    </h3>
+                                    <p class="fs-7">{{ $message['message'] ?? '' }}</p>
+                                    <p class="fs-7 text-secondary">
+                                        <i class="bi bi-clock-fill me-1"></i> {{ $message['time'] ?? '' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @empty
+                        <span class="dropdown-item">No messages</span>
+                        <div class="dropdown-divider"></div>
+                    @endforelse
+                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                    <i class="bi bi-bell-fill"></i>
+                    <span class="navbar-badge badge text-bg-warning">{{ $notificationCount ?? count($notifications ?? []) }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <span class="dropdown-item dropdown-header">{{ $notificationCount ?? count($notifications ?? []) }} Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    @forelse ($notifications ?? [] as $notification)
+                        <a href="{{ $notification['url'] ?? '#' }}" class="dropdown-item">
+                            <i class="bi {{ $notification['icon'] ?? 'bi-bell' }} me-2"></i> {{ $notification['label'] }}
+                            @isset($notification['time'])
+                                <span class="float-end text-secondary fs-7">{{ $notification['time'] }}</span>
+                            @endisset
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @empty
+                        <span class="dropdown-item">No notifications</span>
+                    @endforelse
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                    <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                    <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="/admin/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image">
+                    <span class="d-none d-md-inline">{{ auth()->user()->name ?? 'Admin' }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <li class="user-header text-bg-primary">
+                        <img src="/admin/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image">
+                        <p>
+                            {{ auth()->user()->name ?? 'Admin' }}
+                            <small>{{ auth()->user()->email ?? '' }}</small>
+                        </p>
+                    </li>
+                    <li class="user-footer">
+                        <a href="/profile" class="btn btn-default btn-flat">Profile</a>
+                        <form method="POST" action="/logout" class="float-end">
+                            @csrf
+                            <button type="submit" class="btn btn-default btn-flat">Sign out</button>
+                        </form>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

@@ -6,7 +6,7 @@
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('admin.login.store') }}">
+    <form method="POST" action="/admin/login">
         @csrf
 
         <div>
