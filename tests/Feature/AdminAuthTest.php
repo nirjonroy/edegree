@@ -52,4 +52,29 @@ class AdminAuthTest extends TestCase
 
         $this->assertGuest();
     }
+
+    public function test_admin_can_logout_from_admin_panel(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->post(route('logout'));
+
+        $this->assertGuest();
+        $response->assertRedirect('/');
+    }
+
+    public function test_admin_sidebar_only_shows_project_menus(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('Dashboard')
+            ->assertSee('Site Info')
+            ->assertSee('Blog')
+            ->assertDontSee('Theme Generate')
+            ->assertDontSee('Widgets')
+            ->assertDontSee('DOCUMENTATIONS');
+    }
 }

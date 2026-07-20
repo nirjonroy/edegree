@@ -98,7 +98,7 @@
                     </li>
                     <li class="user-footer">
                         <a href="/profile" class="btn btn-default btn-flat">Profile</a>
-                        <form method="POST" action="/logout" class="float-end">
+                        <form method="POST" action="{{ route('logout') }}" class="float-end">
                             @csrf
                             <button type="submit" class="btn btn-default btn-flat">Sign out</button>
                         </form>
