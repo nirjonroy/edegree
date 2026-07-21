@@ -22,7 +22,7 @@
                         <label class="form-label">{{ $field['label'] }} @if (! empty($field['required']))<span class="text-danger">*</span>@endif</label>
 
                         @if ($type === 'textarea' || $type === 'summernote')
-                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control {{ $type === 'summernote' ? 'js-summernote' : '' }}" @required(! empty($field['required']))>{{ $value }}</textarea>
+                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control {{ $type === 'summernote' ? 'js-rich-editor' : '' }}" @required(! empty($field['required']))>{{ $value }}</textarea>
                         @elseif ($type === 'select')
                             <select name="{{ $name }}" class="form-select" @required(! empty($field['required']))>
                                 <option value="">Select {{ $field['label'] }}</option>
@@ -61,16 +61,24 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                if (window.jQuery && jQuery.fn.summernote) {
-                    jQuery('.js-summernote').summernote({
-                        height: 240,
-                        toolbar: [
-                            ['style', ['style']],
-                            ['font', ['bold', 'italic', 'underline', 'clear']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['insert', ['link', 'picture']],
-                            ['view', ['fullscreen', 'codeview']],
-                        ],
+                if (window.tinymce) {
+                    tinymce.init({
+                        selector: 'textarea.js-rich-editor',
+                        height: 460,
+                        menubar: 'file edit view insert format tools table help',
+                        branding: false,
+                        promotion: false,
+                        license_key: 'gpl',
+                        plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table blockquote code fullscreen preview',
+                        toolbar_mode: 'sliding',
+                        contextmenu: 'link image table',
+                        image_advtab: true,
+                        automatic_uploads: false,
+                        relative_urls: false,
+                        remove_script_host: false,
+                        convert_urls: false,
+                        content_style: 'body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.7; color: #1f2937; } h1,h2,h3,h4 { color: #111827; font-weight: 700; } blockquote { border-left: 4px solid #dc3545; margin-left: 0; padding-left: 1rem; font-style: italic; }',
                     });
                 }
             });

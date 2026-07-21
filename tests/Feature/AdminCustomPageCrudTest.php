@@ -36,14 +36,14 @@ class AdminCustomPageCrudTest extends TestCase
         $this->assertStringStartsWith('uploads/custom-pages/meta-image-', $page->meta_image);
     }
 
-    public function test_custom_page_create_form_has_summernote_description_and_sidebar_item(): void
+    public function test_custom_page_create_form_has_rich_editor_description_and_sidebar_item(): void
     {
         $this->actingAs($this->admin())
             ->get('/admin/custom-pages/create')
             ->assertOk()
             ->assertSee('Custom Pages')
             ->assertSee('Page Name')
-            ->assertSee('js-summernote', false)
+            ->assertSee('js-rich-editor', false)
             ->assertSee('Meta Image');
     }
 

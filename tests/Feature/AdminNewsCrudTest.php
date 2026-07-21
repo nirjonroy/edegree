@@ -43,14 +43,14 @@ class AdminNewsCrudTest extends TestCase
         $this->assertStringStartsWith('uploads/news/meta_image-', $news->meta_image);
     }
 
-    public function test_news_create_form_has_summernote_and_sidebar_item(): void
+    public function test_news_create_form_has_rich_editor_and_sidebar_item(): void
     {
         $this->actingAs($this->admin())
             ->get('/admin/news/create')
             ->assertOk()
             ->assertSee('News')
             ->assertSee('Meta Image')
-            ->assertSee('js-summernote', false);
+            ->assertSee('js-rich-editor', false);
     }
 
     private function admin(): User
