@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BlogCommentController;
 use App\Http\Controllers\Admin\BlogPageController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\CustomPageController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SiteinfoController;
@@ -52,6 +53,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('program-categories', ProgramCategoryController::class);
     Route::resource('programs', ProgramController::class);
     Route::resource('custom-pages', CustomPageController::class);
+    Route::resource('news', NewsController::class);
 });
 
 Route::get('/dashboard', function () {

@@ -75,6 +75,7 @@ class AdminAuthTest extends TestCase
             ->assertSee('About')
             ->assertSee('Site Info')
             ->assertSee('Custom Pages')
+            ->assertSee('News')
             ->assertSee('Universities')
             ->assertSee('Programs')
             ->assertSee('Blog')
