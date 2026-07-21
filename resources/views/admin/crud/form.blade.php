@@ -34,7 +34,13 @@
                             <input type="file" name="{{ $name }}" class="form-control" accept="{{ $field['accept'] ?? '' }}" @required(! empty($field['required']))>
                             @if ($value)
                                 <div class="mt-2">
-                                    <img src="/{{ $value }}" alt="{{ $field['label'] }}" class="img-thumbnail" style="max-height: 90px">
+                                    @if (($field['preview'] ?? 'image') === 'file' || \Illuminate\Support\Str::endsWith(strtolower($value), '.pdf'))
+                                        <a href="/{{ $value }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-file-earmark-text"></i> View File
+                                        </a>
+                                    @else
+                                        <img src="/{{ $value }}" alt="{{ $field['label'] }}" class="img-thumbnail" style="max-height: 90px">
+                                    @endif
                                 </div>
                             @endif
                         @else

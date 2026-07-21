@@ -34,6 +34,7 @@ class AdminAuthTest extends TestCase
         $this->actingAs($admin)
             ->get(route('admin.dashboard'))
             ->assertOk()
+            ->assertSee('eDegree+')
             ->assertSee('small-box text-bg-primary', false)
             ->assertSee('Sales Value');
     }
@@ -71,10 +72,15 @@ class AdminAuthTest extends TestCase
             ->get(route('admin.dashboard'))
             ->assertOk()
             ->assertSee('Dashboard')
+            ->assertSee('About')
             ->assertSee('Site Info')
+            ->assertSee('Universities')
+            ->assertSee('Programs')
             ->assertSee('Blog')
             ->assertDontSee('Theme Generate')
             ->assertDontSee('Widgets')
+            ->assertDontSee('AdminLTE 4')
+            ->assertDontSee('AdminLTE.io')
             ->assertDontSee('DOCUMENTATIONS');
     }
 }

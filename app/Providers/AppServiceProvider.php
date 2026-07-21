@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Siteinfo;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -25,8 +26,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('admin.*', function ($view) {
+            $siteinfo = Siteinfo::latest()->first();
+
             $view->with([
                 'sidebarMenu' => $view->getData()['sidebarMenu'] ?? $this->adminSidebarMenu(),
+                'adminBrand' => $view->getData()['adminBrand'] ?? [
+                    'logo' => $siteinfo?->logo,
+                    'large' => $siteinfo?->sidebar_lg_header ?: 'eDegree+',
+                    'small' => $siteinfo?->sidebar_sm_header ?: 'eD+',
+                ],
                 'messages' => $view->getData()['messages'] ?? $this->adminMessages(),
                 'notifications' => $view->getData()['notifications'] ?? $this->adminNotifications(),
                 'notificationCount' => $view->getData()['notificationCount'] ?? 15,
@@ -45,6 +53,17 @@ class AppServiceProvider extends ServiceProvider
             ],
             ['label' => 'About', 'url' => '/admin/abouts', 'icon' => 'bi-info-circle-fill', 'active' => request()->is('admin/abouts*')],
             ['label' => 'Site Info', 'url' => '/admin/siteinfo', 'icon' => 'bi-gear-fill', 'active' => request()->is('admin/siteinfo*')],
+            ['label' => 'Universities', 'url' => '/admin/universities', 'icon' => 'bi-buildings', 'active' => request()->is('admin/universities*')],
+            [
+                'label' => 'Programs',
+                'url' => '#',
+                'icon' => 'bi-mortarboard',
+                'open' => request()->is('admin/program*'),
+                'children' => [
+                    ['label' => 'Categories', 'url' => '/admin/program-categories', 'active' => request()->is('admin/program-categories*')],
+                    ['label' => 'Programs', 'url' => '/admin/programs', 'active' => request()->is('admin/programs*')],
+                ],
+            ],
             [
                 'label' => 'Blog',
                 'url' => '#',

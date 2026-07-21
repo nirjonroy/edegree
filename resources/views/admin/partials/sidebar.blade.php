@@ -1,8 +1,12 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-brand">
         <a href="/admin/dashboard" class="brand-link">
-            <img src="/adminlte/assets/img/AdminLTELogo.png" alt="Admin Logo" class="brand-image opacity-75 shadow">
-            <span class="brand-text fw-light">AdminLTE 4</span>
+            @if (! empty($adminBrand['logo']))
+                <img src="/{{ $adminBrand['logo'] }}" alt="{{ $adminBrand['large'] ?? 'eDegree+' }}" class="brand-image bg-white rounded opacity-100 shadow-sm">
+            @else
+                <span class="brand-image d-inline-flex align-items-center justify-content-center bg-white rounded-circle text-danger fw-bold shadow-sm">e</span>
+            @endif
+            <span class="brand-text fw-semibold">{{ $adminBrand['large'] ?? 'eDegree+' }}</span>
         </a>
     </div>
 

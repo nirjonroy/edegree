@@ -6,7 +6,10 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogCommentController;
 use App\Http\Controllers\Admin\BlogPageController;
 use App\Http\Controllers\Admin\BlogPostController;
+use App\Http\Controllers\Admin\ProgramCategoryController;
+use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SiteinfoController;
+use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -44,6 +47,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('blog-pages', BlogPageController::class);
     Route::resource('blog-posts', BlogPostController::class);
     Route::resource('blog-comments', BlogCommentController::class);
+    Route::resource('universities', UniversityController::class);
+    Route::resource('program-categories', ProgramCategoryController::class);
+    Route::resource('programs', ProgramController::class);
 });
 
 Route::get('/dashboard', function () {

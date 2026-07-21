@@ -1,8 +1,8 @@
 <footer class="app-footer">
-    <div class="float-end d-none d-sm-inline">Anything you want</div>
+    <div class="float-end d-none d-sm-inline">Admin Panel</div>
     <strong>
-        Copyright &copy; 2014-2025&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        Copyright &copy; {{ date('Y') }}&nbsp;
+        <a href="/admin/dashboard" class="text-decoration-none">eDegree+</a>.
     </strong>
     All rights reserved.
 </footer>
