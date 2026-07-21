@@ -57,6 +57,16 @@ class AppServiceProvider extends ServiceProvider
             ['label' => 'News', 'url' => '/admin/news', 'icon' => 'bi-newspaper', 'active' => request()->is('admin/news*')],
             ['label' => 'Universities', 'url' => '/admin/universities', 'icon' => 'bi-buildings', 'active' => request()->is('admin/universities*')],
             [
+                'label' => 'Access Control',
+                'url' => '#',
+                'icon' => 'bi-shield-lock',
+                'open' => request()->is('admin/roles*') || request()->is('admin/permissions*'),
+                'children' => [
+                    ['label' => 'Roles', 'url' => '/admin/roles', 'active' => request()->is('admin/roles*')],
+                    ['label' => 'Permissions', 'url' => '/admin/permissions', 'active' => request()->is('admin/permissions*')],
+                ],
+            ],
+            [
                 'label' => 'Programs',
                 'url' => '#',
                 'icon' => 'bi-mortarboard',

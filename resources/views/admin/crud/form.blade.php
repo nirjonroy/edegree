@@ -30,6 +30,13 @@
                                     <option value="{{ $optionValue }}" @selected((string) $value === (string) $optionValue)>{{ $optionLabel }}</option>
                                 @endforeach
                             </select>
+                        @elseif ($type === 'multiselect')
+                            @php($selectedValues = collect(old($name, $field['value'] ?? $value ?? []))->map(fn ($item) => (string) $item)->all())
+                            <select name="{{ $name }}[]" class="form-select" multiple size="{{ $field['size'] ?? 8 }}" @required(! empty($field['required']))>
+                                @foreach ($field['options'] ?? [] as $optionValue => $optionLabel)
+                                    <option value="{{ $optionValue }}" @selected(in_array((string) $optionValue, $selectedValues, true))>{{ $optionLabel }}</option>
+                                @endforeach
+                            </select>
                         @elseif ($type === 'file')
                             <input type="file" name="{{ $name }}" class="form-control" accept="{{ $field['accept'] ?? '' }}" @required(! empty($field['required']))>
                             @if ($value)

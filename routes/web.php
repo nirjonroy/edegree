@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\CustomPageController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -54,6 +56,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('programs', ProgramController::class);
     Route::resource('custom-pages', CustomPageController::class);
     Route::resource('news', NewsController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
 });
 
 Route::get('/dashboard', function () {
