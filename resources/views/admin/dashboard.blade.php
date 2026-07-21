@@ -52,29 +52,91 @@
                 <div class="col-lg-7 connectedSortable">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Sales Value</h3>
+                            <h3 class="card-title">Visits Last 7 Days</h3>
                         </div>
                         <div class="card-body">
-                            <div id="revenue-chart"></div>
+                            <div id="visit-chart"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5 connectedSortable">
-                    <div class="card text-white bg-primary bg-gradient border-primary mb-4">
+                    <div class="card mb-4">
                         <div class="card-header border-0">
-                            <h3 class="card-title">Sales Value</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-primary btn-sm" data-lte-toggle="card-collapse">
-                                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                </button>
-                            </div>
+                            <h3 class="card-title">Content Summary</h3>
                         </div>
-                        <div class="card-body">
-                            <div id="world-map" style="height: 220px"></div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover mb-0">
+                                <tbody>
+                                    @foreach ($contentCounts ?? [] as $item)
+                                        <tr>
+                                            <td><a href="{{ $item['url'] }}">{{ $item['label'] }}</a></td>
+                                            <td class="text-end fw-semibold">{{ $item['value'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card-footer border-0">
-                            <div id="sales-chart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header"><h3 class="card-title">Top Visited Pages</h3></div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th class="text-end">Visits</th>
+                                        <th class="text-end">Unique IPs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($topPages ?? [] as $page)
+                                        <tr>
+                                            <td class="text-break">{{ $page->path }}</td>
+                                            <td class="text-end">{{ $page->total }}</td>
+                                            <td class="text-end">{{ $page->unique_total }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="3" class="text-center text-secondary py-4">No visits tracked yet.</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Visits</h3>
+                            <div class="card-tools"><a href="/admin/page-visits" class="btn btn-primary btn-sm">View All</a></div>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th>IP</th>
+                                        <th>User</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($recentVisits ?? [] as $visit)
+                                        <tr>
+                                            <td class="text-break">{{ $visit->path }}</td>
+                                            <td>{{ $visit->ip_address ?? '-' }}</td>
+                                            <td>{{ $visit->user?->email ?? 'Guest' }}</td>
+                                            <td>{{ $visit->visited_at?->format('Y-m-d H:i') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="4" class="text-center text-secondary py-4">No visits tracked yet.</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -86,8 +148,6 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.connectedSortable').forEach(function (element) {
@@ -97,20 +157,16 @@
                 });
             });
 
-            new ApexCharts(document.querySelector('#revenue-chart'), {
-                series: [
-                    @foreach ($revenueChart['series'] ?? [] as $series)
-                        @json($series),
-                    @endforeach
-                ],
+            new ApexCharts(document.querySelector('#visit-chart'), {
+                series: @json($visitChart['series'] ?? []),
                 chart: { height: 300, type: 'area', toolbar: { show: false } },
                 legend: { show: false },
-                colors: @json($revenueChart['colors'] ?? ['#0d6efd', '#20c997']),
+                colors: @json($visitChart['colors'] ?? ['#0d6efd']),
                 dataLabels: { enabled: false },
                 stroke: { curve: 'smooth' },
                 xaxis: {
                     type: 'datetime',
-                    categories: @json($revenueChart['categories'] ?? []),
+                    categories: @json($visitChart['categories'] ?? []),
                 },
                 tooltip: {
                     x: {
@@ -119,29 +175,6 @@
                 },
             }).render();
 
-            if (document.querySelector('#world-map') && typeof jsVectorMap !== 'undefined') {
-                new jsVectorMap({
-                    selector: '#world-map',
-                    map: 'world',
-                    backgroundColor: 'transparent',
-                    regionStyle: {
-                        initial: {
-                            fill: 'rgba(255, 255, 255, 0.75)',
-                            stroke: 'rgba(255, 255, 255, 0.35)',
-                        },
-                    },
-                });
-            }
-
-            new ApexCharts(document.querySelector('#sales-chart'), {
-                series: @json($salesSparkline['series'] ?? []),
-                chart: { height: 50, type: 'area', sparkline: { enabled: true } },
-                stroke: { curve: 'straight' },
-                fill: { opacity: 0.3 },
-                yaxis: { min: 0 },
-                colors: ['#DCE6EC'],
-                tooltip: { enabled: false },
-            }).render();
         });
     </script>
 @endpush

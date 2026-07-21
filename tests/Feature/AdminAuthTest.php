@@ -36,7 +36,7 @@ class AdminAuthTest extends TestCase
             ->assertOk()
             ->assertSee('eDegree+')
             ->assertSee('small-box text-bg-primary', false)
-            ->assertSee('Sales Value');
+            ->assertSee('Visits Last 7 Days');
     }
 
     public function test_non_admin_cannot_login_through_admin_login(): void
@@ -78,8 +78,10 @@ class AdminAuthTest extends TestCase
             ->assertSee('News')
             ->assertSee('Universities')
             ->assertSee('Access Control')
+            ->assertSee('Admin Users')
             ->assertSee('Roles')
             ->assertSee('Permissions')
+            ->assertSee('Page Visits')
             ->assertSee('Programs')
             ->assertSee('Blog')
             ->assertDontSee('Theme Generate')

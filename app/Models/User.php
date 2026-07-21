@@ -44,4 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
     ];
+
+    public function getRolesListAttribute(): string
+    {
+        return $this->roles->pluck('name')->implode(', ');
+    }
+
+    public function getPermissionsListAttribute(): string
+    {
+        return $this->permissions->pluck('name')->implode(', ');
+    }
 }

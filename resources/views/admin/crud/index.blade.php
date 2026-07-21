@@ -26,11 +26,13 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ $title }}</h3>
-                    <div class="card-tools">
-                        <a href="{{ $routeBase }}/create" class="btn btn-primary btn-sm">
-                            <i class="bi bi-plus-lg"></i> Add New
-                        </a>
-                    </div>
+                    @if ($canCreate ?? true)
+                        <div class="card-tools">
+                            <a href="{{ $routeBase }}/create" class="btn btn-primary btn-sm">
+                                <i class="bi bi-plus-lg"></i> Add New
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover align-middle mb-0">
@@ -59,12 +61,16 @@
                                     @endforeach
                                     <td class="text-end">
                                         <a href="{{ $routeBase }}/{{ $record->id }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                                        <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                        <form action="{{ $routeBase }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this record?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                                        </form>
+                                        @if ($canEdit ?? true)
+                                            <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                        @endif
+                                        @if ($canDelete ?? true)
+                                            <form action="{{ $routeBase }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this record?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

@@ -68,6 +68,45 @@ class AdminRolePermissionTest extends TestCase
             ->assertSee('Permissions');
     }
 
+    public function test_admin_can_create_admin_user_with_role_and_direct_permission(): void
+    {
+        $role = Role::create(['name' => 'Manager', 'guard_name' => 'web']);
+        $permission = Permission::create(['name' => 'manage analytics', 'guard_name' => 'web']);
+
+        $this->actingAs($this->admin())
+            ->post('/admin/admin-users', [
+                'name' => 'Manager User',
+                'email' => 'manager@example.com',
+                'password' => '12345678',
+                'roles' => [$role->id],
+                'permissions' => [$permission->id],
+            ])
+            ->assertRedirect('/admin/admin-users');
+
+        $user = User::where('email', 'manager@example.com')->first();
+
+        $this->assertTrue($user->is_admin);
+        $this->assertTrue($user->hasRole('Manager'));
+        $this->assertTrue($user->hasDirectPermission('manage analytics'));
+    }
+
+    public function test_page_visits_are_tracked_and_visible_to_admin(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->get('/admin/dashboard')->assertOk();
+
+        $this->assertDatabaseHas('page_visits', [
+            'path' => '/admin/dashboard',
+            'user_id' => $admin->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get('/admin/page-visits')
+            ->assertOk()
+            ->assertSee('/admin/dashboard');
+    }
+
     private function admin(): User
     {
         return User::factory()->create(['is_admin' => true]);

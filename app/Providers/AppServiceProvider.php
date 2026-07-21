@@ -62,10 +62,12 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'bi-shield-lock',
                 'open' => request()->is('admin/roles*') || request()->is('admin/permissions*'),
                 'children' => [
+                    ['label' => 'Admin Users', 'url' => '/admin/admin-users', 'active' => request()->is('admin/admin-users*')],
                     ['label' => 'Roles', 'url' => '/admin/roles', 'active' => request()->is('admin/roles*')],
                     ['label' => 'Permissions', 'url' => '/admin/permissions', 'active' => request()->is('admin/permissions*')],
                 ],
             ],
+            ['label' => 'Page Visits', 'url' => '/admin/page-visits', 'icon' => 'bi-activity', 'active' => request()->is('admin/page-visits*')],
             [
                 'label' => 'Programs',
                 'url' => '#',

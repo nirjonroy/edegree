@@ -24,7 +24,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Record #{{ $record->id }}</h3>
                     <div class="card-tools">
-                        <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                        @if ($canEdit ?? true)
+                            <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                        @endif
                         <a href="{{ $routeBase }}" class="btn btn-secondary btn-sm">Back</a>
                     </div>
                 </div>

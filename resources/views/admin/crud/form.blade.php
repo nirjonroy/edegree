@@ -10,6 +10,9 @@
                     if ($type === 'datetime-local' && $value) {
                         $value = \Illuminate\Support\Carbon::parse($value)->format('Y-m-d\TH:i');
                     }
+                    if ($type === 'password') {
+                        $value = '';
+                    }
                 @endphp
                 <div class="col-md-{{ $field['col'] ?? 6 }}">
                     @if ($type === 'checkbox')

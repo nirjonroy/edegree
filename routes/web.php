@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogCommentController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Admin\BlogPageController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\CustomPageController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PageVisitController;
 use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -58,6 +60,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('news', NewsController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
+    Route::resource('admin-users', AdminUserController::class);
+    Route::resource('page-visits', PageVisitController::class)->only(['index', 'show']);
 });
 
 Route::get('/dashboard', function () {
