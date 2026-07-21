@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -62,6 +63,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('permissions', PermissionController::class);
     Route::resource('admin-users', AdminUserController::class);
     Route::resource('page-visits', PageVisitController::class)->only(['index', 'show']);
+    Route::resource('sliders', SliderController::class);
 });
 
 Route::get('/dashboard', function () {

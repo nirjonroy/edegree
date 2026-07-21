@@ -68,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ],
             ['label' => 'Page Visits', 'url' => '/admin/page-visits', 'icon' => 'bi-activity', 'active' => request()->is('admin/page-visits*')],
+            ['label' => 'Sliders', 'url' => '/admin/sliders', 'icon' => 'bi-images', 'active' => request()->is('admin/sliders*')],
             [
                 'label' => 'Programs',
                 'url' => '#',

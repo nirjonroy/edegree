@@ -8,6 +8,7 @@ use App\Models\CustomPage;
 use App\Models\News;
 use App\Models\PageVisit;
 use App\Models\Program;
+use App\Models\Slider;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -94,6 +95,7 @@ class DashboardController extends Controller
             ['label' => 'Blog Posts', 'value' => BlogPost::count(), 'url' => '/admin/blog-posts'],
             ['label' => 'News', 'value' => News::count(), 'url' => '/admin/news'],
             ['label' => 'Custom Pages', 'value' => CustomPage::count(), 'url' => '/admin/custom-pages'],
+            ['label' => 'Sliders', 'value' => Slider::count(), 'url' => '/admin/sliders'],
             ['label' => 'Today Visits', 'value' => $todayVisits, 'url' => '/admin/page-visits'],
         ];
 

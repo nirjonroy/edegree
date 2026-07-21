@@ -12,7 +12,12 @@ class AdminAuthTest extends TestCase
 
     public function test_admin_login_screen_can_be_rendered(): void
     {
-        $this->get('/admin/login')->assertStatus(200);
+        $this->get('/admin/login')
+            ->assertStatus(200)
+            ->assertSee('eDegree+')
+            ->assertSee('Admin Portal')
+            ->assertSee('Welcome Back')
+            ->assertSee('bg-red-600', false);
     }
 
     public function test_admin_can_login_to_admin_dashboard(): void
@@ -82,6 +87,7 @@ class AdminAuthTest extends TestCase
             ->assertSee('Roles')
             ->assertSee('Permissions')
             ->assertSee('Page Visits')
+            ->assertSee('Sliders')
             ->assertSee('Programs')
             ->assertSee('Blog')
             ->assertDontSee('Theme Generate')

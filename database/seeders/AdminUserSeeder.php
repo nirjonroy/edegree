@@ -26,6 +26,7 @@ class AdminUserSeeder extends Seeder
             'manage blog',
             'manage roles',
             'manage permissions',
+            'manage sliders',
         ])->map(fn (string $name) => Permission::findOrCreate($name, 'web'));
 
         $admin = User::updateOrCreate(
