@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
             ],
             ['label' => 'About', 'url' => '/admin/abouts', 'icon' => 'bi-info-circle-fill', 'active' => request()->is('admin/abouts*')],
             ['label' => 'Site Info', 'url' => '/admin/siteinfo', 'icon' => 'bi-gear-fill', 'active' => request()->is('admin/siteinfo*')],
+            ['label' => 'Custom Pages', 'url' => '/admin/custom-pages', 'icon' => 'bi-file-earmark-richtext', 'active' => request()->is('admin/custom-pages*')],
             ['label' => 'Universities', 'url' => '/admin/universities', 'icon' => 'bi-buildings', 'active' => request()->is('admin/universities*')],
             [
                 'label' => 'Programs',
