@@ -6,6 +6,7 @@ use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class AdminBlogCrudTest extends TestCase
@@ -64,15 +65,29 @@ class AdminBlogCrudTest extends TestCase
                 'blog_category_id' => $category->id,
                 'title' => 'First Post',
                 'slug' => 'first-post',
-                'author_name' => 'Admin',
-                'excerpt' => 'Short excerpt',
-                'content' => 'Full content',
-                'is_published' => 1,
-                'show_on_home' => 1,
+                'image' => UploadedFile::fake()->image('post.jpg'),
+                'short_description' => 'Short excerpt',
+                'long_description' => '<p>Full content</p>',
+                'meta_title' => 'First Post Meta',
+                'meta_description' => 'Meta description',
+                'meta_image' => UploadedFile::fake()->image('meta.jpg'),
+                'author' => 'Admin',
+                'publisher' => 'eDegree',
+                'copyright' => 'eDegree',
+                'site_name' => 'eDegree+',
+                'keywords' => 'education, blog',
+                'description' => 'Search description',
+                'status' => 'published',
             ])
             ->assertRedirect('/admin/blog-posts');
 
-        $this->assertDatabaseHas('blog_posts', ['title' => 'First Post', 'slug' => 'first-post']);
+        $this->assertDatabaseHas('blog_posts', [
+            'title' => 'First Post',
+            'slug' => 'first-post',
+            'author' => 'Admin',
+            'status' => 'published',
+            'is_published' => 1,
+        ]);
     }
 
     public function test_admin_can_create_blog_comment(): void

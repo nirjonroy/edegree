@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -17,18 +18,18 @@ class BlogPostController extends Controller
             'title' => 'Blog Posts',
             'routeBase' => '/admin/blog-posts',
             'records' => BlogPost::with('category')->latest()->paginate(10),
-            'columns' => ['id' => 'ID', 'title' => 'Title', 'category.name' => 'Category', 'author_name' => 'Author', 'is_published' => 'Published', 'show_on_home' => 'Home'],
+            'columns' => ['id' => 'ID', 'title' => 'Title', 'category.name' => 'Category', 'author' => 'Author', 'status' => 'Status', 'created_at' => 'Created'],
         ]);
     }
 
     public function create()
     {
-        return $this->form(new BlogPost(['is_published' => false, 'show_on_home' => false]), 'Create Blog Post');
+        return $this->form(new BlogPost(['status' => 'draft']), 'Create Blog Post');
     }
 
     public function store(Request $request)
     {
-        BlogPost::create($this->validated($request));
+        BlogPost::create($this->prepareData($request));
 
         return redirect('/admin/blog-posts')->with('success', 'Blog post created successfully.');
     }
@@ -47,13 +48,15 @@ class BlogPostController extends Controller
 
     public function update(Request $request, BlogPost $blogPost)
     {
-        $blogPost->update($this->validated($request, $blogPost));
+        $blogPost->update($this->prepareData($request, $blogPost));
 
         return redirect('/admin/blog-posts')->with('success', 'Blog post updated successfully.');
     }
 
     public function destroy(BlogPost $blogPost)
     {
+        $this->deleteUpload($blogPost->image);
+        $this->deleteUpload($blogPost->meta_image);
         $blogPost->delete();
 
         return redirect('/admin/blog-posts')->with('success', 'Blog post deleted successfully.');
@@ -66,27 +69,55 @@ class BlogPostController extends Controller
 
     private function validated(Request $request, ?BlogPost $blogPost = null): array
     {
-        $data = $request->validate([
+        return $request->validate([
             'blog_category_id' => ['nullable', 'exists:blog_categories,id'],
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('blog_posts')->ignore($blogPost)],
-            'author_name' => ['required', 'string', 'max:255'],
-            'excerpt' => ['required', 'string'],
-            'content' => ['required', 'string'],
-            'quote' => ['nullable', 'string'],
-            'featured_image_path' => ['nullable', 'string', 'max:255'],
-            'featured_image_source' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'short_description' => ['nullable', 'string'],
+            'long_description' => ['required', 'string'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:255'],
-            'tags' => ['nullable', 'string'],
-            'comments' => ['nullable', 'string'],
-            'published_at' => ['nullable', 'date'],
-            'is_published' => ['nullable', 'boolean'],
-            'show_on_home' => ['nullable', 'boolean'],
+            'meta_image' => ['nullable', 'image', 'max:2048'],
+            'author' => ['nullable', 'string', 'max:255'],
+            'publisher' => ['nullable', 'string', 'max:255'],
+            'copyright' => ['nullable', 'string', 'max:255'],
+            'site_name' => ['nullable', 'string', 'max:255'],
+            'keywords' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
         ]);
+    }
 
+    private function prepareData(Request $request, ?BlogPost $blogPost = null): array
+    {
+        $data = $this->validated($request, $blogPost);
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
-        $data['is_published'] = (bool) ($data['is_published'] ?? false);
-        $data['show_on_home'] = (bool) ($data['show_on_home'] ?? false);
+
+        foreach (['image', 'meta_image'] as $field) {
+            if ($request->hasFile($field)) {
+                if ($blogPost) {
+                    $this->deleteUpload($blogPost->{$field});
+                }
+
+                $file = $request->file($field);
+                $filename = $field.'-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+                File::ensureDirectoryExists(public_path('uploads/blog-posts'));
+                $file->move(public_path('uploads/blog-posts'), $filename);
+                $data[$field] = 'uploads/blog-posts/'.$filename;
+            } elseif ($blogPost) {
+                unset($data[$field]);
+            }
+        }
+
+        $data['author_name'] = $data['author'] ?: 'Admin';
+        $data['excerpt'] = $data['short_description'] ?: ($data['description'] ?: Str::limit(strip_tags($data['long_description']), 160, ''));
+        $data['content'] = $data['long_description'];
+        $data['featured_image_path'] = $data['image'] ?? $blogPost?->image;
+        $data['tags'] = $data['keywords'];
+        $data['is_published'] = $data['status'] === 'published';
+        $data['published_at'] = $data['is_published'] ? ($blogPost?->published_at ?: now()) : null;
+        $data['show_on_home'] = false;
 
         return $data;
     }
@@ -94,21 +125,29 @@ class BlogPostController extends Controller
     private function fields(): array
     {
         return [
-            ['name' => 'blog_category_id', 'label' => 'Category', 'type' => 'select', 'options' => BlogCategory::orderBy('name')->pluck('name', 'id')->toArray(), 'col' => 6],
             ['name' => 'title', 'label' => 'Title', 'type' => 'text', 'required' => true, 'col' => 6],
             ['name' => 'slug', 'label' => 'Slug', 'type' => 'text', 'col' => 6],
-            ['name' => 'author_name', 'label' => 'Author Name', 'type' => 'text', 'required' => true, 'col' => 6],
-            ['name' => 'excerpt', 'label' => 'Excerpt', 'type' => 'textarea', 'required' => true, 'col' => 12],
-            ['name' => 'content', 'label' => 'Content', 'type' => 'textarea', 'required' => true, 'col' => 12],
-            ['name' => 'quote', 'label' => 'Quote', 'type' => 'textarea', 'col' => 12],
-            ['name' => 'featured_image_path', 'label' => 'Featured Image Path', 'type' => 'text', 'col' => 6],
-            ['name' => 'featured_image_source', 'label' => 'Featured Image Source', 'type' => 'text', 'col' => 6],
-            ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'text', 'col' => 12],
-            ['name' => 'tags', 'label' => 'Tags', 'type' => 'textarea', 'col' => 6],
-            ['name' => 'comments', 'label' => 'Comments', 'type' => 'textarea', 'col' => 6],
-            ['name' => 'published_at', 'label' => 'Published At', 'type' => 'datetime-local', 'col' => 4],
-            ['name' => 'is_published', 'label' => 'Published', 'type' => 'checkbox', 'col' => 4],
-            ['name' => 'show_on_home', 'label' => 'Show On Home', 'type' => 'checkbox', 'col' => 4],
+            ['name' => 'blog_category_id', 'label' => 'Category', 'type' => 'select', 'options' => BlogCategory::orderBy('name')->pluck('name', 'id')->toArray(), 'col' => 6],
+            ['name' => 'image', 'label' => 'Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
+            ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['draft' => 'Draft', 'published' => 'Published', 'archived' => 'Archived'], 'col' => 6],
+            ['name' => 'short_description', 'label' => 'Short Description', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
+            ['name' => 'long_description', 'label' => 'Long Description', 'type' => 'summernote', 'required' => true, 'col' => 12],
+            ['name' => 'meta_title', 'label' => 'Meta Title', 'type' => 'text', 'col' => 6],
+            ['name' => 'meta_image', 'label' => 'Meta Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
+            ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
+            ['name' => 'author', 'label' => 'Author', 'type' => 'text', 'col' => 6],
+            ['name' => 'publisher', 'label' => 'Publisher', 'type' => 'text', 'col' => 6],
+            ['name' => 'copyright', 'label' => 'Copyright', 'type' => 'text', 'col' => 6],
+            ['name' => 'site_name', 'label' => 'Site Name', 'type' => 'text', 'col' => 6],
+            ['name' => 'keywords', 'label' => 'Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
+            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
         ];
+    }
+
+    private function deleteUpload(?string $path): void
+    {
+        if ($path && File::exists(public_path($path))) {
+            File::delete(public_path($path));
+        }
     }
 }
