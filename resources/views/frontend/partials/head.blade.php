@@ -4,6 +4,9 @@
     @else
         @include('frontend.partials.seos', ['seo' => ['title' => 'eDegree+ | Accredited Online University Degree Programs']])
     @endif
+    @if (! empty($siteinfo?->google_site_verification))
+        <meta name="google-site-verification" content="{{ $siteinfo->google_site_verification }}">
+    @endif
     <link rel="icon" type="image/png" href="{{ ! empty($siteinfo?->favicon) ? asset($siteinfo->favicon) : asset('frontend/assets/img/favicon.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,4 +51,5 @@
         }
     </script>
     @stack('styles')
+    {!! $siteinfo?->head_scripts !!}
 </head>

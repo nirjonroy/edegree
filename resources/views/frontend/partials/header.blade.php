@@ -7,7 +7,7 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">
             <a href="{{ route('frontend.home') }}" class="flex items-center">
-                <img src="{{ $logo }}" alt="eDegree+" class="h-10 w-auto">
+                <img src="{{ $logo }}" alt="eDegree+" class="h-10 w-auto" @if (! empty($siteinfo?->logo_width)) style="width: {{ (int) $siteinfo->logo_width }}px; height: auto;" @endif>
             </a>
 
             <div class="hidden lg:flex space-x-8 items-center h-full">
@@ -103,7 +103,7 @@
         <div class="fixed inset-0 bg-black bg-opacity-50" @click="mobileMenuOpen = false"></div>
         <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl flex flex-col z-50 p-6 overflow-y-auto" x-show="mobileMenuOpen" x-transition>
             <div class="flex justify-between items-center mb-8">
-                <a href="{{ route('frontend.home') }}"><img src="{{ $logo }}" alt="eDegree+" class="h-9 w-auto"></a>
+                <a href="{{ route('frontend.home') }}"><img src="{{ $logo }}" alt="eDegree+" class="h-9 w-auto" @if (! empty($siteinfo?->logo_width)) style="width: {{ (int) $siteinfo->logo_width }}px; height: auto;" @endif></a>
                 <button @click="mobileMenuOpen = false" class="text-charcoal hover:text-brand-red focus:outline-none"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             <div class="flex flex-col space-y-6">

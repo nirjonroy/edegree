@@ -88,6 +88,12 @@
                     </div>
                 </div>
             </div>
+
+            @if (! empty($siteinfo?->google_location))
+                <div class="mt-8 bg-white border border-borderGray rounded-custom shadow-sm overflow-hidden [&_iframe]:w-full [&_iframe]:h-80 [&_iframe]:border-0">
+                    {!! $siteinfo->google_location !!}
+                </div>
+            @endif
         </div>
     </main>
 @endsection

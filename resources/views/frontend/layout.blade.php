@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $siteinfo?->text_direction ?: 'ltr' }}">
 @include('frontend.partials.head')
-<body class="font-body text-charcoal bg-white min-h-screen flex flex-col" x-data>
+<body class="font-body text-charcoal bg-white min-h-screen flex flex-col" data-theme="{{ $siteinfo?->default_theme ?: 'light' }}" x-data>
+    {!! $siteinfo?->body_scripts !!}
+
     @include('frontend.partials.header')
     @include('frontend.partials.search-overlay')
 
@@ -49,5 +51,6 @@
         });
     </script>
     @stack('scripts')
+    {!! $siteinfo?->footer_scripts !!}
 </body>
 </html>

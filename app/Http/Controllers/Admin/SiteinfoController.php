@@ -70,18 +70,17 @@ class SiteinfoController extends Controller
             'google_location' => ['nullable', 'string'],
             'footer_google_location' => ['nullable', 'string'],
             'footer_contact_note' => ['nullable', 'string'],
+            'google_site_verification' => ['nullable', 'string', 'max:255'],
+            'head_scripts' => ['nullable', 'string'],
+            'body_scripts' => ['nullable', 'string'],
+            'footer_scripts' => ['nullable', 'string'],
             'maintenance_mode' => ['nullable', 'boolean'],
             'logo' => ['nullable', 'image', 'max:2048'],
             'logo_width' => ['nullable', 'integer', 'min:0'],
-            'logo_height' => ['nullable', 'integer', 'min:0'],
             'favicon' => ['nullable', 'image', 'max:1024'],
-            'favicon_width' => ['nullable', 'integer', 'min:0'],
-            'favicon_height' => ['nullable', 'integer', 'min:0'],
-            'image_output_format' => ['required', 'in:webp,jpg,jpeg,png'],
             'contact_email' => ['nullable', 'email', 'max:255'],
             'enable_user_register' => ['nullable', 'boolean'],
             'phone_number_required' => ['nullable', 'boolean'],
-            'enable_subscription_notify' => ['nullable', 'boolean'],
             'enable_save_contact_message' => ['nullable', 'boolean'],
             'text_direction' => ['required', 'in:ltr,rtl'],
             'default_theme' => ['required', 'in:light,dark,auto'],
@@ -90,24 +89,9 @@ class SiteinfoController extends Controller
             'sidebar_sm_header' => ['nullable', 'string', 'max:255'],
             'topbar_phone' => ['nullable', 'string', 'max:255'],
             'topbar_email' => ['nullable', 'email', 'max:255'],
-            'currency_name' => ['nullable', 'string', 'max:255'],
-            'currency_icon' => ['nullable', 'string', 'max:255'],
-            'currency_rate' => ['required', 'numeric', 'min:0'],
             'default_phone_code' => ['nullable', 'string', 'max:255'],
             'frontend_url' => ['nullable', 'url', 'max:255'],
             'homepage_section_title' => ['nullable', 'string', 'max:255'],
-            'slider_width' => ['nullable', 'integer', 'min:0'],
-            'slider_height' => ['nullable', 'integer', 'min:0'],
-            'about_image_width' => ['nullable', 'integer', 'min:0'],
-            'about_image_height' => ['nullable', 'integer', 'min:0'],
-            'property_image_width' => ['nullable', 'integer', 'min:0'],
-            'property_image_height' => ['nullable', 'integer', 'min:0'],
-            'blog_post_image_width' => ['nullable', 'integer', 'min:0'],
-            'blog_post_image_height' => ['nullable', 'integer', 'min:0'],
-            'blog_page_image_width' => ['nullable', 'integer', 'min:0'],
-            'blog_page_image_height' => ['nullable', 'integer', 'min:0'],
-            'agency_logo_width' => ['nullable', 'integer', 'min:0'],
-            'agency_logo_height' => ['nullable', 'integer', 'min:0'],
         ]);
     }
 
@@ -117,7 +101,6 @@ class SiteinfoController extends Controller
             'maintenance_mode',
             'enable_user_register',
             'phone_number_required',
-            'enable_subscription_notify',
             'enable_save_contact_message',
         ] as $field) {
             $data[$field] = (bool) ($data[$field] ?? false);
@@ -158,15 +141,14 @@ class SiteinfoController extends Controller
     {
         return [
             'maintenance_mode' => false,
-            'image_output_format' => 'webp',
             'enable_user_register' => true,
             'phone_number_required' => false,
-            'enable_subscription_notify' => false,
             'enable_save_contact_message' => true,
             'text_direction' => 'ltr',
             'default_theme' => 'light',
             'timezone' => 'UTC',
-            'currency_rate' => 1,
+            'sidebar_lg_header' => 'eDegree+',
+            'sidebar_sm_header' => 'eD+',
         ];
     }
 }

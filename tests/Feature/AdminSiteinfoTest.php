@@ -28,6 +28,8 @@ class AdminSiteinfoTest extends TestCase
         $payload = $this->payload([
             'sidebar_lg_header' => 'eDegree',
             'contact_email' => 'admin@example.com',
+            'google_site_verification' => 'verify-token',
+            'head_scripts' => '<script>window.analyticsLoaded = true;</script>',
         ]);
 
         $this->actingAs($admin)
@@ -37,6 +39,7 @@ class AdminSiteinfoTest extends TestCase
         $siteinfo = Siteinfo::first();
         $this->assertSame('eDegree', $siteinfo->sidebar_lg_header);
         $this->assertSame('admin@example.com', $siteinfo->contact_email);
+        $this->assertSame('verify-token', $siteinfo->google_site_verification);
 
         $this->actingAs($admin)
             ->put('/admin/siteinfo/'.$siteinfo->id, $this->payload([
@@ -58,6 +61,43 @@ class AdminSiteinfoTest extends TestCase
         $this->assertDatabaseMissing('siteinfo', ['id' => $siteinfo->id]);
     }
 
+    public function test_siteinfo_form_only_shows_relevant_project_options(): void
+    {
+        $response = $this->actingAs($this->admin())
+            ->get('/admin/siteinfo/create')
+            ->assertOk();
+
+        $content = $response->getContent();
+
+        $this->assertStringContainsString('Tracking & Verification Scripts', $content);
+        $this->assertStringContainsString('Google Search Console Verification', $content);
+        $this->assertStringContainsString('Head Scripts', $content);
+        $this->assertStringNotContainsString('Currency Rate', $content);
+        $this->assertStringNotContainsString('Property Image Width', $content);
+        $this->assertStringNotContainsString('Agency Logo Width', $content);
+    }
+
+    public function test_siteinfo_scripts_and_contact_data_render_on_frontend(): void
+    {
+        Siteinfo::create($this->payload([
+            'contact_email' => 'support@example.com',
+            'topbar_phone' => '+1 555 123 4567',
+            'google_site_verification' => 'google-token',
+            'head_scripts' => '<script>window.headScriptOk = true;</script>',
+            'body_scripts' => '<noscript>Body Script</noscript>',
+            'footer_scripts' => '<script>window.footerScriptOk = true;</script>',
+        ]));
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<meta name="google-site-verification" content="google-token">', false)
+            ->assertSee('<script>window.headScriptOk = true;</script>', false)
+            ->assertSee('<noscript>Body Script</noscript>', false)
+            ->assertSee('<script>window.footerScriptOk = true;</script>', false)
+            ->assertSee('support@example.com')
+            ->assertSee('+1 555 123 4567');
+    }
+
     private function admin(): User
     {
         return User::factory()->create([
@@ -69,15 +109,12 @@ class AdminSiteinfoTest extends TestCase
     {
         return array_merge([
             'maintenance_mode' => 0,
-            'image_output_format' => 'webp',
             'enable_user_register' => 1,
             'phone_number_required' => 0,
-            'enable_subscription_notify' => 0,
             'enable_save_contact_message' => 1,
             'text_direction' => 'ltr',
             'default_theme' => 'light',
             'timezone' => 'UTC',
-            'currency_rate' => 1,
             'frontend_url' => 'https://example.com',
         ], $overrides);
     }

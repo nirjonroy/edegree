@@ -3,11 +3,21 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
             <div>
                 <a href="{{ route('frontend.home') }}" class="flex items-center mb-4">
-                    <img src="{{ ! empty($siteinfo?->logo) ? asset($siteinfo->logo) : asset('frontend/assets/img/edegree-plus-white-logo.png') }}" alt="eDegree+" class="h-10 w-auto">
+                    <img src="{{ ! empty($siteinfo?->logo) ? asset($siteinfo->logo) : asset('frontend/assets/img/edegree-plus-white-logo.png') }}" alt="eDegree+" class="h-10 w-auto" @if (! empty($siteinfo?->logo_width)) style="width: {{ (int) $siteinfo->logo_width }}px; height: auto;" @endif>
                 </a>
                 <p class="text-xs text-brand-tint/50 leading-relaxed mb-4">
                     {{ $siteinfo?->footer_contact_note ?: 'Connecting professionals with premium, accredited online university degree programs worldwide.' }}
                 </p>
+                @if (! empty($siteinfo?->contact_email) || ! empty($siteinfo?->topbar_phone))
+                    <div class="space-y-1 text-xs text-brand-tint/60 mb-4">
+                        @if (! empty($siteinfo?->contact_email))
+                            <a href="mailto:{{ $siteinfo->contact_email }}" class="block hover:text-white transition">{{ $siteinfo->contact_email }}</a>
+                        @endif
+                        @if (! empty($siteinfo?->topbar_phone))
+                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $siteinfo->topbar_phone) }}" class="block hover:text-white transition">{{ $siteinfo->topbar_phone }}</a>
+                        @endif
+                    </div>
+                @endif
                 <div class="flex space-x-3">
                     <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
                     <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
@@ -56,18 +66,24 @@
                     <li><a href="{{ route('frontend.about') }}" class="hover:text-white transition">About Us</a></li>
                     <li><a href="{{ url('/frontend/privacy-policy.html') }}" class="hover:text-white transition">Privacy Policy</a></li>
                     <li><a href="{{ url('/frontend/terms.html') }}" class="hover:text-white transition">Terms of Service</a></li>
-                    <li><a href="{{ url('/frontend/sitemap.html') }}" class="hover:text-white transition">Sitemap</a></li>
+                    <li><a href="{{ route('frontend.sitemap') }}" class="hover:text-white transition">Sitemap</a></li>
                     <li><a href="{{ route('frontend.contact') }}" class="hover:text-white transition">Contact Us</a></li>
                 </ul>
             </div>
         </div>
+
+        @if (! empty($siteinfo?->footer_google_location))
+            <div class="mb-8 rounded-custom overflow-hidden border border-white/10 [&_iframe]:w-full [&_iframe]:h-64 [&_iframe]:border-0">
+                {!! $siteinfo->footer_google_location !!}
+            </div>
+        @endif
 
         <div class="border-t border-white/10 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs">
             <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} eDegree+. All rights reserved.</p>
             <div class="flex space-x-4">
                 <a href="{{ url('/frontend/privacy-policy.html') }}" class="hover:text-white transition">Privacy</a>
                 <a href="{{ url('/frontend/terms.html') }}" class="hover:text-white transition">Terms</a>
-                <a href="{{ url('/frontend/sitemap.html') }}" class="hover:text-white transition">Sitemap</a>
+                <a href="{{ route('frontend.sitemap') }}" class="hover:text-white transition">Sitemap</a>
             </div>
         </div>
         <div class="mt-6 text-center text-[10px] text-brand-tint/30 leading-relaxed border-t border-white/5 pt-6">

@@ -43,6 +43,10 @@ class AppServiceProvider extends ServiceProvider
                 'notificationCount' => $view->getData()['notificationCount'] ?? 15,
             ]);
         });
+
+        View::composer('frontend.*', function ($view) {
+            $view->with('siteinfo', $view->getData()['siteinfo'] ?? Siteinfo::latest()->first());
+        });
     }
 
     private function adminSidebarMenu(): array
