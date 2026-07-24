@@ -64,9 +64,9 @@
                 <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Company</h4>
                 <ul class="space-y-2 text-xs">
                     <li><a href="{{ route('frontend.about') }}" class="hover:text-white transition">About Us</a></li>
-                    <li><a href="{{ url('/frontend/privacy-policy.html') }}" class="hover:text-white transition">Privacy Policy</a></li>
-                    <li><a href="{{ url('/frontend/terms.html') }}" class="hover:text-white transition">Terms of Service</a></li>
-                    <li><a href="{{ route('frontend.sitemap') }}" class="hover:text-white transition">Sitemap</a></li>
+                    <li><a href="{{ route('frontend.privacy-policy') }}" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="{{ route('frontend.terms') }}" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="{{ route('frontend.sitemap.page') }}" class="hover:text-white transition">Sitemap</a></li>
                     <li><a href="{{ route('frontend.contact') }}" class="hover:text-white transition">Contact Us</a></li>
                 </ul>
             </div>
@@ -81,9 +81,9 @@
         <div class="border-t border-white/10 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs">
             <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} eDegree+. All rights reserved.</p>
             <div class="flex space-x-4">
-                <a href="{{ url('/frontend/privacy-policy.html') }}" class="hover:text-white transition">Privacy</a>
-                <a href="{{ url('/frontend/terms.html') }}" class="hover:text-white transition">Terms</a>
-                <a href="{{ route('frontend.sitemap') }}" class="hover:text-white transition">Sitemap</a>
+                <a href="{{ route('frontend.privacy-policy') }}" class="hover:text-white transition">Privacy</a>
+                <a href="{{ route('frontend.terms') }}" class="hover:text-white transition">Terms</a>
+                <a href="{{ route('frontend.sitemap.page') }}" class="hover:text-white transition">Sitemap</a>
             </div>
         </div>
         <div class="mt-6 text-center text-[10px] text-brand-tint/30 leading-relaxed border-t border-white/5 pt-6">

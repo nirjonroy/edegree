@@ -77,5 +77,40 @@ class SitemapTest extends TestCase
         $this->assertDatabaseHas('sitemap_entries', ['url' => '/']);
         $this->assertDatabaseHas('sitemap_entries', ['url' => '/programs']);
         $this->assertDatabaseHas('sitemap_entries', ['url' => '/universities']);
+        $this->assertDatabaseHas('sitemap_entries', ['url' => '/sitemap']);
+    }
+
+    public function test_public_html_sitemap_renders_entries_from_admin_table(): void
+    {
+        SitemapEntry::create([
+            'title' => 'Manual Page',
+            'url' => '/manual-page',
+            'source_type' => 'custom_page',
+            'changefreq' => 'weekly',
+            'priority' => 0.5,
+            'lastmod' => now(),
+            'is_active' => true,
+        ]);
+
+        SitemapEntry::create([
+            'title' => 'Hidden Page',
+            'url' => '/hidden-page',
+            'source_type' => 'custom_page',
+            'changefreq' => 'weekly',
+            'priority' => 0.5,
+            'lastmod' => now(),
+            'is_active' => false,
+        ]);
+
+        $this->get('/sitemap')
+            ->assertOk()
+            ->assertSee('eDegree+ Site Index')
+            ->assertSee('Manual Page')
+            ->assertDontSee('Hidden Page');
+    }
+
+    public function test_legacy_sitemap_html_url_redirects_to_dynamic_page(): void
+    {
+        $this->get('/frontend/sitemap.html')->assertRedirect('/sitemap');
     }
 }

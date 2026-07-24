@@ -47,6 +47,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/privacy-policy', [FrontendCustomPageController::class, 'privacyPolicy'])->name('frontend.privacy-policy');
+Route::get('/terms', [FrontendCustomPageController::class, 'terms'])->name('frontend.terms');
+Route::get('/sitemap', [SitemapController::class, 'page'])->name('frontend.sitemap.page');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('frontend.sitemap');
 Route::get('/about', [FrontendAboutController::class, 'index'])->name('frontend.about');
 Route::get('/contact', [FrontendContactController::class, 'index'])->name('frontend.contact');
@@ -66,6 +69,9 @@ Route::get('/frontend/news.html', [FrontendNewsController::class, 'index']);
 Route::get('/frontend/news-single.html', [FrontendNewsController::class, 'legacyShow']);
 Route::redirect('/frontend/about.html', '/about');
 Route::redirect('/frontend/contact.html', '/contact');
+Route::redirect('/frontend/privacy-policy.html', '/privacy-policy');
+Route::redirect('/frontend/terms.html', '/terms');
+Route::redirect('/frontend/sitemap.html', '/sitemap');
 Route::redirect('/frontend/universities.html', '/universities');
 Route::get('/frontend/university-single.html', [FrontendUniversityController::class, 'legacyShow']);
 

@@ -23,6 +23,29 @@ class FrontendCustomPageTest extends TestCase
             ->assertSee('Compare online degree programs');
     }
 
+    public function test_seeded_privacy_and_terms_pages_render_from_custom_pages(): void
+    {
+        $this->seed(CustomPageDataSeeder::class);
+
+        $this->get('/privacy-policy')
+            ->assertOk()
+            ->assertSee('Privacy Policy')
+            ->assertSee('Data Gathering Disclosures')
+            ->assertSee('Read the privacy rules');
+
+        $this->get('/terms')
+            ->assertOk()
+            ->assertSee('Terms of Service')
+            ->assertSee('Marketplace Usage Guidelines')
+            ->assertSee('online university degree marketplace');
+    }
+
+    public function test_legacy_policy_urls_redirect_to_dynamic_pages(): void
+    {
+        $this->get('/frontend/privacy-policy.html')->assertRedirect('/privacy-policy');
+        $this->get('/frontend/terms.html')->assertRedirect('/terms');
+    }
+
     public function test_draft_custom_page_is_not_public(): void
     {
         $this->seed(CustomPageDataSeeder::class);

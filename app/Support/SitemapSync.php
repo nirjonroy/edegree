@@ -57,6 +57,7 @@ class SitemapSync
             self::entry('Universities', '/universities', 'static', null, 'daily', 0.9),
             self::entry('Blog', '/blog', 'static', null, 'weekly', 0.7),
             self::entry('News', '/news', 'static', null, 'weekly', 0.7),
+            self::entry('Sitemap', '/sitemap', 'static', null, 'monthly', 0.4),
         ];
     }
 
