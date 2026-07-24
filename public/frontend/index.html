@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eDegree+ | Accredited Online University Degree Programs</title>
+  <meta name="description" content="Advance your career with internationally accredited online university degrees. Discover online MBA, DBA, Master's, and Bachelor's programs from top global institutions.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://edegreeplus.com/">
+  <meta property="og:title" content="eDegree+ | Accredited Online University Degree Programs">
+  <meta property="og:description" content="Discover online MBA, DBA, Master's, and Bachelor's programs from globally accredited universities. Study 100% online at your own pace.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=630&fit=crop&q=80">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="eDegree+ | Accredited Online University Degree Programs">
+  <meta property="twitter:description" content="Discover online MBA, DBA, Master's, and Bachelor's programs from globally accredited universities. Study 100% online.">
+
+  <link rel="canonical" href="https://edegreeplus.com/">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CDNs -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.321.0/dist/umd/lucide.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#E13334',
+              darkRed: '#B8262A',
+              tint: '#FDECEC',
+              dark: '#141414',
+              successGreen: '#1F8A55',
+              warningGold: '#F5A623'
+            },
+            ink: '#161616',
+            charcoal: '#4B4B4B',
+            mutedGray: '#7A7A7A',
+            borderGray: '#E7E7E7',
+            altBg: '#F8F7F7',
+            successGreen: '#1F8A55',
+            warningGold: '#F5A623'
+          },
+          fontFamily: {
+            heading: ['Sora', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          },
+          borderRadius: {
+            'custom': '12px'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-body text-charcoal bg-white min-h-screen flex flex-col" x-data="{ megaMenuOpen: false, companyDropdownOpen: false }">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 bg-white border-b border-borderGray transition-all duration-300" :class="{ 'shadow-md': $store.global.isScrolled }" x-data="{ mobileMenuOpen: false }">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-20 items-center">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="index.html" class="flex items-center">
+            <img src="assets/img/edegree-plus-logo.png" alt="eDegree+" class="h-10 w-auto">
+          </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden lg:flex space-x-8 items-center h-full">
+          <!-- Programs Mega Menu Trigger -->
+          <div class="relative h-full flex items-center" @mouseenter="megaMenuOpen = true" @mouseleave="megaMenuOpen = false">
+            <button class="flex items-center space-x-1 text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4 focus:outline-none">
+              <span>Programs</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': megaMenuOpen }"></i>
+            </button>
+            
+            <!-- MEGA MENU -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-[800px] bg-white border border-borderGray shadow-2xl rounded-custom overflow-hidden transition-all duration-200"
+                 x-show="megaMenuOpen"
+                 x-transition:enter="transition ease-out duration-150"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 style="display: none;">
+              <div class="grid grid-cols-12 p-6 gap-6">
+                <!-- Col 1: Level -->
+                <div class="col-span-4">
+                  <p class="font-heading font-bold text-ink uppercase tracking-wider text-xs mb-3">By Degree Level</p>
+                  <ul class="space-y-2">
+                    <li><a href="programs.html?degree=Bachelor's" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Bachelor's Degrees</a></li>
+                    <li><a href="programs.html?degree=Master's" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Master's Degrees</a></li>
+                    <li><a href="programs.html?degree=MBA" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">MBA Programs</a></li>
+                    <li><a href="programs.html?degree=DBA" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">DBA Doctorates</a></li>
+                  </ul>
+                </div>
+                <!-- Col 2: Category -->
+                <div class="col-span-4 border-l border-borderGray pl-6">
+                  <p class="font-heading font-bold text-ink uppercase tracking-wider text-xs mb-3">By Domain</p>
+                  <ul class="space-y-2">
+                    <li><a href="programs.html?category=Management" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Management</a></li>
+                    <li><a href="programs.html?category=Technology%20%26%20Data" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Technology & Data</a></li>
+                    <li><a href="programs.html?category=Healthcare" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Healthcare Management</a></li>
+                    <li><a href="programs.html?category=Education" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Education Leadership</a></li>
+                  </ul>
+                </div>
+                <!-- Col 3: Featured -->
+                <div class="col-span-4 bg-brand-tint rounded-lg p-4 flex flex-col justify-between">
+                  <div>
+                    <span class="inline-block bg-brand-red text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full mb-2">Most Popular</span>
+                    <p class="font-heading font-bold text-ink text-sm mb-1 leading-snug">Doctor of Business Administration (DBA)</p>
+                    <p class="text-xs text-mutedGray leading-relaxed">Advance to top-tier consultation or board roles in 36 months, 100% online.</p>
+                  </div>
+                  <a href="program-single.html?id=ggu-dba" class="mt-4 text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
+                    <span>View Program</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="universities.html" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">Universities</a>
+          <a href="blog.html" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">Blog</a>
+          <a href="news.html" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">News</a>
+
+          <!-- About Trigger -->
+          <div class="relative h-full flex items-center" @mouseenter="companyDropdownOpen = true" @mouseleave="companyDropdownOpen = false">
+            <button class="flex items-center space-x-1 text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4 focus:outline-none">
+              <span>Company</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': companyDropdownOpen }"></i>
+            </button>
+            <div class="absolute right-0 top-full w-48 bg-white border border-borderGray shadow-xl rounded-lg overflow-hidden transition-all duration-200"
+                 x-show="companyDropdownOpen"
+                 x-transition:enter="transition ease-out duration-150"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 style="display: none;">
+              <ul class="py-1">
+                <li><a href="about.html" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">About Us</a></li>
+                <li><a href="privacy-policy.html" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Privacy Policy</a></li>
+                <li><a href="terms.html" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Terms of Service</a></li>
+                <li><a href="sitemap.html" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Sitemap</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Buttons -->
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Search Icon -->
+          <button @click="$store.global.toggleSearchModal()" class="text-charcoal hover:text-brand-red transition-colors duration-150 p-2 rounded-full focus:outline-none">
+            <i data-lucide="search" class="w-6 h-6"></i>
+          </button>
+          <a href="programs.html" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide shadow-sm hover:shadow transition-all duration-150">
+            Explore Programs
+          </a>
+        </div>
+
+        <!-- Mobile Hamburguer Trigger -->
+        <div class="lg:hidden flex items-center space-x-3">
+          <button @click="$store.global.toggleSearchModal()" class="text-charcoal hover:text-brand-red p-2 focus:outline-none">
+            <i data-lucide="search" class="w-6 h-6"></i>
+          </button>
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-charcoal hover:text-brand-red p-2 focus:outline-none">
+            <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+            <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen" style="display: none;"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="lg:hidden fixed inset-0 z-40 flex" x-show="mobileMenuOpen" style="display: none;">
+      <!-- Backdrop -->
+      <div class="fixed inset-0 bg-black bg-opacity-50 blur-sm transition-opacity" @click="mobileMenuOpen = false"></div>
+      
+      <!-- Drawer Content -->
+      <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl flex flex-col z-50 p-6 overflow-y-auto"
+           x-show="mobileMenuOpen"
+           x-transition:enter="transform transition ease-in-out duration-300"
+           x-transition:enter-start="translate-x-full"
+           x-transition:enter-end="translate-x-0"
+           x-transition:leave="transform transition ease-in-out duration-300"
+           x-transition:leave-start="translate-x-0"
+           x-transition:leave-end="translate-x-full">
+        
+        <div class="flex justify-between items-center mb-8">
+          <a href="index.html" class="flex items-center">
+            <img src="assets/img/edegree-plus-logo.png" alt="eDegree+" class="h-9 w-auto">
+          </a>
+          <button @click="mobileMenuOpen = false" class="text-charcoal hover:text-brand-red focus:outline-none">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col space-y-6">
+          <!-- Accordion Programs -->
+          <div x-data="{ open: false }" class="border-b border-borderGray/40 pb-4">
+            <button @click="open = !open" class="w-full flex justify-between items-center text-ink font-semibold py-2 hover:text-brand-red focus:outline-none transition-colors">
+              <span class="text-base">Programs</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 text-charcoal" :class="{ 'rotate-180 text-brand-red': open }"></i>
+            </button>
+            <div class="pl-3 mt-2 space-y-3 border-l-2 border-brand-tint" x-show="open" style="display: none;"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 transform -translate-y-2"
+                 x-transition:enter-end="opacity-100 transform translate-y-0">
+              
+              <div>
+                <p class="text-[10px] font-bold text-mutedGray uppercase tracking-wider mb-2">By Degree Level</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <a href="programs.html?degree=Bachelor's" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Bachelor's</a>
+                  <a href="programs.html?degree=Master's" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Master's</a>
+                  <a href="programs.html?degree=MBA" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">MBA</a>
+                  <a href="programs.html?degree=DBA" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">DBA</a>
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <p class="text-[10px] font-bold text-mutedGray uppercase tracking-wider mb-2">By Subject Domain</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <a href="programs.html?category=Management" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Management</a>
+                  <a href="programs.html?category=Technology%20%26%20Data" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Tech & Data</a>
+                  <a href="programs.html?category=Healthcare" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Healthcare</a>
+                  <a href="programs.html?category=Education" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Education</a>
+                </div>
+              </div>
+              <div class="pt-2.5">
+                <a href="custom-program-archive.html" class="block text-center text-xs font-bold text-brand-red hover:text-brand-darkRed py-2 bg-brand-tint rounded transition-colors">
+                  Open Custom Program Index &rarr;
+                </a>
+              </div>
+              
+            </div>
+          </div>
+
+          <a href="universities.html" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Universities</a>
+          <a href="blog.html" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Blog</a>
+          <a href="news.html" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">News</a>
+
+          <!-- Accordion Company -->
+          <div x-data="{ open: false }" class="border-b border-borderGray/40 pb-4">
+            <button @click="open = !open" class="w-full flex justify-between items-center text-ink font-semibold py-2 hover:text-brand-red focus:outline-none transition-colors">
+              <span class="text-base">Company</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 text-charcoal" :class="{ 'rotate-180 text-brand-red': open }"></i>
+            </button>
+            <div class="pl-3 mt-2 space-y-2 border-l-2 border-brand-tint" x-show="open" style="display: none;"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 transform -translate-y-2"
+                 x-transition:enter-end="opacity-100 transform translate-y-0">
+              <div class="grid grid-cols-2 gap-2">
+                <a href="about.html" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">About Us</a>
+                <a href="contact.html" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Contact Us</a>
+                <a href="privacy-policy.html" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Privacy Policy</a>
+                <a href="terms.html" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Terms of Service</a>
+                <a href="sitemap.html" class="block text-charcoal text-xs py-1.5 px-2 bg-altBg rounded hover:bg-brand-tint hover:text-brand-red transition-all">Sitemap</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-6">
+            <a href="programs.html" class="w-full text-center bg-brand-red hover:bg-brand-darkRed text-white block py-3 rounded-lg text-sm font-semibold shadow-sm transition-all duration-150">
+              Explore Programs
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+      </header>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="fixed inset-0 bg-ink bg-opacity-70 z-50 mega-menu-blur flex items-start justify-center pt-24 px-4"
+       x-show="$store.global.searchModalOpen"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-150"
+       x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0"
+       style="display: none;"
+       @keydown.escape.window="$store.global.searchModalOpen = false">
+    
+    <div class="bg-white rounded-custom w-full max-w-lg md:max-w-2xl mx-auto overflow-hidden shadow-2xl border border-borderGray" @click.away="$store.global.searchModalOpen = false">
+      <div class="p-6 border-b border-borderGray flex justify-between items-center">
+        <h3 class="font-heading font-bold text-ink text-lg">Search Marketplace</h3>
+        <button @click="$store.global.searchModalOpen = false" class="text-charcoal hover:text-brand-red focus:outline-none">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Search Box Tabs -->
+      <div class="flex border-b border-borderGray">
+        <button id="search-tab-programs" class="flex-1 text-center py-3 text-sm font-semibold border-b-2 border-brand-red text-brand-red focus:outline-none">
+          Programs
+        </button>
+        <button id="search-tab-universities" class="flex-1 text-center py-3 text-sm font-semibold border-b-2 border-transparent text-charcoal hover:text-brand-red focus:outline-none">
+          Universities
+        </button>
+      </div>
+
+      <!-- Input -->
+      <div class="p-6">
+        <div class="relative">
+          <input type="text" id="search-input" placeholder="Type course names, domains or universities..." 
+                 class="w-full pl-12 pr-4 py-3.5 bg-altBg border border-borderGray rounded-lg text-ink placeholder-mutedGray focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none transition-all duration-150">
+          <i data-lucide="search" class="w-5 h-5 text-mutedGray absolute left-4 top-1/2 transform -translate-y-1/2"></i>
+        </div>
+
+        <!-- Suggestion List -->
+        <ul id="search-suggestions" class="mt-4 space-y-1 max-h-60 overflow-y-auto">
+          <!-- Populated dynamically via main.js -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-grow">
+    <!-- HERO SECTION -->
+    <section class="relative bg-ink text-white py-20 md:py-32 overflow-hidden">
+      <!-- Background Image with Dark Overlay -->
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Online Degree Campus" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/70 z-10"></div>
+      </div>
+
+      <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl" data-aos="fade-right">
+          <span class="inline-flex items-center space-x-1.5 bg-brand-red/25 text-brand-tint border border-brand-red/45 px-3 py-1 rounded-full text-xs font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+            <span>Accredited Global Partners</span>
+          </span>
+          <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+            Advance Your Career with Accredited Online University Degrees
+          </h1>
+          <p class="text-lg md:text-xl text-brand-tint/90 mb-8 leading-relaxed font-light">
+            Secure recognized MBA, DBA, Master's, and Bachelor's programs without career disruption. 100% online schedules curated for working professionals.
+          </p>
+
+          <!-- Premium Search Widget (Pill Toggles & Sleek Inputs) -->
+          <div class="bg-white p-6 rounded-custom shadow-2xl text-ink" x-data="homePage()">
+            <div class="flex p-1 bg-altBg border border-borderGray rounded-xl mb-4 w-fit">
+              <button type="button" @click="searchType = 'program'" 
+                      class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200"
+                      :class="searchType === 'program' ? 'bg-brand-red text-white shadow-sm' : 'text-charcoal hover:text-brand-red'">
+                Find a Program
+              </button>
+              <button type="button" @click="searchType = 'university'" 
+                      class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200"
+                      :class="searchType === 'university' ? 'bg-brand-red text-white shadow-sm' : 'text-charcoal hover:text-brand-red'">
+                Find a University
+              </button>
+            </div>
+
+            <!-- Program Search Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4" x-show="searchType === 'program'">
+              <!-- Text Search input (Wider: md:col-span-10) -->
+              <div class="md:col-span-10 relative">
+                <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-mutedGray w-5 h-5"></i>
+                <input type="text" placeholder="Search course names, domains or keywords..." x-model="query"
+                       class="w-full pl-12 pr-4 py-3 bg-altBg border border-borderGray rounded-xl text-ink text-sm focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none transition duration-150">
+              </div>
+
+              <div class="md:col-span-2">
+                <button @click="submitSearch()" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-colors duration-150 text-sm">
+                  Search
+                </button>
+              </div>
+            </div>
+
+            <!-- University Search Layout (Wider input + search button only) -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4" x-show="searchType === 'university'" style="display: none;">
+              <!-- Full-width Text Search input (md:col-span-10) -->
+              <div class="md:col-span-10 relative">
+                <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-mutedGray w-5 h-5"></i>
+                <input type="text" placeholder="Search university names or location..." x-model="query"
+                       class="w-full pl-12 pr-4 py-3 bg-altBg border border-borderGray rounded-xl text-ink text-sm focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none transition duration-150">
+              </div>
+
+              <div class="md:col-span-2">
+                <button @click="submitSearch()" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-colors duration-150 text-sm">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust stats -->
+          <div class="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-white/10 text-white">
+            <div>
+              <div class="text-2xl md:text-3xl font-heading font-bold text-brand-red">50+</div>
+              <div class="text-xs md:text-sm text-brand-tint/70">Partner Universities</div>
+            </div>
+            <div>
+              <div class="text-2xl md:text-3xl font-heading font-bold text-brand-red">100%</div>
+              <div class="text-xs md:text-sm text-brand-tint/70">Accredited Online</div>
+            </div>
+            <div>
+              <div class="text-2xl md:text-3xl font-heading font-bold text-brand-red">10k+</div>
+              <div class="text-xs md:text-sm text-brand-tint/70">Successful Learners</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEDICATED POPULAR DEGREE PROGRAMS SECTION -->
+    <section class="py-16 md:py-24 bg-white" x-data="programsGrid()">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+          <span class="bg-brand-tint border border-brand-red/30 px-3 py-1 rounded-full text-xs font-bold text-brand-red uppercase tracking-wider">Top Tier Choice</span>
+          <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink tracking-tight mt-3 mb-4">Popular Degree Programs</h2>
+          <p class="text-charcoal text-sm md:text-base">Acquire elite high-paying executive qualifications driving corporate growth globally.</p>
+        </div>
+
+        <!-- 3-Column Popular Programs Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <template x-for="program in allPrograms.filter(p => p.popular).slice(0, 3)" :key="program.id">
+            <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-xl transition-all-300 flex flex-col h-full card-hover-lift" data-aos="fade-up">
+              <!-- Card Image with highlighted badge background -->
+              <div class="relative h-48 bg-altBg overflow-hidden">
+                <img :src="program.image" :alt="program.name" class="w-full h-full object-cover">
+                <span class="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-brand-red uppercase shadow-sm border border-brand-tint" x-text="program.degreeType"></span>
+                <!-- Accredited/Popular badge with solid highlighted background -->
+                <span class="absolute top-4 right-4 text-[10px] font-bold text-white px-2.5 py-1 rounded-full shadow-md bg-brand-successGreen border border-white/20">Accredited</span>
+              </div>
+
+              <!-- Card Content with highlighted Price & apply CTA -->
+              <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-2 mb-3">
+                    <img :src="getUniversityLogoUrl(program.universityId)" alt="University Logo" class="w-5 h-5 rounded-full object-cover">
+                    <span class="text-xs font-bold tracking-wide text-mutedGray" x-text="getUniversityName(program.universityId)"></span>
+                  </div>
+                  <h3 class="font-heading font-bold text-base md:text-lg text-ink mb-3 leading-snug">
+                    <a :href="'program-single.html?id=' + program.id" class="hover:text-brand-red transition-colors" x-text="program.name"></a>
+                  </h3>
+                </div>
+
+                <div class="mt-auto w-full">
+                  <!-- Highlights & Price -->
+                  <div class="flex justify-between items-center border-t border-b border-borderGray/60 py-3 mb-4">
+                    <div class="flex items-center space-x-1.5 text-xs text-charcoal">
+                      <i data-lucide="clock" class="w-4 h-4 text-brand-red flex-shrink-0"></i>
+                      <span class="font-semibold" x-text="program.duration"></span>
+                    </div>
+                    <!-- Highlighted Price on Right End -->
+                    <div class="flex items-center space-x-1.5 text-xs text-charcoal justify-end">
+                      <i data-lucide="credit-card" class="w-4 h-4 text-brand-red flex-shrink-0"></i>
+                      <span class="text-base font-extrabold text-brand-red" x-text="program.price"></span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between gap-2">
+                    <a :href="'program-single.html?id=' + program.id" class="text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
+                      <span>View Curriculum</span>
+                      <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
+                    </a>
+                    <!-- Apply Now Highlighted Button -->
+                    <a :href="'program-single.html?id=' + program.id + '#inquiry-form'" class="bg-brand-red hover:bg-brand-darkRed text-white px-4 py-2 rounded-lg text-xs font-bold shadow hover:shadow-md transition-all duration-150 whitespace-nowrap">
+                      Apply Online
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- BROWSE PROGRAMS BY LEVEL (CATEGORY TABBED SECTION) -->
+    <section class="py-16 bg-altBg border-t border-b border-borderGray" x-data="programsGrid(6)">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div data-aos="fade-up">
+            <h2 class="font-heading font-bold text-3xl text-ink tracking-tight mb-2">Browse Degrees by Level</h2>
+            <p class="text-charcoal text-sm">Select degree categories below to discover all accredited online university curriculums.</p>
+          </div>
+          <!-- Filter pills -->
+          <div class="mt-6 md:mt-0 flex flex-wrap gap-2" data-aos="fade-up">
+            <template x-for="degree in degrees" :key="degree">
+              <button @click="selectedDegree = degree"
+                      class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-200 border"
+                      :class="selectedDegree === degree 
+                              ? 'bg-brand-red border-brand-red text-white' 
+                              : 'bg-white border-borderGray text-charcoal hover:border-brand-red hover:text-brand-red'">
+                <span x-text="degree === 'All' ? 'All Degrees' : degree"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Programs Tab Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <template x-for="program in filteredPrograms" :key="program.id">
+            <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-xl transition-all-300 flex flex-col h-full card-hover-lift" data-aos="fade-up">
+              <!-- Card Image -->
+              <div class="relative h-48 bg-altBg overflow-hidden">
+                <img :src="program.image" :alt="program.name" class="w-full h-full object-cover">
+                <span class="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-brand-red uppercase shadow-sm border border-brand-tint" x-text="program.degreeType"></span>
+                <!-- Accredited/Popular badge with solid highlighted background -->
+                <span class="absolute top-4 right-4 text-[10px] font-bold text-white px-2.5 py-1 rounded-full shadow-md bg-brand-successGreen border border-white/20">Accredited</span>
+              </div>
+
+              <!-- Card Content -->
+              <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-2 mb-3">
+                    <img :src="getUniversityLogoUrl(program.universityId)" alt="University Logo" class="w-5 h-5 rounded-full object-cover">
+                    <span class="text-xs font-bold tracking-wide text-mutedGray" x-text="getUniversityName(program.universityId)"></span>
+                  </div>
+                  <h3 class="font-heading font-bold text-base md:text-lg text-ink mb-3 leading-snug">
+                    <a :href="'program-single.html?id=' + program.id" class="hover:text-brand-red transition-colors" x-text="program.name"></a>
+                  </h3>
+                </div>
+
+                <div class="mt-auto w-full">
+                  <!-- Highlights & Price -->
+                  <div class="flex justify-between items-center border-t border-b border-borderGray/60 py-3 mb-4">
+                    <div class="flex items-center space-x-1.5 text-xs text-charcoal">
+                      <i data-lucide="clock" class="w-4 h-4 text-brand-red flex-shrink-0"></i>
+                      <span class="font-semibold" x-text="program.duration"></span>
+                    </div>
+                    <!-- Highlighted Price on Right End -->
+                    <div class="flex items-center space-x-1.5 text-xs text-charcoal justify-end">
+                      <i data-lucide="credit-card" class="w-4 h-4 text-brand-red flex-shrink-0"></i>
+                      <span class="text-base font-extrabold text-brand-red" x-text="program.price"></span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between gap-2">
+                    <a :href="'program-single.html?id=' + program.id" class="text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
+                      <span>View Curriculum</span>
+                      <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
+                    </a>
+                    <!-- Apply Now Highlighted Button -->
+                    <a :href="'program-single.html?id=' + program.id + '#inquiry-form'" class="bg-brand-red hover:bg-brand-darkRed text-white px-4 py-2 rounded-lg text-xs font-bold shadow hover:shadow-md transition-all duration-150 whitespace-nowrap">
+                      Apply Online
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </template>
+        </div>
+
+        <div class="text-center mt-12" data-aos="fade-up">
+          <a href="programs.html" class="inline-flex items-center space-x-2 bg-ink hover:bg-brand-red text-white px-8 py-3.5 rounded-lg font-semibold transition-all duration-200 shadow shadow-ink/20">
+            <span>Browse All Degrees</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY EDEGREE+ / HOW IT WORKS -->
+    <section class="py-16 md:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+          <h2 class="font-heading font-bold text-3xl text-ink tracking-tight mb-3">Your Journey to a Credible Degree</h2>
+          <p class="text-charcoal text-sm md:text-base">We scope the noise out of digital learning. Find accredited curricula, apply easily, and launch career trajectories.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+          <!-- Step 1 -->
+          <div class="bg-altBg p-6 rounded-custom border border-borderGray shadow-sm text-center relative z-10" data-aos="fade-up" data-aos-delay="100">
+            <div class="w-12 h-12 rounded-full bg-brand-tint text-brand-red flex items-center justify-center mx-auto mb-4 font-heading font-bold text-lg">1</div>
+            <h3 class="font-heading font-bold text-base text-ink mb-2">Explore Options</h3>
+            <p class="text-xs text-charcoal leading-relaxed">Search through recognized graduate and executive degree structures filtered by levels and subjects.</p>
+          </div>
+          <!-- Step 2 -->
+          <div class="bg-altBg p-6 rounded-custom border border-borderGray shadow-sm text-center relative z-10" data-aos="fade-up" data-aos-delay="200">
+            <div class="w-12 h-12 rounded-full bg-brand-tint text-brand-red flex items-center justify-center mx-auto mb-4 font-heading font-bold text-lg">2</div>
+            <h3 class="font-heading font-bold text-base text-ink mb-2">Compare Curricula</h3>
+            <p class="text-xs text-charcoal leading-relaxed">Check credentials, credit weights, duration scales, and pricing options in side-by-side matrices.</p>
+          </div>
+          <!-- Step 3 -->
+          <div class="bg-altBg p-6 rounded-custom border border-borderGray shadow-sm text-center relative z-10" data-aos="fade-up" data-aos-delay="300">
+            <div class="w-12 h-12 rounded-full bg-brand-tint text-brand-red flex items-center justify-center mx-auto mb-4 font-heading font-bold text-lg">3</div>
+            <h3 class="font-heading font-bold text-base text-ink mb-2">Speak to Advisors</h3>
+            <p class="text-xs text-charcoal leading-relaxed">Obtain professional counseling, verify qualification guidelines, and resolve financing options.</p>
+          </div>
+          <!-- Step 4 -->
+          <div class="bg-altBg p-6 rounded-custom border border-borderGray shadow-sm text-center relative z-10" data-aos="fade-up" data-aos-delay="400">
+            <div class="w-12 h-12 rounded-full bg-brand-tint text-brand-red flex items-center justify-center mx-auto mb-4 font-heading font-bold text-lg">4</div>
+            <h3 class="font-heading font-bold text-base text-ink mb-2">Direct Enrollment</h3>
+            <p class="text-xs text-charcoal leading-relaxed">Submit files directly to target academic bodies and begin studying 100% online.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS CAROUSEL -->
+    <section class="py-16 md:py-24 bg-altBg border-t border-b border-borderGray overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+          <h2 class="font-heading font-bold text-3xl text-ink tracking-tight mb-3">Learner Testimonials</h2>
+          <p class="text-charcoal text-sm">Hear from graduates who secured international qualifications while retaining their job roles.</p>
+        </div>
+
+        <div class="swiper testimonial-swiper max-w-4xl mx-auto" data-aos="fade-up">
+          <div class="swiper-wrapper">
+            <!-- T1 -->
+            <div class="swiper-slide p-8 bg-white rounded-custom border border-borderGray flex flex-col justify-between h-auto">
+              <div>
+                <div class="flex items-center space-x-1 mb-4 text-brand-warningGold">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-ink text-base md:text-lg italic leading-relaxed mb-6 font-light">
+                  "The flexibility of IU's online Computer Science degree allowed me to study advanced data structures during my commuting hours. I completed my assignments and projects at my own pace, graduating without taking any debt."
+                </p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80" alt="Liam" class="w-12 h-12 rounded-full object-cover">
+                <div>
+                  <h4 class="font-heading font-bold text-sm text-ink">Liam S.</h4>
+                  <p class="text-xs text-mutedGray">B.Sc. Computer Science Graduate, IU Germany</p>
+                </div>
+              </div>
+            </div>
+            <!-- T2 -->
+            <div class="swiper-slide p-8 bg-white rounded-custom border border-borderGray flex flex-col justify-between h-auto">
+              <div>
+                <div class="flex items-center space-x-1 mb-4 text-brand-warningGold">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-ink text-base md:text-lg italic leading-relaxed mb-6 font-light">
+                  "Golden Gate University's online DBA provided real-world research frameworks that directly improved my tech consultancy audits. Navigating doctoral thesis challenges online was smooth due to constant mentor check-ins."
+                </p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&q=80" alt="Sarah Chen" class="w-12 h-12 rounded-full object-cover">
+                <div>
+                  <h4 class="font-heading font-bold text-sm text-ink">Dr. Sarah Chen</h4>
+                  <p class="text-xs text-mutedGray">Doctor of Business Administration Alum, GGU USA</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Pagination -->
+          <div class="swiper-pagination mt-8 !relative"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED NEWS & BLOG (HEIGHT & PADDING ALIGNED CARDS) -->
+    <section class="py-16 md:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Latest Blogs -->
+          <div data-aos="fade-right">
+            <div class="flex justify-between items-end mb-8">
+              <h3 class="font-heading font-bold text-2xl text-ink tracking-tight">Education Insights</h3>
+              <a href="blog.html" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">
+                <span>View Blog</span>
+                <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
+              </a>
+            </div>
+            <div class="space-y-6 flex flex-col justify-between">
+              <!-- Post 1 -->
+              <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex space-x-4 h-36 items-center">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=150&h=150&fit=crop&q=80" alt="Blog Thumb" class="w-20 h-20 rounded-lg object-cover flex-shrink-0">
+                <div class="flex flex-col justify-between h-full py-1">
+                  <div>
+                    <span class="text-[9px] font-bold text-brand-red tracking-wider uppercase">Education Trends</span>
+                    <h4 class="font-heading font-bold text-sm text-ink mt-1 hover:text-brand-red transition line-clamp-2"><a href="blog-single.html?id=value-of-online-degrees-2026">The Growing Value of Online Degrees in the 2026 Job Market</a></h4>
+                  </div>
+                  <p class="text-[11px] text-mutedGray">July 12, 2026 &middot; 5 min read</p>
+                </div>
+              </article>
+              <!-- Post 2 -->
+              <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex space-x-4 h-36 items-center">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=150&h=150&fit=crop&q=80" alt="Blog Thumb" class="w-20 h-20 rounded-lg object-cover flex-shrink-0">
+                <div class="flex flex-col justify-between h-full py-1">
+                  <div>
+                    <span class="text-[9px] font-bold text-brand-red tracking-wider uppercase">Career Guide</span>
+                    <h4 class="font-heading font-bold text-sm text-ink mt-1 hover:text-brand-red transition line-clamp-2"><a href="blog-single.html?id=how-to-choose-mba-program">How to Choose the Right Online MBA Program for Your Goals</a></h4>
+                  </div>
+                  <p class="text-[11px] text-mutedGray">July 08, 2026 &middot; 6 min read</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Latest News -->
+          <div data-aos="fade-left">
+            <div class="flex justify-between items-end mb-8">
+              <h3 class="font-heading font-bold text-2xl text-ink tracking-tight">Admissions News</h3>
+              <a href="news.html" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">
+                <span>View News Archive</span>
+                <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
+              </a>
+            </div>
+            <div class="space-y-6 flex flex-col justify-between">
+              <!-- News 1 -->
+              <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex flex-col justify-between h-36">
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-[9px] font-bold text-brand-warningGold tracking-wider uppercase">Education Policy</span>
+                    <span class="text-[10px] font-mono text-mutedGray font-semibold">JULY 18, 2026</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-sm text-ink hover:text-brand-red transition line-clamp-2"><a href="news-single.html?id=us-dept-of-education-approves-online-standards">US Dept of Education Standardizes Higher Distance Education Assessments</a></h4>
+                </div>
+                <p class="text-[11px] text-mutedGray mt-auto">3 min read &middot; Official Circular</p>
+              </article>
+              <!-- News 2 -->
+              <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex flex-col justify-between h-36">
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-[9px] font-bold text-brand-warningGold tracking-wider uppercase">University Updates</span>
+                    <span class="text-[10px] font-mono text-mutedGray font-semibold">JULY 15, 2026</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-sm text-ink hover:text-brand-red transition line-clamp-2"><a href="news-single.html?id=ggu-announces-expansion-of-online-doctoral-cohorts">GGU Expands Online Doctoral Research Cohorts for Fall 2026</a></h4>
+                </div>
+                <p class="text-[11px] text-mutedGray mt-auto">2 min read &middot; Circular Update</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST STATS LOGO CAROUSEL (RELOCATED AFTER BLOG/NEWS INSIGHTS WITH ACTUAL SVGS) -->
+    <section class="py-16 bg-altBg border-t border-b border-borderGray overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-center font-heading text-xs font-bold text-mutedGray uppercase tracking-widest mb-10">Our Partner Universities & Accreditation Standards</h3>
+        
+        <div class="swiper partner-swiper">
+          <div class="swiper-wrapper items-center">
+            <!-- London Met -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">London Met</span>
+            </div>
+            <!-- Golden Gate -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">Golden Gate</span>
+            </div>
+            <!-- IU Germany -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 019.218 5.84 50.57 50.57 0 00-2.658.814m-15.482 0A50.714 50.714 0 0112 11.25a50.713 50.713 0 017.84-1.103M12 20.055V11.25" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">IU Germany</span>
+            </div>
+            <!-- Chicago State -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">Chicago State</span>
+            </div>
+            <!-- Shiv Nadar -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">Shiv Nadar</span>
+            </div>
+            <!-- LJMU -->
+            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <svg class="w-12 h-12 text-brand-red mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582" /></svg>
+              <span class="font-heading font-bold text-xs text-ink text-center">LJMU UK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBSCRIBE SECTION -->
+    <section class="py-16 bg-brand-dark text-white relative" x-data="subscribeSection()">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7" data-aos="fade-right">
+            <h2 class="font-heading font-bold text-2xl md:text-3xl text-white mb-2">Stay Ahead in Your Career</h2>
+            <p class="text-sm text-brand-tint/70">Subscribe to receive program alerts, exclusive scholarship updates, and university admissions deadlines.</p>
+          </div>
+          <div class="lg:col-span-5" data-aos="fade-left">
+            <form @submit.prevent="submitSubscribe()" class="flex flex-col sm:flex-row gap-3">
+              <div class="flex-grow">
+                <input type="email" placeholder="Enter your work email" x-model="email"
+                       class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-brand-tint/50 focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none text-sm transition-all duration-150">
+              </div>
+              <button type="submit" class="bg-brand-red hover:bg-brand-darkRed text-white font-bold px-6 py-3 rounded-lg text-sm shadow transition-colors duration-150 whitespace-nowrap">
+                Subscribe Alerts
+              </button>
+            </form>
+            <div class="mt-2 text-xs text-brand-tint/50 flex items-center space-x-1">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>No spam. Unsubscribe at any time.</span>
+            </div>
+            
+            <!-- Messages -->
+            <p class="text-xs text-brand-red font-bold mt-2" x-show="error" x-text="error" style="display: none;"></p>
+            <p class="text-xs text-brand-successGreen font-bold mt-2" x-show="success" style="display: none;">Successfully subscribed! Check your inbox for program alerts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand-dark text-brand-tint/70 border-t border-white/10 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <!-- Col 1 -->
+        <div class="lg:col-span-1">
+          <a href="index.html" class="flex items-center mb-4">
+            <img src="assets/img/edegree-plus-white-logo.png" alt="eDegree+" class="h-10 w-auto">
+          </a>
+          <p class="text-xs text-brand-tint/50 leading-relaxed mb-4">Connecting professionals with premium, accredited online university degree programs worldwide.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+            <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="text-brand-tint/50 hover:text-white transition"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Programs</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="programs.html?degree=Bachelor's" class="hover:text-white transition">Bachelor's Degrees</a></li>
+            <li><a href="programs.html?degree=Master's" class="hover:text-white transition">Master's Degrees</a></li>
+            <li><a href="programs.html?degree=MBA" class="hover:text-white transition">MBA Programs</a></li>
+            <li><a href="programs.html?degree=DBA" class="hover:text-white transition">DBA Doctorates</a></li>
+            <li><a href="custom-program-archive.html" class="hover:text-white transition font-semibold text-brand-red">Custom Program Archive</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Universities</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="university-single.html?id=ggu-usa" class="hover:text-white transition">Golden Gate University</a></li>
+            <li><a href="university-single.html?id=london-met" class="hover:text-white transition">London Metropolitan Univ</a></li>
+            <li><a href="university-single.html?id=iu-germany" class="hover:text-white transition">IU Germany</a></li>
+            <li><a href="universities.html" class="hover:text-white transition font-semibold text-brand-red">View All Partners &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Resources</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="blog.html" class="hover:text-white transition">Insights Blog</a></li>
+            <li><a href="news.html" class="hover:text-white transition">Admissions News</a></li>
+            <li><a href="about.html#faq" class="hover:text-white transition">Common FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 5 -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Company</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+            <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+            <li><a href="sitemap.html" class="hover:text-white transition">Sitemap</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Legal disclaimer & bottom bar -->
+      <div class="border-t border-white/10 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs">
+        <p class="mb-4 md:mb-0">&copy; 2026 eDegree+. All rights reserved.</p>
+        <div class="flex space-x-4">
+          <a href="privacy-policy.html" class="hover:text-white transition">Privacy</a>
+          <a href="terms.html" class="hover:text-white transition">Terms</a>
+          <a href="sitemap.html" class="hover:text-white transition">Sitemap</a>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-[10px] text-brand-tint/30 leading-relaxed border-t border-white/5 pt-6">
+        eDegree+ is an information and discovery platform. Program details, tuition structure, admissions eligibility, and accreditation standards are determined solely by the respective partner universities.
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Swiper logo initialization
+      new Swiper('.partner-swiper', {
+        slidesPerView: 2,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        breakpoints: {
+          640: { slidesPerView: 3, spaceBetween: 20 },
+          768: { slidesPerView: 4, spaceBetween: 30 },
+          1024: { slidesPerView: 5, spaceBetween: 40 }
+        }
+      });
+
+      // Swiper testimonials initialization
+      new Swiper('.testimonial-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        }
+      });
+
+      // AOS init
+      AOS.init({
+        duration: 800,
+        once: true
+      });
+    });
+  </script>
+
+  <!-- Structured Schema Data Organization -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "eDegree+",
+      "url": "https://edegreeplus.com",
+      "logo": "https://edegreeplus.com/assets/img/edegree-plus-logo.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/edegreeplus",
+        "https://twitter.com/edegreeplus"
+      ],
+      "description": "Premium online education marketplace connecting professionals with accredited university programs."
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+/* Custom styles for eDegree+ */
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F7F7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E7E7E7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7A7A7A;
+}
+
+/* Base focus styles for accessibility */
+button:focus,
+a:focus,
+input:not([type="radio"]):not([type="checkbox"]):focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #E13334;
+  outline-offset: 2px;
+}
+
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #E13334;
+}
+
+/* Disable focus ring when using mouse */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Gradient Backgrounds */
+.gradient-red-dark {
+  background: linear-gradient(135deg, #E13334 0%, #141414 100%);
+}
+
+.gradient-hero-overlay {
+  background: linear-gradient(to right, rgba(22, 22, 22, 0.9) 0%, rgba(22, 22, 22, 0.4) 100%);
+}
+
+/* Custom Transitions */
+.transition-all-300 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Broad Sheet / Broadsheet styling for News Single Page */
+.broadsheet-columns {
+  column-count: 1;
+  column-gap: 2rem;
+  column-rule: 1px solid #E7E7E7;
+}
+
+@media (min-width: 1024px) {
+  .broadsheet-columns {
+    column-count: 2;
+  }
+}
+
+/* Drop-cap for news page */
+.drop-cap::first-letter {
+  font-family: 'Sora', 'Source Serif 4', 'Lora', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  float: left;
+  line-height: 0.85;
+  margin-top: 0.15rem;
+  margin-right: 0.75rem;
+  color: #E13334;
+}
+
+/* Subtle card hover animation */
+.card-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Carousel controls customize */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #E13334 !important;
+  background-color: #FFFFFF;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E7E7E7;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 16px !important;
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet-active {
+  background: #E13334 !important;
+}
+
+/* Custom visual decoration elements */
+.badge-popular {
+  background: #F5A623;
+  color: #FFFFFF;
+}
+
+.badge-accredited {
+  background: #1F8A55;
+  color: #FFFFFF;
+}
+
+/* Mega menu overlay blur */
+.mega-menu-blur {
+  backdrop-filter: blur(8px);
+}

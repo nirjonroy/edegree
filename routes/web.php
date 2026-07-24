@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\UniversityController as FrontendUniversityController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/universities', [FrontendUniversityController::class, 'index'])->name('frontend.universities.index');
+Route::get('/universities/{university:slug}', [FrontendUniversityController::class, 'show'])->name('frontend.universities.show');
+Route::redirect('/frontend/universities.html', '/universities');
+Route::get('/frontend/university-single.html', [FrontendUniversityController::class, 'legacyShow']);
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AuthenticatedSessionController::class, 'createAdmin'])->name('admin.login');
