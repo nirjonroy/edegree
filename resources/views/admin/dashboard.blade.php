@@ -90,7 +90,7 @@
                                     <tr>
                                         <th>Page</th>
                                         <th class="text-end">Visits</th>
-                                        <th class="text-end">Unique IPs</th>
+                                        <th class="text-end">Unique Users</th>
                                     </tr>
                                 </thead>
                                 <tbody>

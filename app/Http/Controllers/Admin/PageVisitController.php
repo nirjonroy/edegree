@@ -4,31 +4,35 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PageVisit;
+use Illuminate\Support\Facades\DB;
 
 class PageVisitController extends Controller
 {
     public function index()
     {
-        return view('admin.crud.index', [
+        $uniqueVisitorExpression = PageVisit::uniqueVisitorExpression();
+
+        return view('admin.page-visits.index', [
             'title' => 'Page Visits',
             'routeBase' => '/admin/page-visits',
-            'records' => PageVisit::with('user')->latest('visited_at')->paginate(25),
-            'columns' => [
-                'id' => 'ID',
-                'path' => 'Page',
-                'ip_address' => 'IP Address',
-                'mac_address' => 'MAC Address',
-                'user.email' => 'User',
-                'visited_at' => 'Visited At',
-            ],
-            'canCreate' => false,
-            'canEdit' => false,
-            'canDelete' => false,
+            'pageSummaries' => PageVisit::frontend()
+                ->select(
+                    'path',
+                    DB::raw('COUNT(*) as total_visits'),
+                    DB::raw('COUNT(DISTINCT '.$uniqueVisitorExpression.') as unique_users'),
+                    DB::raw('MAX(visited_at) as last_visited_at')
+                )
+                ->groupBy('path')
+                ->orderByDesc('total_visits')
+                ->paginate(15, ['*'], 'pages'),
+            'records' => PageVisit::frontend()->with('user')->latest('visited_at')->paginate(25, ['*'], 'visits'),
         ]);
     }
 
     public function show(PageVisit $pageVisit)
     {
+        abort_unless($pageVisit->is_frontend, 404);
+
         $pageVisit->load('user');
 
         return view('admin.crud.show', [

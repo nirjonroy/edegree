@@ -94,17 +94,20 @@ class AdminRolePermissionTest extends TestCase
     {
         $admin = $this->admin();
 
-        $this->actingAs($admin)->get('/admin/dashboard')->assertOk();
+        $this->actingAs($admin)->get('/')->assertOk();
 
         $this->assertDatabaseHas('page_visits', [
-            'path' => '/admin/dashboard',
+            'path' => '/',
             'user_id' => $admin->id,
+            'is_frontend' => true,
         ]);
 
         $this->actingAs($admin)
             ->get('/admin/page-visits')
             ->assertOk()
-            ->assertSee('/admin/dashboard');
+            ->assertSee('Frontend Page Summary')
+            ->assertSee('Unique Users')
+            ->assertSee('/');
     }
 
     private function admin(): User

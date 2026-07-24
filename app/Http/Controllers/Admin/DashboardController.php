@@ -24,8 +24,14 @@ class DashboardController extends Controller
             ['label' => 'Dashboard'],
         ];
 
-        $todayVisits = PageVisit::whereDate('visited_at', today())->count();
-        $uniqueVisitors = PageVisit::select('ip_address')->whereNotNull('ip_address')->distinct()->count('ip_address');
+        $uniqueVisitorExpression = PageVisit::uniqueVisitorExpression();
+        $frontendVisits = PageVisit::frontend();
+
+        $todayVisits = (clone $frontendVisits)->whereDate('visited_at', today())->count();
+        $uniqueVisitors = (clone $frontendVisits)
+            ->whereRaw($uniqueVisitorExpression.' IS NOT NULL')
+            ->selectRaw('COUNT(DISTINCT '.$uniqueVisitorExpression.') as aggregate')
+            ->value('aggregate');
 
         $stats = [
             [
@@ -54,7 +60,7 @@ class DashboardController extends Controller
             ],
             [
                 'value' => $uniqueVisitors,
-                'label' => 'Unique Visitors',
+                'label' => 'Unique Users',
                 'theme' => 'danger',
                 'icon' => 'bi-people-fill',
                 'link' => '/admin/page-visits',
@@ -62,7 +68,7 @@ class DashboardController extends Controller
             ],
         ];
 
-        $visitsByDay = PageVisit::query()
+        $visitsByDay = PageVisit::frontend()
             ->selectRaw('DATE(visited_at) as visit_date, COUNT(*) as total')
             ->where('visited_at', '>=', now()->subDays(6)->startOfDay())
             ->groupBy('visit_date')
@@ -82,14 +88,14 @@ class DashboardController extends Controller
             'colors' => ['#0d6efd'],
         ];
 
-        $topPages = PageVisit::query()
-            ->select('path', DB::raw('COUNT(*) as total'), DB::raw('COUNT(DISTINCT ip_address) as unique_total'))
+        $topPages = PageVisit::frontend()
+            ->select('path', DB::raw('COUNT(*) as total'), DB::raw('COUNT(DISTINCT '.$uniqueVisitorExpression.') as unique_total'))
             ->groupBy('path')
             ->orderByDesc('total')
             ->limit(10)
             ->get();
 
-        $recentVisits = PageVisit::with('user')->latest('visited_at')->limit(10)->get();
+        $recentVisits = PageVisit::frontend()->with('user')->latest('visited_at')->limit(10)->get();
 
         $contentCounts = [
             ['label' => 'Blog Posts', 'value' => BlogPost::count(), 'url' => '/admin/blog-posts'],
