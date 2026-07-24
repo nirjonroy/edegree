@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+use App\Models\HomePartner;
+use App\Models\HomeSection;
+use App\Models\HomeTestimonial;
 use App\Models\News;
 use App\Models\Program;
 use App\Models\ProgramCategory;
@@ -53,6 +56,18 @@ class HomeController extends Controller
 
         $newsItems = News::where('status', true)->latest('published_at')->take(2)->get();
         $programCategories = ProgramCategory::where('status', true)->orderBy('name')->get();
+        $homeSections = HomeSection::where('status', true)
+            ->whereIn('key', ['testimonials', 'partners', 'subscribe'])
+            ->get()
+            ->keyBy('key');
+        $homeTestimonials = HomeTestimonial::where('status', true)
+            ->orderBy('display_order')
+            ->latest()
+            ->get();
+        $homePartners = HomePartner::where('status', true)
+            ->orderBy('display_order')
+            ->latest()
+            ->get();
 
         return view('frontend.home', [
             'siteinfo' => $siteinfo,
@@ -63,6 +78,9 @@ class HomeController extends Controller
             'blogPosts' => $blogPosts,
             'newsItems' => $newsItems,
             'programCategories' => $programCategories,
+            'homeSections' => $homeSections,
+            'homeTestimonials' => $homeTestimonials,
+            'homePartners' => $homePartners,
             'frontendData' => $this->frontendData($universities, $programs, $blogPosts, $newsItems),
         ]);
     }

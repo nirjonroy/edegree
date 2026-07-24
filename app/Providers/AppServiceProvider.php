@@ -55,6 +55,17 @@ class AppServiceProvider extends ServiceProvider
             ['label' => 'Site Info', 'url' => '/admin/siteinfo', 'icon' => 'bi-gear-fill', 'active' => request()->is('admin/siteinfo*')],
             ['label' => 'Custom Pages', 'url' => '/admin/custom-pages', 'icon' => 'bi-file-earmark-richtext', 'active' => request()->is('admin/custom-pages*')],
             ['label' => 'News', 'url' => '/admin/news', 'icon' => 'bi-newspaper', 'active' => request()->is('admin/news*')],
+            [
+                'label' => 'Home Content',
+                'url' => '#',
+                'icon' => 'bi-house-gear',
+                'open' => request()->is('admin/home-*'),
+                'children' => [
+                    ['label' => 'Sections', 'url' => '/admin/home-sections', 'active' => request()->is('admin/home-sections*')],
+                    ['label' => 'Testimonials', 'url' => '/admin/home-testimonials', 'active' => request()->is('admin/home-testimonials*')],
+                    ['label' => 'Partners', 'url' => '/admin/home-partners', 'active' => request()->is('admin/home-partners*')],
+                ],
+            ],
             ['label' => 'Universities', 'url' => '/admin/universities', 'icon' => 'bi-buildings', 'active' => request()->is('admin/universities*')],
             [
                 'label' => 'Access Control',
@@ -69,6 +80,8 @@ class AppServiceProvider extends ServiceProvider
             ],
             ['label' => 'Page Visits', 'url' => '/admin/page-visits', 'icon' => 'bi-activity', 'active' => request()->is('admin/page-visits*')],
             ['label' => 'Sliders', 'url' => '/admin/sliders', 'icon' => 'bi-images', 'active' => request()->is('admin/sliders*')],
+            ['label' => 'Testimonials', 'url' => '/admin/home-testimonials', 'icon' => 'bi-chat-quote', 'active' => request()->is('admin/home-testimonials*')],
+            ['label' => 'Partners', 'url' => '/admin/home-partners', 'icon' => 'bi-patch-check', 'active' => request()->is('admin/home-partners*')],
             [
                 'label' => 'Programs',
                 'url' => '#',

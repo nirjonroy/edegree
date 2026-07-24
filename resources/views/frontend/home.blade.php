@@ -4,7 +4,9 @@
 @section('meta_description', 'Advance your career with internationally accredited online university degrees. Discover online MBA, DBA, Master and Bachelor programs from top global institutions.')
 
 @php
-    $heroImage = $slider?->image ? asset($slider->image) : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1170&auto=format&fit=crop';
+    $heroImage = $slider?->image
+        ? (\Illuminate\Support\Str::startsWith($slider->image, ['http://', 'https://']) ? $slider->image : asset($slider->image))
+        : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1170&auto=format&fit=crop';
     $heroBadge = $slider?->badge_text ?: 'Accredited Global Partners';
     $heroTitle = $slider?->title ?: 'Advance Your Career with Accredited Online University Degrees';
     $heroSubtitle = $slider?->subtitle ?: "Secure recognized MBA, DBA, Master's, and Bachelor's programs without career disruption. 100% online schedules curated for working professionals.";
@@ -152,28 +154,44 @@
 
     <section class="py-16 md:py-24 bg-altBg border-t border-b border-borderGray overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @php
+                $testimonialSection = $homeSections->get('testimonials');
+            @endphp
             <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
-                <h2 class="font-heading font-bold text-3xl text-ink tracking-tight mb-3">Learner Testimonials</h2>
-                <p class="text-charcoal text-sm">Hear from graduates who secured international qualifications while retaining their job roles.</p>
+                <h2 class="font-heading font-bold text-3xl text-ink tracking-tight mb-3">{{ $testimonialSection?->title ?? 'Learner Testimonials' }}</h2>
+                <p class="text-charcoal text-sm">{{ $testimonialSection?->subtitle ?? 'Hear from graduates who secured international qualifications while retaining their job roles.' }}</p>
             </div>
             <div class="swiper testimonial-swiper max-w-4xl mx-auto" data-aos="fade-up">
                 <div class="swiper-wrapper">
-                    @foreach ([['Liam S.', 'B.Sc. Computer Science Graduate, IU Germany', 'The flexibility of online study allowed me to complete assignments at my own pace without taking a career break.'], ['Dr. Sarah Chen', 'Doctor of Business Administration Alum, GGU USA', 'The online DBA provided research frameworks that directly improved my consultancy work.']] as $testimonial)
+                    @forelse ($homeTestimonials as $testimonial)
                         <div class="swiper-slide p-8 bg-white rounded-custom border border-borderGray flex flex-col justify-between h-auto">
                             <div>
                                 <div class="flex items-center space-x-1 mb-4 text-brand-warningGold">
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @for ($i = 0; $i < max(1, min(5, (int) $testimonial->rating)); $i++)
                                         <i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                     @endfor
                                 </div>
-                                <p class="text-ink text-base md:text-lg italic leading-relaxed mb-6 font-light">"{{ $testimonial[2] }}"</p>
+                                <p class="text-ink text-base md:text-lg italic leading-relaxed mb-6 font-light">"{{ $testimonial->quote }}"</p>
                             </div>
                             <div>
-                                <h4 class="font-heading font-bold text-sm text-ink">{{ $testimonial[0] }}</h4>
-                                <p class="text-xs text-mutedGray">{{ $testimonial[1] }}</p>
+                                <h4 class="font-heading font-bold text-sm text-ink">{{ $testimonial->name }}</h4>
+                                @if ($testimonial->designation)
+                                    <p class="text-xs text-mutedGray">{{ $testimonial->designation }}</p>
+                                @endif
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="swiper-slide p-8 bg-white rounded-custom border border-borderGray h-auto">
+                            <div class="flex items-center space-x-1 mb-4 text-brand-warningGold">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                @endfor
+                            </div>
+                            <p class="text-ink text-base md:text-lg italic leading-relaxed mb-6 font-light">"The online DBA provided research frameworks that directly improved my consultancy work."</p>
+                            <h4 class="font-heading font-bold text-sm text-ink">Dr. Sarah Chen</h4>
+                            <p class="text-xs text-mutedGray">Doctor of Business Administration Alum, GGU USA</p>
+                        </div>
+                    @endforelse
                 </div>
                 <div class="swiper-pagination mt-8 !relative"></div>
             </div>
@@ -238,27 +256,39 @@
 
     <section class="py-16 bg-altBg border-t border-b border-borderGray overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 class="text-center font-heading text-xs font-bold text-mutedGray uppercase tracking-widest mb-10">Our Partner Universities & Accreditation Standards</h3>
+            @php
+                $partnerSection = $homeSections->get('partners');
+            @endphp
+            <h3 class="text-center font-heading text-xs font-bold text-mutedGray uppercase tracking-widest mb-10">{{ $partnerSection?->title ?? 'Our Partner Universities & Accreditation Standards' }}</h3>
             <div class="swiper partner-swiper">
                 <div class="swiper-wrapper items-center">
-                    @forelse ($universities as $university)
-                        @php
-                            $partnerImage = $university->image_1
-                                ? (\Illuminate\Support\Str::startsWith($university->image_1, ['http://', 'https://']) ? $university->image_1 : asset($university->image_1))
-                                : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png');
-                        @endphp
-                        <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                            <img src="{{ $partnerImage }}" alt="{{ $university->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
-                            <span class="font-heading font-bold text-xs text-ink text-center">{{ $university->name }}</span>
-                        </div>
-                    @empty
-                        @foreach (['London Met', 'Golden Gate', 'IU Germany', 'Chicago State', 'Shiv Nadar', 'LJMU UK'] as $partner)
+                    @if ($homePartners->isNotEmpty())
+                        @foreach ($homePartners as $partner)
+                            @php
+                                $partnerImage = $partner->logo
+                                    ? (\Illuminate\Support\Str::startsWith($partner->logo, ['http://', 'https://']) ? $partner->logo : asset($partner->logo))
+                                    : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png');
+                            @endphp
                             <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                                <i data-lucide="graduation-cap" class="w-12 h-12 text-brand-red mb-2"></i>
-                                <span class="font-heading font-bold text-xs text-ink text-center">{{ $partner }}</span>
+                                @if ($partner->link)
+                                    <a href="{{ $partner->link }}" target="_blank" rel="noopener" class="flex flex-col items-center">
+                                        <img src="{{ $partnerImage }}" alt="{{ $partner->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
+                                        <span class="font-heading font-bold text-xs text-ink text-center">{{ $partner->name }}</span>
+                                    </a>
+                                @else
+                                    <img src="{{ $partnerImage }}" alt="{{ $partner->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
+                                    <span class="font-heading font-bold text-xs text-ink text-center">{{ $partner->name }}</span>
+                                @endif
                             </div>
                         @endforeach
-                    @endforelse
+                    @else
+                        @foreach ($universities as $university)
+                            <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                                <img src="{{ $university->image_1 ? asset($university->image_1) : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png') }}" alt="{{ $university->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
+                                <span class="font-heading font-bold text-xs text-ink text-center">{{ $university->name }}</span>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -266,19 +296,22 @@
 
     <section class="py-16 bg-brand-dark text-white relative" x-data="subscribeSection()">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @php
+                $subscribeSection = $homeSections->get('subscribe');
+            @endphp
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-7" data-aos="fade-right">
-                    <h2 class="font-heading font-bold text-2xl md:text-3xl text-white mb-2">Stay Ahead in Your Career</h2>
-                    <p class="text-sm text-brand-tint/70">Subscribe to receive program alerts, scholarship updates, and university admissions deadlines.</p>
+                    <h2 class="font-heading font-bold text-2xl md:text-3xl text-white mb-2">{{ $subscribeSection?->title ?? 'Stay Ahead in Your Career' }}</h2>
+                    <p class="text-sm text-brand-tint/70">{{ $subscribeSection?->subtitle ?? 'Subscribe to receive program alerts, scholarship updates, and university admissions deadlines.' }}</p>
                 </div>
                 <div class="lg:col-span-5" data-aos="fade-left">
                     <form @submit.prevent="submitSubscribe()" class="flex flex-col sm:flex-row gap-3">
-                        <input type="email" placeholder="Enter your work email" x-model="email" class="flex-grow px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-brand-tint/50 focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none text-sm transition-all duration-150">
-                        <button type="submit" class="bg-brand-red hover:bg-brand-darkRed text-white font-bold px-6 py-3 rounded-lg text-sm shadow transition-colors duration-150 whitespace-nowrap">Subscribe Alerts</button>
+                        <input type="email" placeholder="{{ $subscribeSection?->input_placeholder ?? 'Enter your work email' }}" x-model="email" class="flex-grow px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-brand-tint/50 focus:ring-2 focus:ring-brand-red focus:border-transparent focus:outline-none text-sm transition-all duration-150">
+                        <button type="submit" class="bg-brand-red hover:bg-brand-darkRed text-white font-bold px-6 py-3 rounded-lg text-sm shadow transition-colors duration-150 whitespace-nowrap">{{ $subscribeSection?->button_text ?? 'Subscribe Alerts' }}</button>
                     </form>
                     <div class="mt-2 text-xs text-brand-tint/50 flex items-center space-x-1">
                         <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-                        <span>No spam. Unsubscribe at any time.</span>
+                        <span>{{ $subscribeSection?->privacy_note ?? 'No spam. Unsubscribe at any time.' }}</span>
                     </div>
                     <p class="text-xs text-brand-red font-bold mt-2" x-show="error" x-text="error" style="display: none;"></p>
                     <p class="text-xs text-brand-successGreen font-bold mt-2" x-show="success" style="display: none;">Successfully subscribed! Check your inbox for program alerts.</p>
