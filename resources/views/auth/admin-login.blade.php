@@ -21,7 +21,7 @@
             min-height: 100vh;
             background:
                 linear-gradient(90deg, rgba(15, 23, 42, 0.86), rgba(15, 23, 42, 0.62)),
-                url('/adminlte/assets/img/photo1.png') center/cover no-repeat;
+                url('{{ asset('adminlte/assets/img/photo1.png') }}') center/cover no-repeat;
         }
     </style>
 </head>
@@ -84,7 +84,7 @@
 
                     <x-auth-session-status class="mt-6" :status="session('status')" />
 
-                    <form method="POST" action="/admin/login" class="mt-8 space-y-5">
+                    <form method="POST" action="{{ url('/admin/login') }}" class="mt-8 space-y-5">
                         @csrf
 
                         <div>

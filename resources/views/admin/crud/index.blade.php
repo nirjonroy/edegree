@@ -3,13 +3,14 @@
 @section('title', $title.' | Admin')
 
 @section('content')
+    @php($routeUrl = url($routeBase))
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6"><h3 class="mb-0">{{ $title }}</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
                     </ol>
                 </div>
@@ -28,7 +29,7 @@
                     <h3 class="card-title">{{ $title }}</h3>
                     @if ($canCreate ?? true)
                         <div class="card-tools">
-                            <a href="{{ $routeBase }}/create" class="btn btn-primary btn-sm">
+                            <a href="{{ $routeUrl }}/create" class="btn btn-primary btn-sm">
                                 <i class="bi bi-plus-lg"></i> Add New
                             </a>
                         </div>
@@ -60,12 +61,12 @@
                                         </td>
                                     @endforeach
                                     <td class="text-end">
-                                        <a href="{{ $routeBase }}/{{ $record->id }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                                        <a href="{{ $routeUrl }}/{{ $record->id }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
                                         @if ($canEdit ?? true)
-                                            <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ $routeUrl }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                                         @endif
                                         @if ($canDelete ?? true)
-                                            <form action="{{ $routeBase }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this record?')">
+                                            <form action="{{ $routeUrl }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this record?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>

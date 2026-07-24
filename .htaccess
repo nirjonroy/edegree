@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /edegree/
+
+    RewriteRule ^$ public/index.php [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/edegree/public/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/edegree/public/$1 -d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    RewriteRule ^(.*)$ public/index.php [L]
+</IfModule>

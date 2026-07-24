@@ -1,8 +1,8 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-brand">
-        <a href="/admin/dashboard" class="brand-link">
+        <a href="{{ url('/admin/dashboard') }}" class="brand-link">
             @if (! empty($adminBrand['logo']))
-                <img src="/{{ $adminBrand['logo'] }}" alt="{{ $adminBrand['large'] ?? 'eDegree+' }}" class="brand-image bg-white rounded opacity-100 shadow-sm">
+                <img src="{{ asset($adminBrand['logo']) }}" alt="{{ $adminBrand['large'] ?? 'eDegree+' }}" class="brand-image bg-white rounded opacity-100 shadow-sm">
             @else
                 <span class="brand-image d-inline-flex align-items-center justify-content-center bg-white rounded-circle text-danger fw-bold shadow-sm">e</span>
             @endif

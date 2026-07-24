@@ -9,7 +9,7 @@
                 <div class="col-sm-6"><h3 class="mb-0">Site Info</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Site Info</li>
                     </ol>
                 </div>
@@ -46,7 +46,7 @@
                                     <td>{{ $siteinfo->id }}</td>
                                     <td>
                                         @if ($siteinfo->logo)
-                                            <img src="/{{ $siteinfo->logo }}" alt="Logo" style="height: 36px">
+                                            <img src="{{ asset($siteinfo->logo) }}" alt="Logo" style="height: 36px">
                                         @else
                                             <span class="text-secondary">No logo</span>
                                         @endif
@@ -63,10 +63,10 @@
                                         </span>
                                     </td>
                                     <td class="text-end">
-                                        <a href="/admin/siteinfo/{{ $siteinfo->id }}" class="btn btn-info btn-sm">
+                                        <a href="{{ url('/admin/siteinfo/'.$siteinfo->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="/admin/siteinfo/{{ $siteinfo->id }}/edit" class="btn btn-warning btn-sm">
+                                        <a href="{{ url('/admin/siteinfo/'.$siteinfo->id.'/edit') }}" class="btn btn-warning btn-sm">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </td>

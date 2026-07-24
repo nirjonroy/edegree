@@ -5,6 +5,15 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+$publicIndex = '/public/index.php';
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+
+if (str_ends_with($scriptName, $publicIndex)) {
+    $baseScript = substr($scriptName, 0, -strlen($publicIndex)).'/index.php';
+    $_SERVER['SCRIPT_NAME'] = $baseScript;
+    $_SERVER['PHP_SELF'] = $baseScript;
+}
+
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance

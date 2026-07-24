@@ -16,7 +16,7 @@
         <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-                    <img src="/adminlte/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow-sm" alt="User Image">
+                    <img src="{{ asset('adminlte/assets/img/user2-160x160.jpg') }}" class="user-image rounded-circle shadow-sm" alt="User Image">
                     <span class="d-none d-md-inline">{{ auth()->user()->name ?? 'Admin' }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -26,7 +26,7 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a href="/profile" class="dropdown-item">
+                        <a href="{{ url('/profile') }}" class="dropdown-item">
                             <i class="bi bi-person me-2"></i> Profile
                         </a>
                     </li>

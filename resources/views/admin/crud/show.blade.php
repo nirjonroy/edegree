@@ -3,14 +3,15 @@
 @section('title', $title.' | Admin')
 
 @section('content')
+    @php($routeUrl = url($routeBase))
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6"><h3 class="mb-0">{{ $title }}</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ $routeBase }}">Back</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ $routeUrl }}">Back</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Details</li>
                     </ol>
                 </div>
@@ -25,9 +26,9 @@
                     <h3 class="card-title">Record #{{ $record->id }}</h3>
                     <div class="card-tools">
                         @if ($canEdit ?? true)
-                            <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ $routeUrl }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
                         @endif
-                        <a href="{{ $routeBase }}" class="btn btn-secondary btn-sm">Back</a>
+                        <a href="{{ $routeUrl }}" class="btn btn-secondary btn-sm">Back</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -52,9 +53,9 @@
                                             {{ $record->{$key} ? 'Yes' : 'No' }}
                                         @elseif ($isUpload && $value)
                                             @if (\Illuminate\Support\Str::endsWith(strtolower($value), ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']))
-                                                <img src="/{{ $value }}" alt="{{ $label }}" class="img-thumbnail" style="max-height: 90px">
+                                                <img src="{{ asset($value) }}" alt="{{ $label }}" class="img-thumbnail" style="max-height: 90px">
                                             @else
-                                                <a href="/{{ $value }}" target="_blank" class="btn btn-outline-secondary btn-sm">View File</a>
+                                                <a href="{{ asset($value) }}" target="_blank" class="btn btn-outline-secondary btn-sm">View File</a>
                                             @endif
                                         @else
                                             {{ $value ?? '-' }}

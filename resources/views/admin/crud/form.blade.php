@@ -45,7 +45,7 @@
                             @if ($value)
                                 <div class="mt-2">
                                     @if (($field['preview'] ?? 'image') === 'file' || \Illuminate\Support\Str::endsWith(strtolower($value), '.pdf'))
-                                        <a href="/{{ $value }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                        <a href="{{ asset($value) }}" target="_blank" class="btn btn-outline-secondary btn-sm">
                                             <i class="bi bi-file-earmark-text"></i> View File
                                         </a>
                                     @else
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="card-footer text-end">
-        <a href="{{ $routeBase }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ url($routeBase) }}" class="btn btn-secondary">Cancel</a>
         <button type="submit" class="btn btn-primary">{{ $record->exists ? 'Update' : 'Create' }}</button>
     </div>
 </div>

@@ -1,8 +1,12 @@
 @if (isset($item['header']))
     <li class="nav-header">{{ $item['header'] }}</li>
 @else
+    @php
+        $itemUrl = $item['url'] ?? '#';
+        $itemUrl = \Illuminate\Support\Str::startsWith($itemUrl, '/') ? url($itemUrl) : $itemUrl;
+    @endphp
     <li class="nav-item {{ ! empty($item['open']) ? 'menu-open' : '' }}">
-        <a href="{{ $item['url'] ?? '#' }}" class="nav-link {{ ! empty($item['active']) ? 'active' : '' }}">
+        <a href="{{ $itemUrl }}" class="nav-link {{ ! empty($item['active']) ? 'active' : '' }}">
             <i class="nav-icon bi {{ $item['icon'] ?? 'bi-circle' }}{{ isset($item['icon_class']) ? ' '.$item['icon_class'] : '' }}"></i>
             <p class="{{ $item['text_class'] ?? '' }}">
                 {{ $item['label'] }}

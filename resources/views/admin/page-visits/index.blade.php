@@ -3,13 +3,14 @@
 @section('title', $title.' | Admin')
 
 @section('content')
+    @php($routeUrl = url($routeBase))
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6"><h3 class="mb-0">{{ $title }}</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
                     </ol>
                 </div>
@@ -79,7 +80,7 @@
                                     <td>{{ $record->user?->email ?? 'Guest' }}</td>
                                     <td>{{ $record->visited_at?->format('Y-m-d H:i') }}</td>
                                     <td class="text-end">
-                                        <a href="{{ $routeBase }}/{{ $record->id }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                                        <a href="{{ $routeUrl }}/{{ $record->id }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
                                     </td>
                                 </tr>
                             @empty

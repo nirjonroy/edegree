@@ -13,7 +13,7 @@
                     <ol class="breadcrumb float-sm-end">
                         @foreach ($breadcrumbs ?? [] as $breadcrumb)
                             @if (! empty($breadcrumb['url']))
-                                <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ \Illuminate\Support\Str::startsWith($breadcrumb['url'], '/') ? url($breadcrumb['url']) : $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
                             @else
                                 <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['label'] }}</li>
                             @endif
@@ -40,7 +40,7 @@
                                 <p>{{ $stat['label'] }}</p>
                             </div>
                             <i class="small-box-icon bi {{ $stat['icon'] ?? 'bi-circle' }}"></i>
-                            <a href="{{ $stat['link'] ?? '#' }}" class="small-box-footer link-{{ $stat['link_theme'] ?? 'light' }} link-underline-opacity-0 link-underline-opacity-50-hover">
+                            <a href="{{ ! empty($stat['link']) && \Illuminate\Support\Str::startsWith($stat['link'], '/') ? url($stat['link']) : ($stat['link'] ?? '#') }}" class="small-box-footer link-{{ $stat['link_theme'] ?? 'light' }} link-underline-opacity-0 link-underline-opacity-50-hover">
                                 More info <i class="bi bi-link-45deg"></i>
                             </a>
                         </div>
@@ -69,7 +69,7 @@
                                 <tbody>
                                     @foreach ($contentCounts ?? [] as $item)
                                         <tr>
-                                            <td><a href="{{ $item['url'] }}">{{ $item['label'] }}</a></td>
+                                            <td><a href="{{ \Illuminate\Support\Str::startsWith($item['url'], '/') ? url($item['url']) : $item['url'] }}">{{ $item['label'] }}</a></td>
                                             <td class="text-end fw-semibold">{{ $item['value'] }}</td>
                                         </tr>
                                     @endforeach
@@ -112,7 +112,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <h3 class="card-title">Recent Visits</h3>
-                            <div class="card-tools"><a href="/admin/page-visits" class="btn btn-primary btn-sm">View All</a></div>
+                            <div class="card-tools"><a href="{{ url('/admin/page-visits') }}" class="btn btn-primary btn-sm">View All</a></div>
                         </div>
                         <div class="card-body table-responsive p-0">
                             <table class="table table-hover mb-0">

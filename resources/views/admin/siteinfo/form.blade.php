@@ -145,6 +145,6 @@
 </div>
 
 <div class="d-flex justify-content-end gap-2 mb-4">
-    <a href="/admin/siteinfo" class="btn btn-secondary">Cancel</a>
+    <a href="{{ url('/admin/siteinfo') }}" class="btn btn-secondary">Cancel</a>
     <button type="submit" class="btn btn-primary">{{ $submitLabel }}</button>
 </div>

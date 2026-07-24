@@ -3,13 +3,14 @@
 @section('title', $title.' | Admin')
 
 @section('content')
+    @php($routeUrl = url($routeBase))
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6"><h3 class="mb-0">{{ $title }}</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
                     </ol>
                 </div>
@@ -27,7 +28,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Page List</h3>
                     <div class="card-tools">
-                        <a href="{{ $routeBase }}/create" class="btn btn-primary btn-sm">
+                        <a href="{{ $routeUrl }}/create" class="btn btn-primary btn-sm">
                             <i class="bi bi-plus-lg"></i> Add Custom Page
                         </a>
                     </div>
@@ -60,8 +61,8 @@
                                     </td>
                                     <td>{{ optional($record->published_at)->format('d M Y h:i A') ?: '-' }}</td>
                                     <td class="text-end">
-                                        <a href="{{ $routeBase }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                        <form action="{{ $routeBase }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this page?')">
+                                        <a href="{{ $routeUrl }}/{{ $record->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                        <form action="{{ $routeUrl }}/{{ $record->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this page?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
