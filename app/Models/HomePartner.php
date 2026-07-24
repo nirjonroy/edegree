@@ -15,6 +15,18 @@ class HomePartner extends Model
         'link',
         'display_order',
         'status',
+        'seo_title',
+        'seo_description',
+        'meta_title',
+        'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
     ];
 
     protected $casts = [

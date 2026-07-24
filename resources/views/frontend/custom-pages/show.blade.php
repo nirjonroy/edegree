@@ -2,6 +2,13 @@
 
 @section('title', $page->meta_title ?: $page->page_name.' | eDegree+')
 @section('meta_description', $page->meta_description ?: ($page->short_description ?: \Illuminate\Support\Str::limit(strip_tags($page->description), 155)))
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $page, 'seo' => [
+        'title' => $page->page_name,
+        'description' => $page->short_description ?: $page->description,
+        'url' => $page->canonical_url ?: url($page->desired_url ?: $page->slug),
+    ]])
+@endsection
 
 @php
     $background = $page->background_image ?: $page->meta_image;

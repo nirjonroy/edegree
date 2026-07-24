@@ -14,6 +14,18 @@ class ProgramCategory extends Model
         'name',
         'slug',
         'status',
+        'seo_title',
+        'seo_description',
+        'meta_title',
+        'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
     ];
 
     protected $casts = [
@@ -23,5 +35,10 @@ class ProgramCategory extends Model
     public function programs(): HasMany
     {
         return $this->hasMany(Program::class, 'degree_id');
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->status ? route('frontend.programs.index', ['degree' => $this->slug]) : '';
     }
 }

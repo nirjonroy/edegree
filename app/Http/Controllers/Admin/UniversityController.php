@@ -13,6 +13,7 @@ class UniversityController extends Controller
 {
     private array $uploadFields = [
         'image_1',
+        'meta_image',
     ];
 
     public function index()
@@ -136,9 +137,18 @@ class UniversityController extends Controller
             'faq_answer_3' => ['nullable', 'string'],
             'faq_answer_4' => ['nullable', 'string'],
             'faq_answer_5' => ['nullable', 'string'],
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string'],
+            'meta_image' => ['nullable', 'image', 'max:2048'],
+            'author' => ['nullable', 'string', 'max:255'],
+            'publisher' => ['nullable', 'string', 'max:255'],
+            'copyright' => ['nullable', 'string', 'max:255'],
+            'site_name' => ['nullable', 'string', 'max:255'],
             'keywords' => ['nullable', 'string'],
+            'robots' => ['nullable', 'string', 'max:255'],
+            'canonical_url' => ['nullable', 'string', 'max:255'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
@@ -199,9 +209,18 @@ class UniversityController extends Controller
         }
 
         return array_merge($fields, [
+            ['name' => 'seo_title', 'label' => 'SEO Title', 'type' => 'text', 'col' => 6],
+            ['name' => 'seo_description', 'label' => 'SEO Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'meta_title', 'label' => 'Meta Title', 'type' => 'text', 'col' => 6],
             ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
-            ['name' => 'keywords', 'label' => 'Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
+            ['name' => 'meta_image', 'label' => 'Meta Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
+            ['name' => 'author', 'label' => 'Author', 'type' => 'text', 'col' => 6],
+            ['name' => 'publisher', 'label' => 'Publisher', 'type' => 'text', 'col' => 6],
+            ['name' => 'copyright', 'label' => 'Copyright', 'type' => 'text', 'col' => 6],
+            ['name' => 'site_name', 'label' => 'Site Name', 'type' => 'text', 'col' => 6],
+            ['name' => 'keywords', 'label' => 'Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
+            ['name' => 'robots', 'label' => 'Robots', 'type' => 'text', 'col' => 6],
+            ['name' => 'canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'col' => 6],
         ]);
     }
 

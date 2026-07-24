@@ -21,5 +21,17 @@ class BlogPage extends Model
         'read_button_text',
         'article_tags_title',
         'comments_section_title',
+        'seo_title',
+        'seo_description',
+        'meta_title',
+        'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
     ];
 }

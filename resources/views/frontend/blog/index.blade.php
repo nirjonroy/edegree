@@ -2,6 +2,13 @@
 
 @section('title', 'Insights Blog | eDegree+')
 @section('meta_description', 'Acquire guidance on online degree value, admissions eligibility, and career choices.')
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $blogPage ?? null, 'seo' => [
+        'title' => 'Insights Blog | eDegree+',
+        'description' => 'Acquire guidance on online degree value, admissions eligibility, and career choices.',
+        'url' => route('frontend.blog.index'),
+    ]])
+@endsection
 
 @php
     $fallbackImage = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700&h=420&fit=crop&q=80';

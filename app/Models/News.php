@@ -21,12 +21,19 @@ class News extends Model
         'quote',
         'author',
         'published_at',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
         'meta_keywords',
         'canonical_url',
         'meta_robots',
         'meta_image',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
         'status',
     ];
 
@@ -34,4 +41,9 @@ class News extends Model
         'published_at' => 'datetime',
         'status' => 'boolean',
     ];
+
+    public function getSitemapUrl(): string
+    {
+        return $this->status ? route('frontend.news.show', $this->slug) : '';
+    }
 }

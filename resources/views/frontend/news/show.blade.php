@@ -2,6 +2,13 @@
 
 @section('title', ($news->meta_title ?: $news->title.' | eDegree+'))
 @section('meta_description', $news->meta_description ?: ($news->short_description ?: 'Read the latest admissions news from eDegree+.'))
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $news, 'seo' => [
+        'title' => $news->title,
+        'description' => $news->short_description ?: $news->description,
+        'url' => route('frontend.news.show', $news->slug),
+    ]])
+@endsection
 
 @php
     $imagePath = $news->image;

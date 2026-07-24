@@ -24,6 +24,8 @@ class BlogPost extends Model
         'long_description',
         'featured_image_path',
         'featured_image_source',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
         'meta_image',
@@ -32,6 +34,8 @@ class BlogPost extends Model
         'copyright',
         'site_name',
         'keywords',
+        'robots',
+        'canonical_url',
         'description',
         'status',
         'tags',
@@ -55,5 +59,10 @@ class BlogPost extends Model
     public function postComments(): HasMany
     {
         return $this->hasMany(BlogComment::class);
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->is_published ? route('frontend.blog.show', $this->slug) : '';
     }
 }

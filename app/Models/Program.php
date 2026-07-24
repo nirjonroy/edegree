@@ -43,12 +43,18 @@ class Program extends Model
         'apply_button_text',
         'status',
         'recommend',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
+        'meta_image',
         'keywords',
         'canonical_url',
         'author',
         'publisher',
+        'copyright',
+        'site_name',
+        'robots',
     ];
 
     protected $casts = [
@@ -64,5 +70,10 @@ class Program extends Model
     public function university(): BelongsTo
     {
         return $this->belongsTo(University::class);
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->status ? route('frontend.programs.show', $this->slug) : '';
     }
 }

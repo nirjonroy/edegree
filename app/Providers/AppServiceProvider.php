@@ -68,6 +68,18 @@ class AppServiceProvider extends ServiceProvider
             ],
             ['label' => 'Universities', 'url' => '/admin/universities', 'icon' => 'bi-buildings', 'active' => request()->is('admin/universities*')],
             [
+                'label' => 'SEO',
+                'url' => '#',
+                'icon' => 'bi-search',
+                'open' => request()->is('admin/seo-admin*'),
+                'children' => [
+                    ['label' => 'Settings', 'url' => '/admin/seo-admin/settings', 'active' => request()->is('admin/seo-admin/settings*')],
+                    ['label' => 'Meta Tags', 'url' => '/admin/seo-admin/meta-tags', 'active' => request()->is('admin/seo-admin/meta-tags*')],
+                    ['label' => 'Redirects', 'url' => '/admin/seo-admin/redirects', 'active' => request()->is('admin/seo-admin/redirects*')],
+                    ['label' => 'Page Generator', 'url' => '/admin/seo-admin/generator', 'active' => request()->is('admin/seo-admin/generator*')],
+                ],
+            ],
+            [
                 'label' => 'Access Control',
                 'url' => '#',
                 'icon' => 'bi-shield-lock',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactPage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ContactPageController extends Controller
 {
@@ -31,7 +32,7 @@ class ContactPageController extends Controller
 
     public function store(Request $request)
     {
-        ContactPage::create($this->validated($request));
+        ContactPage::create($this->storeUploads($request, $this->validated($request)));
 
         return redirect('/admin/contact-pages')->with('success', 'Contact page created successfully.');
     }
@@ -52,13 +53,14 @@ class ContactPageController extends Controller
 
     public function update(Request $request, ContactPage $contactPage)
     {
-        $contactPage->update($this->validated($request));
+        $contactPage->update($this->storeUploads($request, $this->validated($request), $contactPage));
 
         return redirect('/admin/contact-pages')->with('success', 'Contact page updated successfully.');
     }
 
     public function destroy(ContactPage $contactPage)
     {
+        $this->deleteUpload($contactPage->meta_image);
         $contactPage->delete();
 
         return redirect('/admin/contact-pages')->with('success', 'Contact page deleted successfully.');
@@ -96,8 +98,18 @@ class ContactPageController extends Controller
             'button_text' => ['nullable', 'string', 'max:255'],
             'success_title' => ['nullable', 'string', 'max:255'],
             'success_message' => ['nullable', 'string'],
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string'],
+            'meta_image' => ['nullable', 'image', 'max:2048'],
+            'author' => ['nullable', 'string', 'max:255'],
+            'publisher' => ['nullable', 'string', 'max:255'],
+            'copyright' => ['nullable', 'string', 'max:255'],
+            'site_name' => ['nullable', 'string', 'max:255'],
+            'keywords' => ['nullable', 'string'],
+            'robots' => ['nullable', 'string', 'max:255'],
+            'canonical_url' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'boolean'],
         ]);
 
@@ -129,8 +141,48 @@ class ContactPageController extends Controller
             ['name' => 'button_text', 'label' => 'Button Text', 'type' => 'text', 'col' => 4],
             ['name' => 'success_title', 'label' => 'Success Title', 'type' => 'text', 'col' => 4],
             ['name' => 'success_message', 'label' => 'Success Message', 'type' => 'textarea', 'rows' => 3, 'col' => 4],
+            ['name' => 'seo_title', 'label' => 'SEO Title', 'type' => 'text', 'col' => 6],
+            ['name' => 'seo_description', 'label' => 'SEO Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'meta_title', 'label' => 'Meta Title', 'type' => 'text', 'col' => 6],
             ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
+            ['name' => 'meta_image', 'label' => 'Meta Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
+            ['name' => 'author', 'label' => 'Author', 'type' => 'text', 'col' => 6],
+            ['name' => 'publisher', 'label' => 'Publisher', 'type' => 'text', 'col' => 6],
+            ['name' => 'copyright', 'label' => 'Copyright', 'type' => 'text', 'col' => 6],
+            ['name' => 'site_name', 'label' => 'Site Name', 'type' => 'text', 'col' => 6],
+            ['name' => 'keywords', 'label' => 'Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
+            ['name' => 'robots', 'label' => 'Robots', 'type' => 'text', 'col' => 6],
+            ['name' => 'canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'col' => 6],
         ];
+    }
+
+    private function storeUploads(Request $request, array $data, ?ContactPage $contactPage = null): array
+    {
+        if (! $request->hasFile('meta_image')) {
+            if ($contactPage) {
+                unset($data['meta_image']);
+            }
+
+            return $data;
+        }
+
+        if ($contactPage) {
+            $this->deleteUpload($contactPage->meta_image);
+        }
+
+        $file = $request->file('meta_image');
+        $filename = 'contact-meta-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+        File::ensureDirectoryExists(public_path('uploads/contact-pages'));
+        $file->move(public_path('uploads/contact-pages'), $filename);
+        $data['meta_image'] = 'uploads/contact-pages/'.$filename;
+
+        return $data;
+    }
+
+    private function deleteUpload(?string $path): void
+    {
+        if ($path && File::exists(public_path($path))) {
+            File::delete(public_path($path));
+        }
     }
 }

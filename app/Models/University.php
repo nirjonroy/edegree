@@ -65,9 +65,18 @@ class University extends Model
         'faq_answer_3',
         'faq_answer_4',
         'faq_answer_5',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
         'keywords',
+        'robots',
+        'canonical_url',
     ];
 
     protected $casts = [
@@ -78,5 +87,10 @@ class University extends Model
     public function programs(): HasMany
     {
         return $this->hasMany(Program::class);
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->status ? route('frontend.universities.show', $this->slug) : '';
     }
 }

@@ -2,6 +2,13 @@
 
 @section('title', $siteinfo?->homepage_section_title ?: 'eDegree+ | Accredited Online University Degree Programs')
 @section('meta_description', 'Advance your career with internationally accredited online university degrees. Discover online MBA, DBA, Master and Bachelor programs from top global institutions.')
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $slider ?? null, 'seo' => [
+        'title' => $siteinfo?->homepage_section_title ?: 'eDegree+ | Accredited Online University Degree Programs',
+        'description' => 'Advance your career with internationally accredited online university degrees. Discover online MBA, DBA, Master and Bachelor programs from top global institutions.',
+        'url' => route('frontend.home'),
+    ]])
+@endsection
 
 @php
     $heroImage = $slider?->image

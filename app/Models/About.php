@@ -29,8 +29,18 @@ class About extends Model
         'faq_answer_2',
         'faq_question_3',
         'faq_answer_3',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
         'status',
     ];
 

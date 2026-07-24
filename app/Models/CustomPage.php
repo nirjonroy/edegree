@@ -17,12 +17,20 @@ class CustomPage extends Model
         'short_description',
         'description',
         'background_image',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
         'meta_keywords',
         'canonical_url',
         'meta_robots',
         'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
         'status',
         'published_at',
     ];
@@ -39,5 +47,10 @@ class CustomPage extends Model
     public function getPublicUrlAttribute(): string
     {
         return '/'.($this->desired_url ?: $this->slug);
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->status ? url($this->desired_url ?: $this->slug) : '';
     }
 }

@@ -2,6 +2,13 @@
 
 @section('title', ($about?->meta_title ?: (($about?->page_title ?: 'About eDegree+').' | eDegree+')))
 @section('meta_description', $about?->meta_description ?: 'Learn about eDegree+ and how we help professionals compare accredited online university degree programs.')
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $about, 'seo' => [
+        'title' => $about?->page_title ?: 'About eDegree+',
+        'description' => $about?->about_us ?: 'Learn about eDegree+ and how we help professionals compare accredited online university degree programs.',
+        'url' => route('frontend.about'),
+    ]])
+@endsection
 
 @section('content')
     <main class="flex-grow bg-altBg py-12">

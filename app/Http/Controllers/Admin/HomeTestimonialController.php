@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HasSeoFields;
 use App\Http\Controllers\Controller;
 use App\Models\HomeTestimonial;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class HomeTestimonialController extends Controller
 {
+    use HasSeoFields;
+
     public function index()
     {
         return view('admin.crud.index', [
@@ -62,6 +65,7 @@ class HomeTestimonialController extends Controller
     public function destroy(HomeTestimonial $homeTestimonial)
     {
         $this->deleteUpload($homeTestimonial->image);
+        $this->deleteSeoUpload($homeTestimonial->meta_image);
         $homeTestimonial->delete();
 
         return redirect('/admin/home-testimonials')->with('success', 'Testimonial deleted successfully.');
@@ -79,7 +83,7 @@ class HomeTestimonialController extends Controller
 
     private function prepareData(Request $request, ?HomeTestimonial $homeTestimonial = null): array
     {
-        $data = $request->validate([
+        $data = $request->validate(array_merge([
             'name' => ['required', 'string', 'max:255'],
             'designation' => ['nullable', 'string', 'max:255'],
             'quote' => ['required', 'string'],
@@ -87,7 +91,7 @@ class HomeTestimonialController extends Controller
             'image' => ['nullable', 'image', 'max:2048'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'status' => ['nullable', 'boolean'],
-        ]);
+        ], $this->seoValidationRules()));
 
         $data['status'] = (bool) ($data['status'] ?? false);
         $data['rating'] = (int) ($data['rating'] ?? 5);
@@ -107,12 +111,12 @@ class HomeTestimonialController extends Controller
             unset($data['image']);
         }
 
-        return $data;
+        return $this->storeSeoUploads($request, $data, $homeTestimonial, 'home-testimonials');
     }
 
     private function fields(): array
     {
-        return [
+        return array_merge([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => true, 'col' => 4],
             ['name' => 'designation', 'label' => 'Designation', 'type' => 'text', 'col' => 4],
             ['name' => 'rating', 'label' => 'Rating', 'type' => 'number', 'col' => 2],
@@ -120,7 +124,7 @@ class HomeTestimonialController extends Controller
             ['name' => 'image', 'label' => 'Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'display_order', 'label' => 'Display Order', 'type' => 'number', 'col' => 6],
             ['name' => 'quote', 'label' => 'Quote', 'type' => 'textarea', 'rows' => 4, 'required' => true, 'col' => 12],
-        ];
+        ], $this->seoFields());
     }
 
     private function deleteUpload(?string $path): void

@@ -69,6 +69,7 @@ class ProgramController extends Controller
     {
         $this->deleteUpload($program->syllabus_pdf);
         $this->deleteUpload($program->image);
+        $this->deleteUpload($program->meta_image);
         $program->delete();
 
         return redirect('/admin/programs')->with('success', 'Program deleted successfully.');
@@ -119,12 +120,18 @@ class ProgramController extends Controller
             'apply_button_text' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'boolean'],
             'recommend' => ['nullable', 'boolean'],
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string'],
+            'meta_image' => ['nullable', 'image', 'max:2048'],
             'keywords' => ['nullable', 'string'],
             'canonical_url' => ['nullable', 'string', 'max:255'],
             'author' => ['nullable', 'string', 'max:255'],
             'publisher' => ['nullable', 'string', 'max:255'],
+            'copyright' => ['nullable', 'string', 'max:255'],
+            'site_name' => ['nullable', 'string', 'max:255'],
+            'robots' => ['nullable', 'string', 'max:255'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['program']);
@@ -145,18 +152,20 @@ class ProgramController extends Controller
             unset($data['syllabus_pdf']);
         }
 
-        if ($request->hasFile('image')) {
-            if ($program) {
-                $this->deleteUpload($program->image);
-            }
+        foreach (['image' => 'program', 'meta_image' => 'program-meta'] as $field => $prefix) {
+            if ($request->hasFile($field)) {
+                if ($program) {
+                    $this->deleteUpload($program->{$field});
+                }
 
-            $file = $request->file('image');
-            $filename = 'program-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
-            File::ensureDirectoryExists(public_path('uploads/programs'));
-            $file->move(public_path('uploads/programs'), $filename);
-            $data['image'] = 'uploads/programs/'.$filename;
-        } elseif ($program) {
-            unset($data['image']);
+                $file = $request->file($field);
+                $filename = $prefix.'-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+                File::ensureDirectoryExists(public_path('uploads/programs'));
+                $file->move(public_path('uploads/programs'), $filename);
+                $data[$field] = 'uploads/programs/'.$filename;
+            } elseif ($program) {
+                unset($data[$field]);
+            }
         }
 
         return $data;
@@ -197,12 +206,18 @@ class ProgramController extends Controller
             ['name' => 'advisor_title', 'label' => 'Inquiry Form Title', 'type' => 'text', 'col' => 6],
             ['name' => 'advisor_description', 'label' => 'Inquiry Form Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'apply_button_text', 'label' => 'Apply Button Text', 'type' => 'text', 'col' => 6],
+            ['name' => 'seo_title', 'label' => 'SEO Title', 'type' => 'text', 'col' => 6],
+            ['name' => 'seo_description', 'label' => 'SEO Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'meta_title', 'label' => 'Meta Title', 'type' => 'text', 'col' => 6],
             ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
+            ['name' => 'meta_image', 'label' => 'Meta Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'keywords', 'label' => 'Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'col' => 6],
             ['name' => 'author', 'label' => 'Author', 'type' => 'text', 'col' => 6],
             ['name' => 'publisher', 'label' => 'Publisher', 'type' => 'text', 'col' => 6],
+            ['name' => 'copyright', 'label' => 'Copyright', 'type' => 'text', 'col' => 6],
+            ['name' => 'site_name', 'label' => 'Site Name', 'type' => 'text', 'col' => 6],
+            ['name' => 'robots', 'label' => 'Robots', 'type' => 'text', 'col' => 6],
         ];
     }
 

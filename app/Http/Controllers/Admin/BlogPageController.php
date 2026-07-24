@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HasSeoFields;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPage;
 use Illuminate\Http\Request;
 
 class BlogPageController extends Controller
 {
+    use HasSeoFields;
+
     public function index()
     {
         return view('admin.crud.index', [
@@ -42,13 +45,14 @@ class BlogPageController extends Controller
 
     public function update(Request $request, BlogPage $blogPage)
     {
-        $blogPage->update($this->validated($request));
+        $blogPage->update($this->validated($request, $blogPage));
 
         return redirect('/admin/blog-pages')->with('success', 'Blog page updated successfully.');
     }
 
     public function destroy(BlogPage $blogPage)
     {
+        $this->deleteSeoUpload($blogPage->meta_image);
         $blogPage->delete();
 
         return redirect('/admin/blog-pages')->with('success', 'Blog page deleted successfully.');
@@ -59,9 +63,9 @@ class BlogPageController extends Controller
         return view('admin.crud.form-page', ['title' => $title, 'routeBase' => '/admin/blog-pages', 'record' => $record, 'fields' => $this->fields()]);
     }
 
-    private function validated(Request $request): array
+    private function validated(Request $request, ?BlogPage $blogPage = null): array
     {
-        return $request->validate([
+        $data = $request->validate(array_merge([
             'hero_title' => ['required', 'string', 'max:255'],
             'hero_background_path' => ['nullable', 'string', 'max:255'],
             'hero_background_source' => ['nullable', 'string', 'max:255'],
@@ -73,12 +77,14 @@ class BlogPageController extends Controller
             'read_button_text' => ['nullable', 'string', 'max:255'],
             'article_tags_title' => ['nullable', 'string', 'max:255'],
             'comments_section_title' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $this->seoValidationRules()));
+
+        return $this->storeSeoUploads($request, $data, $blogPage, 'blog-pages');
     }
 
     private function fields(): array
     {
-        return [
+        return array_merge([
             ['name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text', 'required' => true, 'col' => 6],
             ['name' => 'hero_background_path', 'label' => 'Hero Background Path', 'type' => 'text', 'col' => 6],
             ['name' => 'hero_background_source', 'label' => 'Hero Background Source', 'type' => 'text', 'col' => 6],
@@ -90,6 +96,6 @@ class BlogPageController extends Controller
             ['name' => 'read_button_text', 'label' => 'Read Button Text', 'type' => 'text', 'col' => 6],
             ['name' => 'article_tags_title', 'label' => 'Article Tags Title', 'type' => 'text', 'col' => 6],
             ['name' => 'comments_section_title', 'label' => 'Comments Section Title', 'type' => 'text', 'col' => 6],
-        ];
+        ], $this->seoFields());
     }
 }

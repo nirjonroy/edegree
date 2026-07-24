@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb6179b82fa7463f4a27e1d7dda694b6",
+    "content-hash": "1776245dd8cc3feb77c4f8f807f56409",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2421,6 +2421,32 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.8.0"
             },
             "time": "2026-07-04T14:30:18+00:00"
+        },
+        {
+            "name": "nirjon/laravel-seo",
+            "version": "dev-package-release",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nirjonroy/seo-entiantials",
+                "reference": "package-release"
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Nirjon\\LaravelSeo\\SEOServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nirjon\\LaravelSeo\\": "src/"
+                }
+            }
         },
         {
             "name": "nunomaduro/termwind",
@@ -8352,7 +8378,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "nirjon/laravel-seo": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -2,6 +2,13 @@
 
 @section('title', ($university->meta_title ?: $university->name.' | eDegree+'))
 @section('meta_description', $university->meta_description ?: ($university->short_description ?: 'Explore partner university accreditation details, online degrees, admissions and graduate reviews.'))
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $university, 'seo' => [
+        'title' => $university->name,
+        'description' => $university->short_description ?: $university->profile_description ?: $university->long_description,
+        'url' => route('frontend.universities.show', $university->slug),
+    ]])
+@endsection
 
 @php
     $image = $university->image_1

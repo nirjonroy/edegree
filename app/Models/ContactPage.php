@@ -29,8 +29,18 @@ class ContactPage extends Model
         'button_text',
         'success_title',
         'success_message',
+        'seo_title',
+        'seo_description',
         'meta_title',
         'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
         'status',
     ];
 

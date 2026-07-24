@@ -2,6 +2,13 @@
 
 @section('title', 'Admissions News Index | eDegree+')
 @section('meta_description', 'Read the latest admissions circulars, online education policy updates, and university expansion news.')
+@section('seos')
+    @include('frontend.partials.seos', ['seo' => [
+        'title' => 'Admissions News Index | eDegree+',
+        'description' => 'Read the latest admissions circulars, online education policy updates, and university expansion news.',
+        'url' => route('frontend.news.index'),
+    ]])
+@endsection
 
 @section('content')
     <section class="bg-altBg py-12">

@@ -2,6 +2,13 @@
 
 @section('title', ($contactPage?->meta_title ?: (($contactPage?->page_title ?: 'Contact eDegree+').' | eDegree+')))
 @section('meta_description', $contactPage?->meta_description ?: 'Contact eDegree+ for student counseling support, university listing requests, and advertising inquiries.')
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $contactPage, 'seo' => [
+        'title' => $contactPage?->page_title ?: 'Contact eDegree+',
+        'description' => $contactPage?->subtitle ?: 'Contact eDegree+ for student counseling support, university listing requests, and advertising inquiries.',
+        'url' => route('frontend.contact'),
+    ]])
+@endsection
 
 @section('content')
     <main class="flex-grow bg-altBg py-12" x-data="{ name: '', email: '', subject: '', message: '', success: false }">

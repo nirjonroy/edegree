@@ -2,6 +2,13 @@
 
 @section('title', ($program->meta_title ?: $program->program.' | eDegree+'))
 @section('meta_description', $program->meta_description ?: ($program->short_description ?: 'View accredited online program syllabus, eligibility rules and fee structures.'))
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $program, 'seo' => [
+        'title' => $program->program,
+        'description' => $program->short_description ?: $program->long_description,
+        'url' => route('frontend.programs.show', $program->slug),
+    ]])
+@endsection
 
 @php
     $imagePath = $program->image ?: $program->university?->image_1;

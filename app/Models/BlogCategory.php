@@ -10,7 +10,25 @@ class BlogCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'display_order', 'is_active'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'display_order',
+        'is_active',
+        'seo_title',
+        'seo_description',
+        'meta_title',
+        'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
+    ];
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -19,5 +37,10 @@ class BlogCategory extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(BlogPost::class);
+    }
+
+    public function getSitemapUrl(): string
+    {
+        return $this->is_active ? route('frontend.blog.index', ['category' => $this->slug]) : '';
     }
 }

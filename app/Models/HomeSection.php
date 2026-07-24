@@ -17,6 +17,18 @@ class HomeSection extends Model
         'input_placeholder',
         'privacy_note',
         'status',
+        'seo_title',
+        'seo_description',
+        'meta_title',
+        'meta_description',
+        'meta_image',
+        'author',
+        'publisher',
+        'copyright',
+        'site_name',
+        'keywords',
+        'robots',
+        'canonical_url',
     ];
 
     protected $casts = [

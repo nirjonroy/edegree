@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HasSeoFields;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class SliderController extends Controller
 {
+    use HasSeoFields;
+
     public function index()
     {
         return view('admin.crud.index', [
@@ -68,6 +71,7 @@ class SliderController extends Controller
     public function destroy(Slider $slider)
     {
         $this->deleteUpload($slider->image);
+        $this->deleteSeoUpload($slider->meta_image);
         $slider->delete();
 
         return redirect('/admin/sliders')->with('success', 'Slider deleted successfully.');
@@ -85,7 +89,7 @@ class SliderController extends Controller
 
     private function prepareData(Request $request, ?Slider $slider = null): array
     {
-        $data = $request->validate([
+        $data = $request->validate(array_merge([
             'badge_text' => ['nullable', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string'],
@@ -97,7 +101,7 @@ class SliderController extends Controller
             'button_link' => ['nullable', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'status' => ['nullable', 'boolean'],
-        ]);
+        ], $this->seoValidationRules()));
 
         $data['status'] = (bool) ($data['status'] ?? false);
         $data['sort_order'] = (int) ($data['sort_order'] ?? 0);
@@ -116,12 +120,12 @@ class SliderController extends Controller
             unset($data['image']);
         }
 
-        return $data;
+        return $this->storeSeoUploads($request, $data, $slider, 'sliders');
     }
 
     private function fields(): array
     {
-        return [
+        return array_merge([
             ['name' => 'badge_text', 'label' => 'Badge Text', 'type' => 'text', 'col' => 6],
             ['name' => 'title', 'label' => 'Title', 'type' => 'text', 'required' => true, 'col' => 6],
             ['name' => 'subtitle', 'label' => 'Subtitle', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
@@ -133,7 +137,7 @@ class SliderController extends Controller
             ['name' => 'search_placeholder', 'label' => 'Search Placeholder', 'type' => 'text', 'col' => 8],
             ['name' => 'button_text', 'label' => 'Button Text', 'type' => 'text', 'required' => true, 'col' => 4],
             ['name' => 'button_link', 'label' => 'Button Link', 'type' => 'text', 'col' => 12],
-        ];
+        ], $this->seoFields());
     }
 
     private function deleteUpload(?string $path): void

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HasSeoFields;
 use App\Http\Controllers\Controller;
 use App\Models\HomePartner;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class HomePartnerController extends Controller
 {
+    use HasSeoFields;
+
     public function index()
     {
         return view('admin.crud.index', [
@@ -61,6 +64,7 @@ class HomePartnerController extends Controller
     public function destroy(HomePartner $homePartner)
     {
         $this->deleteUpload($homePartner->logo);
+        $this->deleteSeoUpload($homePartner->meta_image);
         $homePartner->delete();
 
         return redirect('/admin/home-partners')->with('success', 'Partner deleted successfully.');
@@ -78,13 +82,13 @@ class HomePartnerController extends Controller
 
     private function prepareData(Request $request, ?HomePartner $homePartner = null): array
     {
-        $data = $request->validate([
+        $data = $request->validate(array_merge([
             'name' => ['required', 'string', 'max:255'],
             'logo' => ['nullable', 'image', 'max:2048'],
             'link' => ['nullable', 'string', 'max:255'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'status' => ['nullable', 'boolean'],
-        ]);
+        ], $this->seoValidationRules()));
 
         $data['status'] = (bool) ($data['status'] ?? false);
         $data['display_order'] = (int) ($data['display_order'] ?? 0);
@@ -103,18 +107,18 @@ class HomePartnerController extends Controller
             unset($data['logo']);
         }
 
-        return $data;
+        return $this->storeSeoUploads($request, $data, $homePartner, 'home-partners');
     }
 
     private function fields(): array
     {
-        return [
+        return array_merge([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => true, 'col' => 6],
             ['name' => 'link', 'label' => 'Link', 'type' => 'url', 'col' => 6],
             ['name' => 'logo', 'label' => 'Logo', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'display_order', 'label' => 'Display Order', 'type' => 'number', 'col' => 3],
             ['name' => 'status', 'label' => 'Status', 'type' => 'checkbox', 'col' => 3],
-        ];
+        ], $this->seoFields());
     }
 
     private function deleteUpload(?string $path): void

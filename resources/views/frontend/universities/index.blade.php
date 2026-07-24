@@ -2,6 +2,13 @@
 
 @section('title', 'Partner Universities | eDegree+')
 @section('meta_description', 'Explore eDegree+ partner universities offering accredited online MBA, Master, Bachelor and doctorate programs.')
+@section('seos')
+    @include('frontend.partials.seos', ['seo' => [
+        'title' => 'Partner Universities | eDegree+',
+        'description' => 'Explore eDegree+ partner universities offering accredited online MBA, Master, Bachelor and doctorate programs.',
+        'url' => route('frontend.universities.index'),
+    ]])
+@endsection
 
 @section('content')
     <section class="bg-altBg py-12">

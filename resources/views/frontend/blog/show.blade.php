@@ -2,6 +2,13 @@
 
 @section('title', ($post->meta_title ?: $post->title.' | eDegree+'))
 @section('meta_description', $post->meta_description ?: ($post->short_description ?: $post->excerpt))
+@section('seos')
+    @include('frontend.partials.seos', ['seoModel' => $post, 'seo' => [
+        'title' => $post->title,
+        'description' => $post->short_description ?: $post->excerpt ?: $post->long_description,
+        'url' => route('frontend.blog.show', $post->slug),
+    ]])
+@endsection
 
 @php
     $imagePath = $post->image ?: $post->featured_image_path;
