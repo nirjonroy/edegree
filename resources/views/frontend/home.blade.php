@@ -106,9 +106,9 @@
                     <p class="text-charcoal text-sm">Select degree categories below to discover accredited online university curriculums.</p>
                 </div>
                 <div class="mt-6 md:mt-0 flex flex-wrap gap-2" data-aos="fade-up">
-                    <a href="{{ url('/frontend/programs.html') }}" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-200 border bg-brand-red border-brand-red text-white">All Degrees</a>
+                    <a href="{{ route('frontend.programs.index') }}" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-200 border bg-brand-red border-brand-red text-white">All Degrees</a>
                     @foreach ($programCategories as $category)
-                        <a href="{{ url('/frontend/programs.html?degree='.urlencode($category->name)) }}" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-200 border bg-white border-borderGray text-charcoal hover:border-brand-red hover:text-brand-red">{{ $category->name }}</a>
+                        <a href="{{ route('frontend.programs.index', ['degree' => $category->name]) }}" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-200 border bg-white border-borderGray text-charcoal hover:border-brand-red hover:text-brand-red">{{ $category->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -124,7 +124,7 @@
             </div>
 
             <div class="text-center mt-12" data-aos="fade-up">
-                <a href="{{ url('/frontend/programs.html') }}" class="inline-flex items-center space-x-2 bg-ink hover:bg-brand-red text-white px-8 py-3.5 rounded-lg font-semibold transition-all duration-200 shadow shadow-ink/20">
+                <a href="{{ route('frontend.programs.index') }}" class="inline-flex items-center space-x-2 bg-ink hover:bg-brand-red text-white px-8 py-3.5 rounded-lg font-semibold transition-all duration-200 shadow shadow-ink/20">
                     <span>Browse All Degrees</span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>

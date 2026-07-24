@@ -20,11 +20,11 @@
                 <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Programs</h4>
                 <ul class="space-y-2 text-xs">
                     @forelse (($programCategories ?? collect())->take(5) as $category)
-                        <li><a href="{{ url('/frontend/programs.html?degree='.urlencode($category->name)) }}" class="hover:text-white transition">{{ $category->name }}</a></li>
+                        <li><a href="{{ route('frontend.programs.index', ['degree' => $category->name]) }}" class="hover:text-white transition">{{ $category->name }}</a></li>
                     @empty
-                        <li><a href="{{ url('/frontend/programs.html?degree=MBA') }}" class="hover:text-white transition">MBA Programs</a></li>
-                        <li><a href="{{ url('/frontend/programs.html?degree=DBA') }}" class="hover:text-white transition">DBA Doctorates</a></li>
-                        <li><a href="{{ url('/frontend/programs.html') }}" class="hover:text-white transition font-semibold text-brand-red">View All Programs</a></li>
+                        <li><a href="{{ route('frontend.programs.index', ['degree' => 'MBA']) }}" class="hover:text-white transition">MBA Programs</a></li>
+                        <li><a href="{{ route('frontend.programs.index', ['degree' => 'DBA']) }}" class="hover:text-white transition">DBA Doctorates</a></li>
+                        <li><a href="{{ route('frontend.programs.index') }}" class="hover:text-white transition font-semibold text-brand-red">View All Programs</a></li>
                     @endforelse
                 </ul>
             </div>

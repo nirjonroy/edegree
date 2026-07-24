@@ -23,12 +23,12 @@
                                 <p class="font-heading font-bold text-ink uppercase tracking-wider text-xs mb-3">By Degree Level</p>
                                 <ul class="space-y-2">
                                     @forelse ($programCategories ?? [] as $category)
-                                        <li><a href="{{ url('/frontend/programs.html?degree='.urlencode($category->name)) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">{{ $category->name }}</a></li>
+                                        <li><a href="{{ route('frontend.programs.index', ['degree' => $category->name]) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">{{ $category->name }}</a></li>
                                     @empty
-                                        <li><a href="{{ url('/frontend/programs.html?degree=MBA') }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">MBA Programs</a></li>
-                                        <li><a href="{{ url('/frontend/programs.html?degree=DBA') }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">DBA Doctorates</a></li>
-                                        <li><a href="{{ url('/frontend/programs.html?degree=Master%27s') }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Master's Degrees</a></li>
-                                        <li><a href="{{ url('/frontend/programs.html?degree=Bachelor%27s') }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Bachelor's Degrees</a></li>
+                                        <li><a href="{{ route('frontend.programs.index', ['degree' => 'MBA']) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">MBA Programs</a></li>
+                                        <li><a href="{{ route('frontend.programs.index', ['degree' => 'DBA']) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">DBA Doctorates</a></li>
+                                        <li><a href="{{ route('frontend.programs.index', ['degree' => "Master's"]) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Master's Degrees</a></li>
+                                        <li><a href="{{ route('frontend.programs.index', ['degree' => "Bachelor's"]) }}" class="text-charcoal text-sm hover:text-brand-red transition-colors duration-150 block py-1">Bachelor's Degrees</a></li>
                                     @endforelse
                                 </ul>
                             </div>
@@ -48,7 +48,7 @@
                                     <p class="font-heading font-bold text-ink text-sm mb-1 leading-snug">{{ $featuredProgram?->program ?? 'Doctor of Business Administration (DBA)' }}</p>
                                     <p class="text-xs text-mutedGray leading-relaxed">{{ $featuredProgram?->short_description ?? 'Advance to top-tier leadership roles with accredited online study pathways.' }}</p>
                                 </div>
-                                <a href="{{ url('/frontend/programs.html') }}" class="mt-4 text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
+                                <a href="{{ route('frontend.programs.index') }}" class="mt-4 text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
                                     <span>View Programs</span>
                                     <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
                                 </a>
@@ -82,7 +82,7 @@
                 <button @click="$store.global.toggleSearchModal()" class="text-charcoal hover:text-brand-red transition-colors duration-150 p-2 rounded-full focus:outline-none">
                     <i data-lucide="search" class="w-6 h-6"></i>
                 </button>
-                <a href="{{ url('/frontend/programs.html') }}" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide shadow-sm hover:shadow transition-all duration-150">
+                <a href="{{ route('frontend.programs.index') }}" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide shadow-sm hover:shadow transition-all duration-150">
                     Explore Programs
                 </a>
             </div>
@@ -107,12 +107,12 @@
                 <button @click="mobileMenuOpen = false" class="text-charcoal hover:text-brand-red focus:outline-none"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             <div class="flex flex-col space-y-6">
-                <a href="{{ url('/frontend/programs.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Programs</a>
+                <a href="{{ route('frontend.programs.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Programs</a>
                 <a href="{{ route('frontend.universities.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Universities</a>
                 <a href="{{ url('/frontend/blog.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Blog</a>
                 <a href="{{ url('/frontend/news.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">News</a>
                 <a href="{{ url('/frontend/about.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">About Us</a>
-                <a href="{{ url('/frontend/programs.html') }}" class="w-full text-center bg-brand-red hover:bg-brand-darkRed text-white block py-3 rounded-lg text-sm font-semibold shadow-sm transition-all duration-150">Explore Programs</a>
+                <a href="{{ route('frontend.programs.index') }}" class="w-full text-center bg-brand-red hover:bg-brand-darkRed text-white block py-3 rounded-lg text-sm font-semibold shadow-sm transition-all duration-150">Explore Programs</a>
             </div>
         </div>
     </div>

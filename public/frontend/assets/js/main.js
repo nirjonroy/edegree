@@ -641,7 +641,7 @@ function initializeSearchOverlay() {
           <span class="text-brand-red text-xs font-semibold whitespace-nowrap flex-shrink-0 ml-2">View Program &rarr;</span>
         `;
         li.addEventListener('click', () => {
-          window.location.href = `program-single.html?id=${item.id}`;
+          window.location.href = `/programs/${item.id}`;
         });
         suggestionList.appendChild(li);
       });
@@ -946,7 +946,7 @@ document.addEventListener('alpine:init', () => {
     
     submitSearch() {
       if (this.searchType === 'program') {
-        window.location.href = `programs.html?query=${encodeURIComponent(this.query)}&degree=${encodeURIComponent(this.degreeLevel)}&category=${encodeURIComponent(this.category)}`;
+        window.location.href = `/programs?query=${encodeURIComponent(this.query)}&degree=${encodeURIComponent(this.degreeLevel)}&category=${encodeURIComponent(this.category)}`;
       } else {
         window.location.href = `/universities?query=${encodeURIComponent(this.query)}`;
       }

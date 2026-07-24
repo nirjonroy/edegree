@@ -2,7 +2,7 @@
     $programImage = $program->university?->image_1
         ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
         : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop&q=80';
-    $programUrl = $program->link ?: url('/frontend/program-single.html?id='.($program->slug ?: $program->id));
+    $programUrl = $program->link ?: route('frontend.programs.show', $program->slug);
     $universityLogo = $program->university?->image_1
         ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
         : 'https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop&q=80';

@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="flex justify-between items-center mt-4 pt-3 border-t border-borderGray/40 text-xs">
                                                 <span class="text-mutedGray font-medium">{{ $program->duration ?: 'Flexible' }}</span>
-                                                <a href="{{ $program->link ?: url('/frontend/program-single.html?id='.($program->slug ?: $program->id)) }}" class="text-brand-red font-bold">View Syllabus &rarr;</a>
+                                                <a href="{{ $program->link ?: route('frontend.programs.show', $program->slug) }}" class="text-brand-red font-bold">View Syllabus &rarr;</a>
                                             </div>
                                         </div>
                                     @empty
