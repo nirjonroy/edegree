@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SitemapEntryController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
 use App\Http\Controllers\Frontend\ProgramController as FrontendProgramController;
 use App\Http\Controllers\Frontend\UniversityController as FrontendUniversityController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +47,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('frontend.sitemap');
 Route::get('/about', [FrontendAboutController::class, 'index'])->name('frontend.about');
 Route::get('/contact', [FrontendContactController::class, 'index'])->name('frontend.contact');
 Route::get('/blog', [FrontendBlogController::class, 'index'])->name('frontend.blog.index');
@@ -99,6 +102,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('admin-users', AdminUserController::class);
     Route::resource('page-visits', PageVisitController::class)->only(['index', 'show']);
     Route::resource('sliders', SliderController::class);
+    Route::post('sitemap-entries/sync', [SitemapEntryController::class, 'sync'])->name('sitemap-entries.sync');
+    Route::resource('sitemap-entries', SitemapEntryController::class);
 });
 
 Route::get('/dashboard', function () {

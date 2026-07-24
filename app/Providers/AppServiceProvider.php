@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Siteinfo;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrapFive();
+
         View::composer('admin.*', function ($view) {
             $siteinfo = Siteinfo::latest()->first();
 
@@ -71,12 +74,13 @@ class AppServiceProvider extends ServiceProvider
                 'label' => 'SEO',
                 'url' => '#',
                 'icon' => 'bi-search',
-                'open' => request()->is('admin/seo-admin*'),
+                'open' => request()->is('admin/seo-admin*') || request()->is('admin/sitemap-entries*'),
                 'children' => [
                     ['label' => 'Settings', 'url' => '/admin/seo-admin/settings', 'active' => request()->is('admin/seo-admin/settings*')],
                     ['label' => 'Meta Tags', 'url' => '/admin/seo-admin/meta-tags', 'active' => request()->is('admin/seo-admin/meta-tags*')],
                     ['label' => 'Redirects', 'url' => '/admin/seo-admin/redirects', 'active' => request()->is('admin/seo-admin/redirects*')],
                     ['label' => 'Page Generator', 'url' => '/admin/seo-admin/generator', 'active' => request()->is('admin/seo-admin/generator*')],
+                    ['label' => 'Sitemap', 'url' => '/admin/sitemap-entries', 'active' => request()->is('admin/sitemap-entries*')],
                 ],
             ],
             [

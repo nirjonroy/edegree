@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HomeContentSeeder::class);
         $this->call(CustomPageDataSeeder::class);
         $this->call(AboutContactPageSeeder::class);
+        $this->call(SitemapEntrySeeder::class);
     }
 }
