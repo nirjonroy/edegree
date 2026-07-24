@@ -12,7 +12,6 @@ class BlogPage extends Model
     protected $fillable = [
         'hero_title',
         'hero_background_path',
-        'hero_background_source',
         'home_section_title',
         'categories_title',
         'recommendation_title',

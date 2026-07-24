@@ -72,8 +72,6 @@ class SiteinfoController extends Controller
             'footer_contact_note' => ['nullable', 'string'],
             'google_site_verification' => ['nullable', 'string', 'max:255'],
             'head_scripts' => ['nullable', 'string'],
-            'body_scripts' => ['nullable', 'string'],
-            'footer_scripts' => ['nullable', 'string'],
             'maintenance_mode' => ['nullable', 'boolean'],
             'logo' => ['nullable', 'image', 'max:2048'],
             'logo_width' => ['nullable', 'integer', 'min:0'],

@@ -14,11 +14,19 @@ class AdminSiteinfoTest extends TestCase
     public function test_admin_can_view_siteinfo_index(): void
     {
         $admin = $this->admin();
+        Siteinfo::create($this->payload(['sidebar_lg_header' => 'eDegree+']));
 
-        $this->actingAs($admin)
+        $response = $this->actingAs($admin)
             ->get('/admin/siteinfo')
             ->assertOk()
             ->assertSee('Site Info Records');
+
+        $content = $response->getContent();
+
+        $this->assertStringNotContainsString('Add Site Info', $content);
+        $this->assertStringContainsString('bi-eye', $content);
+        $this->assertStringContainsString('bi-pencil-square', $content);
+        $this->assertStringNotContainsString('bi-trash', $content);
     }
 
     public function test_admin_can_create_update_and_delete_siteinfo(): void
@@ -72,6 +80,8 @@ class AdminSiteinfoTest extends TestCase
         $this->assertStringContainsString('Tracking & Verification Scripts', $content);
         $this->assertStringContainsString('Google Search Console Verification', $content);
         $this->assertStringContainsString('Head Scripts', $content);
+        $this->assertStringNotContainsString('Body Start Scripts', $content);
+        $this->assertStringNotContainsString('Footer Scripts', $content);
         $this->assertStringNotContainsString('Currency Rate', $content);
         $this->assertStringNotContainsString('Property Image Width', $content);
         $this->assertStringNotContainsString('Agency Logo Width', $content);
@@ -84,16 +94,12 @@ class AdminSiteinfoTest extends TestCase
             'topbar_phone' => '+1 555 123 4567',
             'google_site_verification' => 'google-token',
             'head_scripts' => '<script>window.headScriptOk = true;</script>',
-            'body_scripts' => '<noscript>Body Script</noscript>',
-            'footer_scripts' => '<script>window.footerScriptOk = true;</script>',
         ]));
 
         $this->get('/')
             ->assertOk()
             ->assertSee('<meta name="google-site-verification" content="google-token">', false)
             ->assertSee('<script>window.headScriptOk = true;</script>', false)
-            ->assertSee('<noscript>Body Script</noscript>', false)
-            ->assertSee('<script>window.footerScriptOk = true;</script>', false)
             ->assertSee('support@example.com')
             ->assertSee('+1 555 123 4567');
     }

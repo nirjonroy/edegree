@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Concerns\HasSeoFields;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BlogPageController extends Controller
 {
@@ -52,6 +53,7 @@ class BlogPageController extends Controller
 
     public function destroy(BlogPage $blogPage)
     {
+        $this->deleteSeoUpload($blogPage->hero_background_path);
         $this->deleteSeoUpload($blogPage->meta_image);
         $blogPage->delete();
 
@@ -67,8 +69,7 @@ class BlogPageController extends Controller
     {
         $data = $request->validate(array_merge([
             'hero_title' => ['required', 'string', 'max:255'],
-            'hero_background_path' => ['nullable', 'string', 'max:255'],
-            'hero_background_source' => ['nullable', 'string', 'max:255'],
+            'hero_background_path' => ['nullable', 'image', 'max:4096'],
             'home_section_title' => ['nullable', 'string', 'max:255'],
             'categories_title' => ['nullable', 'string', 'max:255'],
             'recommendation_title' => ['nullable', 'string', 'max:255'],
@@ -79,6 +80,8 @@ class BlogPageController extends Controller
             'comments_section_title' => ['nullable', 'string', 'max:255'],
         ], $this->seoValidationRules()));
 
+        $data = $this->storeHeroBackground($request, $data, $blogPage);
+
         return $this->storeSeoUploads($request, $data, $blogPage, 'blog-pages');
     }
 
@@ -86,8 +89,7 @@ class BlogPageController extends Controller
     {
         return array_merge([
             ['name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text', 'required' => true, 'col' => 6],
-            ['name' => 'hero_background_path', 'label' => 'Hero Background Path', 'type' => 'text', 'col' => 6],
-            ['name' => 'hero_background_source', 'label' => 'Hero Background Source', 'type' => 'text', 'col' => 6],
+            ['name' => 'hero_background_path', 'label' => 'Hero Background Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'home_section_title', 'label' => 'Home Section Title', 'type' => 'text', 'col' => 6],
             ['name' => 'categories_title', 'label' => 'Categories Title', 'type' => 'text', 'col' => 6],
             ['name' => 'recommendation_title', 'label' => 'Recommendation Title', 'type' => 'text', 'col' => 6],
@@ -97,5 +99,28 @@ class BlogPageController extends Controller
             ['name' => 'article_tags_title', 'label' => 'Article Tags Title', 'type' => 'text', 'col' => 6],
             ['name' => 'comments_section_title', 'label' => 'Comments Section Title', 'type' => 'text', 'col' => 6],
         ], $this->seoFields());
+    }
+
+    private function storeHeroBackground(Request $request, array $data, ?BlogPage $blogPage = null): array
+    {
+        if (! $request->hasFile('hero_background_path')) {
+            if ($blogPage) {
+                unset($data['hero_background_path']);
+            }
+
+            return $data;
+        }
+
+        if ($blogPage && $blogPage->hero_background_path) {
+            $this->deleteSeoUpload($blogPage->hero_background_path);
+        }
+
+        $file = $request->file('hero_background_path');
+        $filename = 'hero-background-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+        File::ensureDirectoryExists(public_path('uploads/blog-pages'));
+        $file->move(public_path('uploads/blog-pages'), $filename);
+        $data['hero_background_path'] = 'uploads/blog-pages/'.$filename;
+
+        return $data;
     }
 }

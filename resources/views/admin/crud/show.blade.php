@@ -33,14 +33,29 @@
                 <div class="card-body">
                     <div class="row g-3">
                         @foreach ($record->getAttributes() as $key => $value)
+                            @continue(\Illuminate\Support\Str::endsWith($key, '_source'))
+                            @php
+                                $label = ucwords(str_replace('_', ' ', $key));
+                                $label = str_replace([' Path', ' path'], '', $label);
+                                $isUpload = is_string($value) && (
+                                    \Illuminate\Support\Str::startsWith($value, 'uploads/')
+                                    || \Illuminate\Support\Str::contains($key, ['image', 'background', 'logo', 'favicon'])
+                                );
+                            @endphp
                             <div class="col-md-4">
                                 <div class="border rounded p-3 h-100">
-                                    <div class="text-secondary small">{{ ucwords(str_replace('_', ' ', $key)) }}</div>
+                                    <div class="text-secondary small">{{ $label }}</div>
                                     <div class="fw-semibold text-break">
                                         @if ($value instanceof \Illuminate\Support\Carbon)
                                             {{ $value->format('Y-m-d H:i') }}
                                         @elseif (is_bool($record->{$key}))
                                             {{ $record->{$key} ? 'Yes' : 'No' }}
+                                        @elseif ($isUpload && $value)
+                                            @if (\Illuminate\Support\Str::endsWith(strtolower($value), ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']))
+                                                <img src="/{{ $value }}" alt="{{ $label }}" class="img-thumbnail" style="max-height: 90px">
+                                            @else
+                                                <a href="/{{ $value }}" target="_blank" class="btn btn-outline-secondary btn-sm">View File</a>
+                                            @endif
                                         @else
                                             {{ $value ?? '-' }}
                                         @endif

@@ -17,8 +17,6 @@ class Siteinfo extends Model
         'footer_contact_note',
         'google_site_verification',
         'head_scripts',
-        'body_scripts',
-        'footer_scripts',
         'maintenance_mode',
         'logo',
         'logo_width',

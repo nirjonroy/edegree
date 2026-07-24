@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\BlogCategory;
+use App\Models\BlogPage;
 use App\Models\BlogPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,11 +46,28 @@ class AdminBlogCrudTest extends TestCase
         $this->actingAs($this->admin())
             ->post('/admin/blog-pages', [
                 'hero_title' => 'Blog',
+                'hero_background_path' => UploadedFile::fake()->image('hero.jpg'),
                 'home_section_title' => 'Latest Articles',
             ])
             ->assertRedirect('/admin/blog-pages');
 
         $this->assertDatabaseHas('blog_pages', ['hero_title' => 'Blog']);
+        $this->assertStringStartsWith('uploads/blog-pages/', BlogPage::first()->hero_background_path);
+    }
+
+    public function test_blog_page_form_uses_upload_for_hero_background(): void
+    {
+        $response = $this->actingAs($this->admin())
+            ->get('/admin/blog-pages/create')
+            ->assertOk();
+
+        $content = $response->getContent();
+
+        $this->assertStringContainsString('Hero Background Image', $content);
+        $this->assertStringContainsString('type="file"', $content);
+        $this->assertStringNotContainsString('Hero Background Path', $content);
+        $this->assertStringNotContainsString('Hero Background Source', $content);
+        $this->assertStringNotContainsString('Background Source', $content);
     }
 
     public function test_admin_can_create_blog_post(): void

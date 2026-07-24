@@ -140,14 +140,6 @@
                 <label class="form-label">Head Scripts</label>
                 <textarea name="head_scripts" rows="5" class="form-control font-monospace" placeholder="Google Analytics, Google Tag Manager head code, meta tags...">{{ old('head_scripts', $siteinfo->head_scripts) }}</textarea>
             </div>
-            <div class="col-12">
-                <label class="form-label">Body Start Scripts</label>
-                <textarea name="body_scripts" rows="5" class="form-control font-monospace" placeholder="Google Tag Manager noscript code or body-start scripts...">{{ old('body_scripts', $siteinfo->body_scripts) }}</textarea>
-            </div>
-            <div class="col-12">
-                <label class="form-label">Footer Scripts</label>
-                <textarea name="footer_scripts" rows="5" class="form-control font-monospace" placeholder="Chat widgets, analytics footer scripts...">{{ old('footer_scripts', $siteinfo->footer_scripts) }}</textarea>
-            </div>
         </div>
     </div>
 </div>

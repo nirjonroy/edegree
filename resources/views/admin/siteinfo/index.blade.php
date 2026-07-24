@@ -26,11 +26,6 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Site Info Records</h3>
-                    <div class="card-tools">
-                        <a href="/admin/siteinfo/create" class="btn btn-primary btn-sm">
-                            <i class="bi bi-plus-lg"></i> Add Site Info
-                        </a>
-                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover align-middle mb-0">
@@ -74,13 +69,6 @@
                                         <a href="/admin/siteinfo/{{ $siteinfo->id }}/edit" class="btn btn-warning btn-sm">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <form action="/admin/siteinfo/{{ $siteinfo->id }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this site info?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @empty
