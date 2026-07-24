@@ -75,8 +75,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @forelse ($programsPage as $program)
                             @php
-                                $image = $program->university?->image_1
-                                    ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
+                                $imagePath = $program->image ?: $program->university?->image_1;
+                                $image = $imagePath
+                                    ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
                                     : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop&q=80';
                                 $logo = $program->university?->image_1
                                     ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))

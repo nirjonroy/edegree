@@ -4,9 +4,16 @@
 @section('meta_description', $program->meta_description ?: ($program->short_description ?: 'View accredited online program syllabus, eligibility rules and fee structures.'))
 
 @php
-    $image = $program->university?->image_1
-        ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
+    $imagePath = $program->image ?: $program->university?->image_1;
+    $image = $imagePath
+        ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
         : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&h=600&fit=crop&q=80';
+    $overview = $program->long_description ?: '<p>Program overview has not been added from the admin panel yet.</p>';
+    $curriculum = $program->curriculum_description ?: '<p>Curriculum details have not been added from the admin panel yet.</p>';
+    $eligibility = $program->eligibility_description ?: '<p>Eligibility details have not been added from the admin panel yet.</p>';
+    $documents = $program->documents_required;
+    $feesDescription = $program->fees_description ?: '<p>Fees and scholarship details have not been added from the admin panel yet.</p>';
+    $outcomes = $program->outcomes_description ?: '<p>Outcome details have not been added from the admin panel yet.</p>';
 @endphp
 
 @section('content')
@@ -49,7 +56,7 @@
                             </div>
                             <div class="flex items-center space-x-1.5 bg-altBg px-3 py-2 rounded-lg border border-borderGray/50 text-xs text-charcoal">
                                 <i data-lucide="monitor" class="w-4 h-4 text-brand-red"></i>
-                                <span class="font-bold text-ink">100% Online</span>
+                                <span class="font-bold text-ink">{{ $program->delivery_mode ?: 'Online' }}</span>
                             </div>
                         </div>
                     </div>
@@ -58,10 +65,12 @@
                         <div>
                             <div class="text-[10px] uppercase font-extrabold tracking-widest text-mutedGray">Total Tuition Fee</div>
                             <div class="text-3xl font-black text-brand-red mt-1">{{ $program->total_fee ?: 'Contact' }}</div>
-                            <div class="text-[10px] text-mutedGray mt-1">Scholarships & easy installments may be available</div>
+                            @if ($program->scholarship_description)
+                                <div class="text-[10px] text-mutedGray mt-1">{{ $program->scholarship_description }}</div>
+                            @endif
                         </div>
                         <a href="#inquiry-form" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-lg text-sm font-bold text-center shadow hover:shadow-md transition-all duration-150 block">
-                            Apply Online Now
+                            {{ $program->apply_button_text ?: 'Apply Online Now' }}
                         </a>
                     </div>
                 </div>
@@ -79,49 +88,41 @@
 
                     <div class="bg-white border border-borderGray p-6 md:p-8 rounded-custom shadow-sm min-h-64">
                         <div x-show="activeTab === 'overview'" class="space-y-4">
-                            <h2 class="font-heading font-bold text-xl text-ink">Program Summary</h2>
+                            <h2 class="font-heading font-bold text-xl text-ink">{{ $program->overview_title ?: 'Program Summary' }}</h2>
                             <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
-                                {!! $program->long_description ?: '<p>'.e($program->short_description ?: 'This program is designed for working professionals seeking recognized online university credentials.').'</p>' !!}
-                            </div>
-                            <div class="mt-6 bg-altBg p-4 rounded-lg flex items-center space-x-3">
-                                <i data-lucide="shield-check" class="w-6 h-6 text-brand-successGreen flex-shrink-0"></i>
-                                <span class="text-xs text-charcoal">This program is connected with <strong class="font-bold text-ink">{{ $program->university?->name ?? 'an accredited partner university' }}</strong>.</span>
+                                {!! $overview !!}
                             </div>
                         </div>
 
                         <div x-show="activeTab === 'curriculum'" class="space-y-4" style="display: none;">
-                            <h2 class="font-heading font-bold text-xl text-ink mb-2">Syllabus Breakdown</h2>
+                            <h2 class="font-heading font-bold text-xl text-ink mb-2">{{ $program->curriculum_title ?: 'Curriculum' }}</h2>
                             @if ($program->syllabus_pdf)
                                 <a href="{{ asset($program->syllabus_pdf) }}" class="inline-flex items-center text-brand-red font-bold text-sm mb-4" target="_blank">
                                     <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Syllabus PDF
                                 </a>
                             @endif
-                            <div class="space-y-3">
-                                @foreach (['Foundation Modules', 'Core Subject Modules', 'Applied Projects', 'Capstone / Dissertation'] as $module)
-                                    <div class="flex items-start space-x-3 p-4 bg-altBg border border-borderGray rounded-lg">
-                                        <span class="w-6 h-6 rounded-full bg-brand-tint text-brand-red text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{{ $loop->iteration }}</span>
-                                        <span class="text-sm font-semibold text-ink">{{ $module }}</span>
-                                    </div>
-                                @endforeach
+                            <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
+                                {!! $curriculum !!}
                             </div>
                         </div>
 
                         <div x-show="activeTab === 'eligibility'" class="space-y-4" style="display: none;">
-                            <h2 class="font-heading font-bold text-xl text-ink">Admissions Guidelines</h2>
-                            <p class="text-charcoal leading-relaxed text-sm md:text-base">Eligibility varies by university and degree level. Applicants should hold the required previous academic qualification and provide transcripts, identification, CV, and English proficiency evidence where applicable.</p>
-                            <div class="mt-6 border-t border-borderGray pt-4">
-                                <h4 class="font-heading font-bold text-xs uppercase text-mutedGray mb-2">Documents Required</h4>
-                                <ul class="list-disc pl-5 text-xs text-charcoal space-y-1.5">
-                                    <li>Official academic transcripts</li>
-                                    <li>Updated professional resume / CV</li>
-                                    <li>Statement of purpose</li>
-                                    <li>Identity and English proficiency documents where required</li>
-                                </ul>
+                            <h2 class="font-heading font-bold text-xl text-ink">{{ $program->eligibility_title ?: 'Eligibility' }}</h2>
+                            <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
+                                {!! $eligibility !!}
                             </div>
+                            @if ($documents)
+                                <div class="mt-6 border-t border-borderGray pt-4">
+                                    <h4 class="font-heading font-bold text-xs uppercase text-mutedGray mb-2">Documents Required</h4>
+                                    <div class="text-xs text-charcoal prose max-w-none">
+                                        {!! $documents !!}
+                                    </div>
+                                </div>
+                            @endif
                         </div>
 
                         <div x-show="activeTab === 'fees'" class="space-y-4" style="display: none;">
-                            <h2 class="font-heading font-bold text-xl text-ink">Tuition Details</h2>
+                            <h2 class="font-heading font-bold text-xl text-ink">{{ $program->fees_title ?: 'Fees & Aid' }}</h2>
                             <div class="p-4 bg-altBg rounded-lg border border-borderGray/40 my-3">
                                 <p class="text-xs text-mutedGray uppercase tracking-wider font-bold">Total cost tuition</p>
                                 <p class="text-2xl font-extrabold text-brand-red">{{ $program->total_fee ?: 'Contact advisor' }}</p>
@@ -129,21 +130,29 @@
                                     <p class="text-xs text-mutedGray mt-1">Yearly: {{ $program->yearly }}</p>
                                 @endif
                             </div>
-                            <p class="text-charcoal leading-relaxed text-sm md:text-base mb-6">Scholarships, installment plans, and partner discounts may be available depending on intake and student eligibility.</p>
-                            <div class="bg-brand-tint border border-brand-red/20 p-5 rounded-lg mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                <div class="flex-grow">
-                                    <h4 class="font-heading font-bold text-sm text-brand-red mb-2">Scholarships & Financing Options</h4>
-                                    <p class="text-xs text-charcoal leading-relaxed">Request counseling to check current scholarships and payment options.</p>
-                                </div>
-                                <a href="#inquiry-form" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-3 rounded-lg text-xs font-bold whitespace-nowrap shadow transition duration-150">
-                                    Apply for Scholarship
-                                </a>
+                            <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none mb-6">
+                                {!! $feesDescription !!}
                             </div>
+                            @if ($program->scholarship_title || $program->scholarship_description)
+                                <div class="bg-brand-tint border border-brand-red/20 p-5 rounded-lg mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                    <div class="flex-grow">
+                                        <h4 class="font-heading font-bold text-sm text-brand-red mb-2">{{ $program->scholarship_title ?: 'Scholarships & Financing Options' }}</h4>
+                                        @if ($program->scholarship_description)
+                                            <p class="text-xs text-charcoal leading-relaxed">{{ $program->scholarship_description }}</p>
+                                        @endif
+                                    </div>
+                                    <a href="#inquiry-form" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-3 rounded-lg text-xs font-bold whitespace-nowrap shadow transition duration-150">
+                                        {{ $program->apply_button_text ?: 'Apply Now' }}
+                                    </a>
+                                </div>
+                            @endif
                         </div>
 
                         <div x-show="activeTab === 'outcomes'" class="space-y-4" style="display: none;">
-                            <h2 class="font-heading font-bold text-xl text-ink">Career Trajectories</h2>
-                            <p class="text-charcoal leading-relaxed text-sm md:text-base">Graduates use this pathway to strengthen credentials for management, specialist, research, academic, and executive roles depending on the program level and subject area.</p>
+                            <h2 class="font-heading font-bold text-xl text-ink">{{ $program->outcomes_title ?: 'Outcomes' }}</h2>
+                            <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
+                                {!! $outcomes !!}
+                            </div>
                         </div>
                     </div>
 
@@ -166,8 +175,8 @@
                 <aside class="lg:col-span-4 lg:sticky lg:top-24" id="inquiry-form" data-aos="fade-left">
                     <div class="bg-white p-6 border border-borderGray rounded-custom shadow-lg space-y-5" x-data="{ success: false }">
                         <div>
-                            <h3 class="font-heading font-bold text-lg text-ink mb-1">Request Free Counseling</h3>
-                            <p class="text-xs text-mutedGray">Leave details below and academic advisors will call back in 24 hours.</p>
+                            <h3 class="font-heading font-bold text-lg text-ink mb-1">{{ $program->advisor_title ?: 'Request Free Counseling' }}</h3>
+                            <p class="text-xs text-mutedGray">{{ $program->advisor_description ?: 'Leave details below and academic advisors will call back soon.' }}</p>
                         </div>
 
                         <form @submit.prevent="success = true" class="space-y-3">

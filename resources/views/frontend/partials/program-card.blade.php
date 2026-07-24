@@ -1,6 +1,7 @@
 @php
-    $programImage = $program->university?->image_1
-        ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
+    $programImagePath = $program->image ?: $program->university?->image_1;
+    $programImage = $programImagePath
+        ? (\Illuminate\Support\Str::startsWith($programImagePath, ['http://', 'https://']) ? $programImagePath : asset($programImagePath))
         : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop&q=80';
     $programUrl = $program->link ?: route('frontend.programs.show', $program->slug);
     $universityLogo = $program->university?->image_1

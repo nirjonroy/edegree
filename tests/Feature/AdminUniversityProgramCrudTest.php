@@ -125,11 +125,27 @@ class AdminUniversityProgramCrudTest extends TestCase
                 'short_name' => 'BBA',
                 'short_description' => 'Short program description',
                 'long_description' => '<p>Long program description</p>',
+                'overview_title' => 'Program Overview',
+                'curriculum_title' => 'Curriculum Structure',
+                'curriculum_description' => '<p>Curriculum admin content</p>',
+                'eligibility_title' => 'Admissions Guidelines',
+                'eligibility_description' => '<p>Eligibility admin content</p>',
+                'documents_required' => '<ul><li>Transcript</li></ul>',
+                'fees_title' => 'Tuition Details',
+                'fees_description' => '<p>Fees admin content</p>',
+                'scholarship_title' => 'Scholarship Options',
+                'scholarship_description' => 'Installments available.',
+                'outcomes_title' => 'Career Outcomes',
+                'outcomes_description' => '<p>Outcomes admin content</p>',
                 'slug' => 'bachelor-of-business',
                 'total_fee' => '12000',
                 'yearly' => '4000',
                 'duration' => '3 Years',
+                'delivery_mode' => '100% Online',
                 'link' => 'https://example.com/program',
+                'advisor_title' => 'Request Counseling',
+                'advisor_description' => 'Advisor admin content.',
+                'apply_button_text' => 'Apply Now',
                 'status' => 1,
                 'recommend' => 1,
                 'meta_title' => 'Bachelor of Business',
@@ -146,9 +162,28 @@ class AdminUniversityProgramCrudTest extends TestCase
             'slug' => 'bachelor-of-business',
             'degree_id' => $category->id,
             'university_id' => $university->id,
+            'overview_title' => 'Program Overview',
+            'curriculum_title' => 'Curriculum Structure',
+            'advisor_title' => 'Request Counseling',
             'status' => 1,
             'recommend' => 1,
         ]);
+    }
+
+    public function test_program_form_has_frontend_content_fields(): void
+    {
+        $this->actingAs($this->admin())
+            ->get('/admin/programs/create')
+            ->assertOk()
+            ->assertSee('Program Image')
+            ->assertSee('Overview Title')
+            ->assertSee('Curriculum Description')
+            ->assertSee('Eligibility Description')
+            ->assertSee('Documents Required')
+            ->assertSee('Fees Description')
+            ->assertSee('Outcomes Description')
+            ->assertSee('Inquiry Form Title')
+            ->assertSee('Apply Button Text');
     }
 
     public function test_admin_sidebar_shows_university_and_program_menus(): void

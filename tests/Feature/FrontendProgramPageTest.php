@@ -32,7 +32,8 @@ class FrontendProgramPageTest extends TestCase
         $this->get('/programs/global-master-of-business-administration')
             ->assertOk()
             ->assertSee('Global Master of Business Administration')
-            ->assertSee('Program Summary')
+            ->assertSee('Program Overview')
+            ->assertSee('Curriculum Structure')
             ->assertSee('Tuition Details')
             ->assertSee('Request Free Counseling');
     }
