@@ -59,7 +59,7 @@
 
                 <a href="{{ route('frontend.universities.index') }}" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">Universities</a>
                 <a href="{{ route('frontend.blog.index') }}" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">Blog</a>
-                <a href="{{ url('/frontend/news.html') }}" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">News</a>
+                <a href="{{ route('frontend.news.index') }}" class="text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4">News</a>
 
                 <div class="relative h-full flex items-center" @mouseenter="companyDropdownOpen = true" @mouseleave="companyDropdownOpen = false">
                     <button class="flex items-center space-x-1 text-ink font-medium hover:text-brand-red transition-colors duration-150 py-4 focus:outline-none">
@@ -110,7 +110,7 @@
                 <a href="{{ route('frontend.programs.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Programs</a>
                 <a href="{{ route('frontend.universities.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Universities</a>
                 <a href="{{ route('frontend.blog.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Blog</a>
-                <a href="{{ url('/frontend/news.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">News</a>
+                <a href="{{ route('frontend.news.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">News</a>
                 <a href="{{ url('/frontend/about.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">About Us</a>
                 <a href="{{ route('frontend.programs.index') }}" class="w-full text-center bg-brand-red hover:bg-brand-darkRed text-white block py-3 rounded-lg text-sm font-semibold shadow-sm transition-all duration-150">Explore Programs</a>
             </div>

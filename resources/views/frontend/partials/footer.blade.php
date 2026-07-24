@@ -45,7 +45,7 @@
                 <h4 class="font-heading font-bold text-white text-xs uppercase tracking-wider mb-4">Resources</h4>
                 <ul class="space-y-2 text-xs">
                     <li><a href="{{ route('frontend.blog.index') }}" class="hover:text-white transition">Insights Blog</a></li>
-                    <li><a href="{{ url('/frontend/news.html') }}" class="hover:text-white transition">Admissions News</a></li>
+                    <li><a href="{{ route('frontend.news.index') }}" class="hover:text-white transition">Admissions News</a></li>
                     <li><a href="{{ url('/frontend/about.html#faq') }}" class="hover:text-white transition">Common FAQs</a></li>
                 </ul>
             </div>

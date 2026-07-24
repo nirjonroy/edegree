@@ -211,7 +211,7 @@
                 <div data-aos="fade-left">
                     <div class="flex justify-between items-end mb-8">
                         <h3 class="font-heading font-bold text-2xl text-ink tracking-tight">Admissions News</h3>
-                        <a href="{{ url('/frontend/news.html') }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">View News Archive <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
+                        <a href="{{ route('frontend.news.index') }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">View News Archive <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
                     </div>
                     <div class="space-y-6">
                         @forelse ($newsItems as $news)
@@ -222,7 +222,7 @@
                                         <span class="text-[10px] font-mono text-mutedGray font-semibold">{{ optional($news->published_at)->format('M d, Y') ?: $news->created_at->format('M d, Y') }}</span>
                                     </div>
                                     <h4 class="font-heading font-bold text-sm text-ink hover:text-brand-red transition line-clamp-2">
-                                        <a href="{{ url('/frontend/news-single.html?id='.($news->slug ?: $news->id)) }}">{{ $news->title }}</a>
+                                        <a href="{{ route('frontend.news.show', $news->slug) }}">{{ $news->title }}</a>
                                     </h4>
                                 </div>
                                 <p class="text-[11px] text-mutedGray mt-auto">{{ $news->short_description ?: 'Official Circular' }}</p>

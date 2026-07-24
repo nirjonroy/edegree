@@ -113,7 +113,7 @@
                         <ul class="space-y-2 text-xs font-semibold">
                             <li><a href="{{ route('frontend.programs.index') }}" class="text-charcoal hover:text-brand-red block py-1">Explore Online Degrees &rarr;</a></li>
                             <li><a href="{{ route('frontend.universities.index') }}" class="text-charcoal hover:text-brand-red block py-1">Partner Universities &rarr;</a></li>
-                            <li><a href="{{ url('/frontend/news.html') }}" class="text-charcoal hover:text-brand-red block py-1">Admissions News &rarr;</a></li>
+                            <li><a href="{{ route('frontend.news.index') }}" class="text-charcoal hover:text-brand-red block py-1">Admissions News &rarr;</a></li>
                         </ul>
                     </div>
                 </aside>
