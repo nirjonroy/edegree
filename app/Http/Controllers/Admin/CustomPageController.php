@@ -11,25 +11,20 @@ use Illuminate\Validation\Rule;
 
 class CustomPageController extends Controller
 {
+    private array $uploadFields = ['background_image', 'meta_image'];
+
     public function index()
     {
-        return view('admin.crud.index', [
+        return view('admin.custom-pages.index', [
             'title' => 'Custom Pages',
             'routeBase' => '/admin/custom-pages',
             'records' => CustomPage::latest()->paginate(10),
-            'columns' => [
-                'id' => 'ID',
-                'page_name' => 'Page Name',
-                'slug' => 'Slug',
-                'status' => 'Status',
-                'created_at' => 'Created',
-            ],
         ]);
     }
 
     public function create()
     {
-        return $this->form(new CustomPage(['status' => true]), 'Create Custom Page');
+        return $this->form(new CustomPage(['status' => false, 'published_at' => now()]), 'Add Custom Page');
     }
 
     public function store(Request $request)
@@ -62,7 +57,10 @@ class CustomPageController extends Controller
 
     public function destroy(CustomPage $customPage)
     {
-        $this->deleteUpload($customPage->meta_image);
+        foreach ($this->uploadFields as $field) {
+            $this->deleteUpload($customPage->{$field});
+        }
+
         $customPage->delete();
 
         return redirect('/admin/custom-pages')->with('success', 'Custom page deleted successfully.');
@@ -83,7 +81,11 @@ class CustomPageController extends Controller
         $data = $request->validate([
             'page_name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('custom_pages')->ignore($customPage)],
+            'desired_url' => ['nullable', 'string', 'max:255', Rule::unique('custom_pages')->ignore($customPage)],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'short_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+            'background_image' => ['nullable', 'image', 'max:4096'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:255'],
             'meta_keywords' => ['nullable', 'string'],
@@ -91,23 +93,32 @@ class CustomPageController extends Controller
             'meta_robots' => ['nullable', 'string', 'max:255'],
             'meta_image' => ['nullable', 'image', 'max:2048'],
             'status' => ['nullable', 'boolean'],
+            'published_at' => ['nullable', 'date'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['page_name']);
+        $data['slug'] = trim($data['slug'], '/');
+        $data['desired_url'] = $this->normalizeDesiredUrl($data['desired_url'] ?? null);
         $data['status'] = (bool) ($data['status'] ?? false);
 
-        if ($request->hasFile('meta_image')) {
-            if ($customPage) {
-                $this->deleteUpload($customPage->meta_image);
+        foreach ($this->uploadFields as $field) {
+            if (! $request->hasFile($field)) {
+                if ($customPage) {
+                    unset($data[$field]);
+                }
+
+                continue;
             }
 
-            $file = $request->file('meta_image');
-            $filename = 'meta-image-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+            if ($customPage) {
+                $this->deleteUpload($customPage->{$field});
+            }
+
+            $file = $request->file($field);
+            $filename = str_replace('_', '-', $field).'-'.time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
             File::ensureDirectoryExists(public_path('uploads/custom-pages'));
             $file->move(public_path('uploads/custom-pages'), $filename);
-            $data['meta_image'] = 'uploads/custom-pages/'.$filename;
-        } elseif ($customPage) {
-            unset($data['meta_image']);
+            $data[$field] = 'uploads/custom-pages/'.$filename;
         }
 
         return $data;
@@ -118,15 +129,31 @@ class CustomPageController extends Controller
         return [
             ['name' => 'page_name', 'label' => 'Page Name', 'type' => 'text', 'required' => true, 'col' => 6],
             ['name' => 'slug', 'label' => 'Slug', 'type' => 'text', 'col' => 6],
-            ['name' => 'description', 'label' => 'Description', 'type' => 'summernote', 'col' => 12],
+            ['name' => 'desired_url', 'label' => 'Desired URL', 'type' => 'text', 'col' => 12],
+            ['name' => 'subtitle', 'label' => 'Subtitle', 'type' => 'text', 'col' => 6],
+            ['name' => 'published_at', 'label' => 'Published At', 'type' => 'datetime-local', 'col' => 4],
+            ['name' => 'status', 'label' => 'Published', 'type' => 'checkbox', 'col' => 2],
+            ['name' => 'short_description', 'label' => 'Short Description', 'type' => 'textarea', 'rows' => 4, 'col' => 12],
+            ['name' => 'description', 'label' => 'Page Content', 'type' => 'summernote', 'col' => 12],
+            ['name' => 'background_image', 'label' => 'Background Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'meta_title', 'label' => 'Meta Title', 'type' => 'text', 'col' => 6],
             ['name' => 'meta_image', 'label' => 'Meta Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'meta_keywords', 'label' => 'Meta Keywords', 'type' => 'textarea', 'rows' => 3, 'col' => 6],
             ['name' => 'canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'col' => 6],
             ['name' => 'meta_robots', 'label' => 'Meta Robots', 'type' => 'text', 'col' => 4],
-            ['name' => 'status', 'label' => 'Status', 'type' => 'checkbox', 'col' => 2],
         ];
+    }
+
+    private function normalizeDesiredUrl(?string $url): ?string
+    {
+        $url = trim((string) $url);
+
+        if ($url === '') {
+            return null;
+        }
+
+        return trim($url, '/');
     }
 
     private function deleteUpload(?string $path): void

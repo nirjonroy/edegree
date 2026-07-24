@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\Frontend\CustomPageController as FrontendCustomPageController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
 use App\Http\Controllers\Frontend\ProgramController as FrontendProgramController;
@@ -107,3 +108,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/{customPagePath}', [FrontendCustomPageController::class, 'show'])
+    ->where('customPagePath', '.*')
+    ->name('frontend.custom-pages.show');
