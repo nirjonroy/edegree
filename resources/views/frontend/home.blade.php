@@ -186,7 +186,7 @@
                 <div data-aos="fade-right">
                     <div class="flex justify-between items-end mb-8">
                         <h3 class="font-heading font-bold text-2xl text-ink tracking-tight">Education Insights</h3>
-                        <a href="{{ url('/frontend/blog.html') }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">View Blog <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
+                        <a href="{{ route('frontend.blog.index') }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed flex items-center">View Blog <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
                     </div>
                     <div class="space-y-6">
                         @forelse ($blogPosts as $post)
@@ -196,7 +196,7 @@
                                     <div>
                                         <span class="text-[9px] font-bold text-brand-red tracking-wider uppercase">{{ $post->category?->name ?? 'Education Insights' }}</span>
                                         <h4 class="font-heading font-bold text-sm text-ink mt-1 hover:text-brand-red transition line-clamp-2">
-                                            <a href="{{ url('/frontend/blog-single.html?id='.($post->slug ?: $post->id)) }}">{{ $post->title }}</a>
+                                            <a href="{{ route('frontend.blog.show', $post->slug) }}">{{ $post->title }}</a>
                                         </h4>
                                     </div>
                                     <p class="text-[11px] text-mutedGray">{{ optional($post->published_at)->format('F d, Y') ?: $post->created_at->format('F d, Y') }}</p>
