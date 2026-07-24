@@ -69,7 +69,7 @@
                     <div class="absolute right-0 top-full w-48 bg-white border border-borderGray shadow-xl rounded-lg overflow-hidden transition-all duration-200"
                          x-show="companyDropdownOpen" x-transition style="display: none;">
                         <ul class="py-1">
-                            <li><a href="{{ url('/frontend/about.html') }}" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">About Us</a></li>
+                            <li><a href="{{ route('frontend.about') }}" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">About Us</a></li>
                             <li><a href="{{ url('/frontend/privacy-policy.html') }}" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Privacy Policy</a></li>
                             <li><a href="{{ url('/frontend/terms.html') }}" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Terms of Service</a></li>
                             <li><a href="{{ url('/frontend/sitemap.html') }}" class="px-4 py-2 text-charcoal text-sm hover:bg-brand-tint hover:text-brand-red block">Sitemap</a></li>
@@ -111,7 +111,7 @@
                 <a href="{{ route('frontend.universities.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Universities</a>
                 <a href="{{ route('frontend.blog.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">Blog</a>
                 <a href="{{ route('frontend.news.index') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">News</a>
-                <a href="{{ url('/frontend/about.html') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">About Us</a>
+                <a href="{{ route('frontend.about') }}" class="text-ink font-semibold hover:text-brand-red block border-b border-borderGray/40 pb-4">About Us</a>
                 <a href="{{ route('frontend.programs.index') }}" class="w-full text-center bg-brand-red hover:bg-brand-darkRed text-white block py-3 rounded-lg text-sm font-semibold shadow-sm transition-all duration-150">Explore Programs</a>
             </div>
         </div>

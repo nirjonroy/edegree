@@ -26,25 +26,36 @@ class AdminAboutCrudTest extends TestCase
 
         $this->actingAs($admin)
             ->post('/admin/abouts', [
+                'page_title' => 'About eDegree+',
+                'profile_title' => 'Our Institutional Profile',
                 'image_1' => UploadedFile::fake()->image('one.jpg'),
                 'image_2' => UploadedFile::fake()->image('two.jpg'),
                 'image_3' => UploadedFile::fake()->image('three.jpg'),
                 'about_us' => 'About content',
+                'stat_1_value' => '50+',
+                'stat_1_label' => 'Accredited Partners',
+                'faq_question_1' => 'Question one?',
+                'faq_answer_1' => 'Answer one.',
+                'status' => 1,
             ])
             ->assertRedirect('/admin/abouts');
 
         $about = \App\Models\About::first();
+        $this->assertSame('About eDegree+', $about->page_title);
         $this->assertSame('About content', $about->about_us);
         $this->assertStringStartsWith('uploads/abouts/image_1-', $about->image_1);
 
         $this->actingAs($admin)
             ->put('/admin/abouts/'.$about->id, [
+                'page_title' => 'Updated About',
                 'image_1' => UploadedFile::fake()->image('updated.jpg'),
                 'about_us' => 'Updated about content',
+                'status' => 1,
             ])
             ->assertRedirect('/admin/abouts');
 
         $about->refresh();
+        $this->assertSame('Updated About', $about->page_title);
         $this->assertSame('Updated about content', $about->about_us);
         $this->assertStringStartsWith('uploads/abouts/image_1-', $about->image_1);
 

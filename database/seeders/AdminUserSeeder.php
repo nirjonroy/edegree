@@ -20,6 +20,7 @@ class AdminUserSeeder extends Seeder
             'manage about',
             'manage site info',
             'manage custom pages',
+            'manage contact page',
             'manage news',
             'manage universities',
             'manage programs',

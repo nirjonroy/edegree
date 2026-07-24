@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogCommentController;
 use App\Http\Controllers\Admin\BlogPageController;
 use App\Http\Controllers\Admin\BlogPostController;
+use App\Http\Controllers\Admin\ContactPageController;
 use App\Http\Controllers\Admin\CustomPageController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\HomePartnerController;
@@ -21,7 +22,9 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SiteinfoController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Frontend\AboutController as FrontendAboutController;
 use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Frontend\CustomPageController as FrontendCustomPageController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
@@ -42,6 +45,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/about', [FrontendAboutController::class, 'index'])->name('frontend.about');
+Route::get('/contact', [FrontendContactController::class, 'index'])->name('frontend.contact');
 Route::get('/blog', [FrontendBlogController::class, 'index'])->name('frontend.blog.index');
 Route::get('/blog/{post:slug}', [FrontendBlogController::class, 'show'])->name('frontend.blog.show');
 Route::get('/news', [FrontendNewsController::class, 'index'])->name('frontend.news.index');
@@ -56,6 +61,8 @@ Route::get('/frontend/blog.html', [FrontendBlogController::class, 'index']);
 Route::get('/frontend/blog-single.html', [FrontendBlogController::class, 'legacyShow']);
 Route::get('/frontend/news.html', [FrontendNewsController::class, 'index']);
 Route::get('/frontend/news-single.html', [FrontendNewsController::class, 'legacyShow']);
+Route::redirect('/frontend/about.html', '/about');
+Route::redirect('/frontend/contact.html', '/contact');
 Route::redirect('/frontend/universities.html', '/universities');
 Route::get('/frontend/university-single.html', [FrontendUniversityController::class, 'legacyShow']);
 
@@ -82,6 +89,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('program-categories', ProgramCategoryController::class);
     Route::resource('programs', ProgramController::class);
     Route::resource('custom-pages', CustomPageController::class);
+    Route::resource('contact-pages', ContactPageController::class);
     Route::resource('news', NewsController::class);
     Route::resource('home-sections', HomeSectionController::class);
     Route::resource('home-testimonials', HomeTestimonialController::class);
