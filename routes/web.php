@@ -52,6 +52,9 @@ Route::get('/privacy-policy', [FrontendCustomPageController::class, 'privacyPoli
 Route::get('/terms', [FrontendCustomPageController::class, 'terms'])->name('frontend.terms');
 Route::get('/sitemap', [SitemapController::class, 'page'])->name('frontend.sitemap.page');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('frontend.sitemap');
+Route::get('/{sitemapFile}', [SitemapController::class, 'index'])
+    ->where('sitemapFile', '[A-Za-z0-9\-_]+\.xml')
+    ->name('frontend.sitemap.dynamic');
 Route::get('/about', [FrontendAboutController::class, 'index'])->name('frontend.about');
 Route::get('/contact', [FrontendContactController::class, 'index'])->name('frontend.contact');
 Route::get('/blog', [FrontendBlogController::class, 'index'])->name('frontend.blog.index');

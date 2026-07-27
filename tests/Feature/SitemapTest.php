@@ -40,6 +40,34 @@ class SitemapTest extends TestCase
             ->assertDontSee('/hidden');
     }
 
+    public function test_generated_sitemap_filename_uses_admin_sitemap_entries(): void
+    {
+        SitemapEntry::create([
+            'title' => 'Programs',
+            'url' => '/programs',
+            'changefreq' => 'daily',
+            'priority' => 0.9,
+            'lastmod' => now(),
+            'is_active' => true,
+        ]);
+
+        SitemapEntry::create([
+            'title' => 'Hidden Program',
+            'url' => '/programs/hidden-program',
+            'changefreq' => 'weekly',
+            'priority' => 0.5,
+            'lastmod' => now(),
+            'is_active' => false,
+        ]);
+
+        $this->get('/program-sitemap.xml')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->assertSee('<loc>'.url('/programs').'</loc>', false)
+            ->assertDontSee('/programs/hidden-program')
+            ->assertDontSee('master-london');
+    }
+
     public function test_admin_can_create_and_sync_sitemap_entries(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);
