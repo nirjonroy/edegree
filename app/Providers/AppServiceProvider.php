@@ -99,6 +99,7 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ],
             ['label' => 'Page Visits', 'url' => '/admin/page-visits', 'icon' => 'bi-activity', 'active' => request()->is('admin/page-visits*')],
+            ['label' => 'Maintenance', 'url' => '/admin/maintenance', 'icon' => 'bi-tools', 'active' => request()->is('admin/maintenance*')],
             ['label' => 'Sliders', 'url' => '/admin/sliders', 'icon' => 'bi-images', 'active' => request()->is('admin/sliders*')],
             ['label' => 'Contact Page', 'url' => '/admin/contact-pages', 'icon' => 'bi-envelope', 'active' => request()->is('admin/contact-pages*')],
             ['label' => 'Testimonials', 'url' => '/admin/home-testimonials', 'icon' => 'bi-chat-quote', 'active' => request()->is('admin/home-testimonials*')],

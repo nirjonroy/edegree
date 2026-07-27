@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\HomePartnerController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\HomeTestimonialController;
+use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\PageVisitController;
 use App\Http\Controllers\Admin\ProgramCategoryController;
 use App\Http\Controllers\Admin\ProgramController;
@@ -88,6 +89,8 @@ Route::redirect('/admin/index3.html', '/admin/dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+    Route::post('/maintenance/run', [MaintenanceController::class, 'run'])->name('maintenance.run');
     Route::resource('abouts', AboutController::class);
     Route::resource('siteinfo', SiteinfoController::class);
     Route::resource('blog-categories', BlogCategoryController::class);
