@@ -27,7 +27,7 @@
     <section class="relative bg-ink text-white py-20 md:py-32 overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="{{ $heroImage }}" alt="Online Degree Campus" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/70 z-10">hellooooooooooooooooooooooooo</div>
+            <div class="absolute inset-0 bg-black/70 z-10">Nirjon is testing</div>
         </div>
 
         <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
