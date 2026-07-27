@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\HomeSection;
 use App\Models\SitemapEntry;
+use Illuminate\Support\Facades\Schema;
+use Nirjon\LaravelSeo\Models\SeoGeneratedPage;
 
 class SitemapController extends Controller
 {
@@ -30,6 +32,22 @@ class SitemapController extends Controller
 
         return response()
             ->view('frontend.sitemap', compact('entries'))
+            ->header('Content-Type', 'application/xml; charset=UTF-8');
+    }
+
+    public function pageforge()
+    {
+        $pages = collect();
+
+        if (Schema::hasTable('nirjon_seo_generated_pages')) {
+            $pages = SeoGeneratedPage::query()
+                ->select(['url_slug', 'updated_at'])
+                ->orderBy('url_slug')
+                ->get();
+        }
+
+        return response()
+            ->view('frontend.pageforge-sitemap', compact('pages'))
             ->header('Content-Type', 'application/xml; charset=UTF-8');
     }
 }

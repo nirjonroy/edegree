@@ -6,6 +6,7 @@ use App\Models\SitemapEntry;
 use App\Models\User;
 use Database\Seeders\SitemapEntrySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class SitemapTest extends TestCase
@@ -40,7 +41,7 @@ class SitemapTest extends TestCase
             ->assertDontSee('/hidden');
     }
 
-    public function test_generated_sitemap_filename_uses_admin_sitemap_entries(): void
+    public function test_generated_sitemap_filename_uses_pageforge_generated_pages_only(): void
     {
         SitemapEntry::create([
             'title' => 'Programs',
@@ -60,12 +61,78 @@ class SitemapTest extends TestCase
             'is_active' => false,
         ]);
 
+        $templateId = DB::table('nirjon_seo_templates')->insertGetId([
+            'name' => 'Program Landing Template',
+            'title_structure' => '{program} {city}',
+            'slug_structure' => '{program}-{city}',
+            'content' => 'Generated content',
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('nirjon_seo_generated_pages')->insert([
+            [
+                'template_id' => $templateId,
+                'url_slug' => 'master-london',
+                'final_title' => 'Master London',
+                'final_content' => 'Generated Master London page',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'template_id' => $templateId,
+                'url_slug' => 'mba-dhaka',
+                'final_title' => 'MBA Dhaka',
+                'final_content' => 'Generated MBA Dhaka page',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
         $this->get('/program-sitemap.xml')
             ->assertOk()
             ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->assertSee('<loc>'.url('/master-london').'</loc>', false)
+            ->assertSee('<loc>'.url('/mba-dhaka').'</loc>', false)
+            ->assertDontSee('<loc>'.url('/programs').'</loc>', false)
+            ->assertDontSee('/programs/hidden-program');
+    }
+
+    public function test_base_sitemap_xml_keeps_main_project_data_only(): void
+    {
+        SitemapEntry::create([
+            'title' => 'Programs',
+            'url' => '/programs',
+            'changefreq' => 'daily',
+            'priority' => 0.9,
+            'lastmod' => now(),
+            'is_active' => true,
+        ]);
+
+        $templateId = DB::table('nirjon_seo_templates')->insertGetId([
+            'name' => 'PageForge Template',
+            'title_structure' => '{keyword}',
+            'slug_structure' => '{keyword}',
+            'content' => 'Generated content',
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('nirjon_seo_generated_pages')->insert([
+            'template_id' => $templateId,
+            'url_slug' => 'master-london',
+            'final_title' => 'Master London',
+            'final_content' => 'Generated Master London page',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
             ->assertSee('<loc>'.url('/programs').'</loc>', false)
-            ->assertDontSee('/programs/hidden-program')
-            ->assertDontSee('master-london');
+            ->assertDontSee('/master-london');
     }
 
     public function test_admin_can_create_and_sync_sitemap_entries(): void
