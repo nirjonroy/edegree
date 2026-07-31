@@ -5,7 +5,7 @@
 @section('seos')
     @include('frontend.partials.seos', ['seoModel' => $university, 'seo' => [
         'title' => $university->name,
-        'description' => $university->short_description ?: $university->profile_description ?: $university->long_description,
+        'description' => $university->short_description ?: $university->long_description,
         'url' => route('frontend.universities.show', $university->slug),
     ]])
 @endsection
@@ -71,7 +71,7 @@
             </section>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <article class="lg:col-span-8 space-y-8" data-aos="fade-right" x-data="{ activeTab: 'programs' }">
+                <article class="lg:col-span-12 space-y-8" data-aos="fade-right" x-data="{ activeTab: 'programs' }">
                     <div class="bg-white border border-borderGray rounded-lg shadow-sm flex overflow-x-auto">
                         <button @click="activeTab = 'programs'" class="flex-1 text-center py-4 px-3 text-xs md:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap focus:outline-none" :class="activeTab === 'programs' ? 'border-brand-red text-brand-red' : 'border-transparent text-charcoal hover:text-brand-red'">
                             Programs Offered ({{ $universityPrograms->count() }})
@@ -107,10 +107,7 @@
                             </div>
 
                             <div class="border-t border-borderGray pt-8">
-                                <h2 class="font-heading font-bold text-xl text-ink mb-4">{{ $university->profile_title ?: 'University Profile' }}</h2>
-                                <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
-                                    {!! $university->profile_description ?: $university->long_description ?: e($university->short_description) !!}
-                                </div>
+                                {{-- Profile title/description hidden for now. --}}
                                 @if ($university->accomplishment_text || $university->rank)
                                     <div class="mt-6 border-t border-borderGray pt-4">
                                         <h4 class="font-heading font-bold text-xs uppercase text-mutedGray mb-2">{{ $university->accomplishment_title ?: 'Key Accomplishments' }}</h4>
@@ -162,40 +159,40 @@
                     </div>
                 </article>
 
-                <aside class="lg:col-span-4 lg:sticky lg:top-24">
-                    <div class="bg-white p-6 border border-borderGray rounded-custom shadow-lg space-y-5" x-data="{ success: false }">
-                        <div>
-                            <h3 class="font-heading font-bold text-lg text-ink mb-1">{{ $university->advisor_title ?: 'Talk to an Advisor' }}</h3>
-                            <p class="text-xs text-mutedGray">{{ $university->advisor_description ?: 'Connect directly with admissions advisors concerning registration guidelines.' }}</p>
-                        </div>
+                <!--<aside class="lg:col-span-12 lg:sticky lg:top-24">-->
+                <!--    <div class="bg-white p-6 border border-borderGray rounded-custom shadow-lg space-y-5" x-data="{ success: false }">-->
+                <!--        <div>-->
+                <!--            <h3 class="font-heading font-bold text-lg text-ink mb-1">{{ $university->advisor_title ?: 'Talk to an Advisor' }}</h3>-->
+                <!--            <p class="text-xs text-mutedGray">{{ $university->advisor_description ?: 'Connect directly with admissions advisors concerning registration guidelines.' }}</p>-->
+                <!--        </div>-->
 
-                        <form @submit.prevent="success = true" class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-bold text-charcoal mb-1">Full Name</label>
-                                <input type="text" placeholder="John Doe" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-charcoal mb-1">Work Email</label>
-                                <input type="email" placeholder="john.doe@company.com" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-charcoal mb-1">Mobile Number</label>
-                                <input type="tel" placeholder="+1 (555) 123-4567" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">
-                            </div>
-                            <button type="submit" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-lg font-bold shadow text-sm transition-colors duration-150">Request Information &rarr;</button>
-                        </form>
+                <!--        <form @submit.prevent="success = true" class="space-y-3">-->
+                <!--            <div>-->
+                <!--                <label class="block text-xs font-bold text-charcoal mb-1">Full Name</label>-->
+                <!--                <input type="text" placeholder="John Doe" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">-->
+                <!--            </div>-->
+                <!--            <div>-->
+                <!--                <label class="block text-xs font-bold text-charcoal mb-1">Work Email</label>-->
+                <!--                <input type="email" placeholder="john.doe@company.com" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">-->
+                <!--            </div>-->
+                <!--            <div>-->
+                <!--                <label class="block text-xs font-bold text-charcoal mb-1">Mobile Number</label>-->
+                <!--                <input type="tel" placeholder="+1 (555) 123-4567" class="w-full p-2.5 bg-altBg border border-borderGray rounded-lg text-sm text-ink focus:ring-2 focus:ring-brand-red focus:outline-none">-->
+                <!--            </div>-->
+                <!--            <button type="submit" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-lg font-bold shadow text-sm transition-colors duration-150">Request Information &rarr;</button>-->
+                <!--        </form>-->
 
-                        <div class="p-4 bg-brand-tint border border-brand-red/25 rounded-lg text-center" x-show="success" style="display: none;">
-                            <h4 class="text-xs font-bold text-brand-red mb-1">Information Requested!</h4>
-                            <p class="text-[10px] text-charcoal">We have logged your query and advisors will connect shortly.</p>
-                        </div>
+                <!--        <div class="p-4 bg-brand-tint border border-brand-red/25 rounded-lg text-center" x-show="success" style="display: none;">-->
+                <!--            <h4 class="text-xs font-bold text-brand-red mb-1">Information Requested!</h4>-->
+                <!--            <p class="text-[10px] text-charcoal">We have logged your query and advisors will connect shortly.</p>-->
+                <!--        </div>-->
 
-                        <div class="text-[10px] text-mutedGray text-center mt-3 flex items-center justify-center space-x-1.5">
-                            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                            <span>Data is securely encrypted.</span>
-                        </div>
-                    </div>
-                </aside>
+                <!--        <div class="text-[10px] text-mutedGray text-center mt-3 flex items-center justify-center space-x-1.5">-->
+                <!--            <i data-lucide="lock" class="w-3.5 h-3.5"></i>-->
+                <!--            <span>Data is securely encrypted.</span>-->
+                <!--        </div>-->
+                <!--    </div>-->
+                <!--</aside>-->
             </div>
         </div>
     </section>

@@ -33,17 +33,20 @@ class FrontendCustomPageTest extends TestCase
             ->assertSee('Data Gathering Disclosures')
             ->assertSee('Read the privacy rules');
 
-        $this->get('/terms')
+        $this->get('/terms-of-service')
             ->assertOk()
             ->assertSee('Terms of Service')
             ->assertSee('Marketplace Usage Guidelines')
             ->assertSee('online university degree marketplace');
+
+        $this->get('/terms')->assertRedirect('/terms-of-service');
     }
 
     public function test_legacy_policy_urls_redirect_to_dynamic_pages(): void
     {
         $this->get('/frontend/privacy-policy.html')->assertRedirect('/privacy-policy');
-        $this->get('/frontend/terms.html')->assertRedirect('/terms');
+        $this->get('/frontend/terms.html')->assertRedirect('/terms-of-service');
+        $this->get('/frontend/terms-of-service.html')->assertRedirect('/terms-of-service');
     }
 
     public function test_draft_custom_page_is_not_public(): void

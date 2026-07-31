@@ -10,10 +10,6 @@
     ]])
 @endsection
 
-@php
-    $fallbackImage = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700&h=420&fit=crop&q=80';
-@endphp
-
 @section('content')
     <main class="flex-grow bg-altBg py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,16 +36,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($posts as $post)
-                    @php
-                        $image = $post->image
-                            ? (\Illuminate\Support\Str::startsWith($post->image, ['http://', 'https://']) ? $post->image : asset($post->image))
-                            : $fallbackImage;
-                    @endphp
                     <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col justify-between card-hover-lift" data-aos="fade-up">
                         <div>
-                            <div class="h-56 bg-altBg overflow-hidden">
-                                <img src="{{ $image }}" alt="{{ $post->title }}" class="w-full h-full object-cover" loading="lazy">
-                            </div>
                             <div class="p-6">
                                 <span class="text-[10px] font-bold text-brand-red uppercase tracking-wider">{{ $post->category?->name ?? 'Education Insights' }}</span>
                                 <h3 class="font-heading font-bold text-base text-ink mt-2 mb-3 leading-snug">

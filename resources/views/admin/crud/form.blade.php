@@ -88,6 +88,10 @@
                         relative_urls: false,
                         remove_script_host: false,
                         convert_urls: false,
+                        verify_html: false,
+                        allow_script_urls: true,
+                        extended_valid_elements: 'script[src|async|defer|type|charset|crossorigin|integrity|referrerpolicy],style[type|media],iframe[src|width|height|frameborder|allowfullscreen|loading|referrerpolicy|allow|title]',
+                        valid_children: '+body[script|style|iframe],+div[script|style|iframe],+section[script|style|iframe],+article[script|style|iframe]',
                         content_style: 'body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.7; color: #1f2937; } h1,h2,h3,h4 { color: #111827; font-weight: 700; } blockquote { border-left: 4px solid #dc3545; margin-left: 0; padding-left: 1rem; font-style: italic; }',
                     });
                 }

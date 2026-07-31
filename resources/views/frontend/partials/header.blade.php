@@ -45,7 +45,7 @@
                             <div class="col-span-4 bg-brand-tint rounded-lg p-4 flex flex-col justify-between">
                                 <div>
                                     <span class="inline-block bg-brand-red text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full mb-2">Featured</span>
-                                    <p class="font-heading font-bold text-ink text-sm mb-1 leading-snug">{{ $featuredProgram?->program ?? 'Doctor of Business Administration (DBA)' }}</p>
+                                    {{-- <p class="font-heading font-bold text-ink text-sm mb-1 leading-snug">{{ $featuredProgram?->program ?? 'Doctor of Business Administration (DBA)' }}</p> --}}
                                     <p class="text-xs text-mutedGray leading-relaxed">{{ $featuredProgram?->short_description ?? 'Advance to top-tier leadership roles with accredited online study pathways.' }}</p>
                                 </div>
                                 <a href="{{ route('frontend.programs.index') }}" class="mt-4 text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">

@@ -46,6 +46,168 @@ a:focus:not(:focus-visible) {
   outline: none;
 }
 
+/* ==========================================
+   Article & Dynamic Content Styles (.prose)
+   ========================================== */
+.prose {
+  color: #4B4B4B; /* charcoal */
+}
+
+/* Headings */
+.prose h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.25rem; /* text-4xl */
+  line-height: 2.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.prose h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.75rem; /* text-3xl */
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.875rem;
+  letter-spacing: -0.025em;
+}
+
+.prose h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.35rem; /* text-2xl */
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h5 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem; /* text-lg */
+  line-height: 1.5rem;
+  font-weight: 500;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Paragraphs */
+.prose p {
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+}
+
+/* Article Lists */
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.prose li p {
+  margin-bottom: 0.25rem;
+}
+
+/* Links & Text Formatting */
+.prose a {
+  color: #E13334; /* brand-red */
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.prose a:hover {
+  color: #B8262A; /* brand-darkRed */
+}
+
+.prose strong, 
+.prose b {
+  font-weight: 700;
+}
+
+.prose em, 
+.prose i {
+  font-style: italic;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left: 4px solid #E13334; /* brand-red */
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  color: #161616; /* ink */
+  background-color: #F8F7F7; /* altBg */
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Code & Preformatted Blocks */
+.prose code {
+  background-color: #F8F7F7;
+  border: 1px solid #E7E7E7;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+  color: #E13334;
+}
+
+/* Images & Captions */
+.prose img {
+  border-radius: 12px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.prose figure {
+  margin: 1.5rem 0;
+}
+
+.prose figcaption {
+  font-size: 0.75rem;
+  color: #7A7A7A; /* mutedGray */
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Dividers */
+.prose hr {
+  border: 0;
+  border-top: 1px solid #E7E7E7;
+  margin: 2rem 0;
+}
+
 /* Gradient Backgrounds */
 .gradient-red-dark {
   background: linear-gradient(135deg, #E13334 0%, #141414 100%);

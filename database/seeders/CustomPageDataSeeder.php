@@ -10,6 +10,11 @@ class CustomPageDataSeeder extends Seeder
 {
     public function run(): void
     {
+        CustomPage::where('slug', 'terms')->update([
+            'slug' => 'terms-of-service',
+            'desired_url' => 'terms-of-service',
+        ]);
+
         $pages = [
             [
                 'page_name' => 'Privacy Policy',
@@ -27,8 +32,8 @@ class CustomPageDataSeeder extends Seeder
             ],
             [
                 'page_name' => 'Terms of Service',
-                'slug' => 'terms',
-                'desired_url' => 'terms',
+                'slug' => 'terms-of-service',
+                'desired_url' => 'terms-of-service',
                 'subtitle' => 'Terms and usage guidelines for the eDegree+ online university degree marketplace.',
                 'short_description' => 'Review the Terms of Service and guidelines for the eDegree+ online university degree marketplace directory.',
                 'description' => '<h2>1. Marketplace Usage Guidelines</h2><p>By using eDegree+, you agree to these service terms. The platform provides educational information, program discovery tools, comparison resources, and links or inquiry forms connected to partner university admissions processes.</p><h2>2. Information Accuracy</h2><p>We work to keep university data, tuition details, curriculum summaries, admissions requirements, and program pages accurate. Final decisions, fee structures, academic policies, and enrollment requirements are controlled by the relevant university or institution.</p><h2>3. User Responsibilities</h2><p>Users are responsible for reviewing official university documentation, confirming eligibility, and submitting accurate information during counseling or application requests. Any misuse of forms, false submissions, or unauthorized activity may result in restricted access.</p><h2>4. External Links</h2><p>Some pages may link to university websites, payment portals, application systems, or third-party services. eDegree+ is not responsible for the content, security, or policies of external websites.</p><h2>5. Limitation of Liability</h2><p>eDegree+ is not responsible for enrollment rejection, academic progress outcomes, fee changes, policy updates, or university decisions. The platform is an information and discovery service, not the awarding body for any degree.</p>',

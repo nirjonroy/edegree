@@ -14,7 +14,7 @@
     $imagePath = $post->image ?: $post->featured_image_path;
     $image = $imagePath
         ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
-        : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=650&fit=crop&q=80';
+        : null;
     $content = $post->long_description ?: $post->content;
 @endphp
 
@@ -47,9 +47,11 @@
                         </div>
                     </div>
 
-                    <div class="h-64 md:h-96 bg-altBg overflow-hidden rounded-lg">
-                        <img src="{{ $image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
-                    </div>
+                    @if ($image)
+                        <div class="h-64 md:h-96 bg-altBg overflow-hidden rounded-lg">
+                            <img src="{{ $image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                        </div>
+                    @endif
 
                     @if ($post->quote)
                         <blockquote class="border-l-4 border-brand-red pl-4 text-lg font-heading font-semibold italic text-ink">
@@ -98,10 +100,12 @@
                                     $recentImagePath = $recent->image ?: $recent->featured_image_path;
                                     $recentImage = $recentImagePath
                                         ? (\Illuminate\Support\Str::startsWith($recentImagePath, ['http://', 'https://']) ? $recentImagePath : asset($recentImagePath))
-                                        : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=120&h=120&fit=crop&q=80';
+                                        : null;
                                 @endphp
                                 <div class="flex gap-3 items-start">
-                                    <img src="{{ $recentImage }}" alt="{{ $recent->title }}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-altBg">
+                                    @if ($recentImage)
+                                        <img src="{{ $recentImage }}" alt="{{ $recent->title }}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-altBg">
+                                    @endif
                                     <div>
                                         <h4 class="font-heading font-bold text-xs text-ink line-clamp-2 hover:text-brand-red transition">
                                             <a href="{{ route('frontend.blog.show', $recent->slug) }}">{{ $recent->title }}</a>

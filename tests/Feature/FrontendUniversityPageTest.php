@@ -36,7 +36,8 @@ class FrontendUniversityPageTest extends TestCase
             ->assertSee('London Metropolitan University')
             ->assertSee('Accredited Online Programs')
             ->assertSee('Global Master of Business Administration')
-            ->assertSee('Admissions Guidelines');
+            ->assertSee('Admissions Guidelines')
+            ->assertDontSee('University Profile');
     }
 
     public function test_legacy_university_static_url_redirects_to_dynamic_profile(): void

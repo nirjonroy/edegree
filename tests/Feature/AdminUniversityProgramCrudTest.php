@@ -70,13 +70,14 @@ class AdminUniversityProgramCrudTest extends TestCase
         ]);
     }
 
-    public function test_university_create_form_uses_single_image_and_profile_content_fields(): void
+    public function test_university_create_form_uses_single_image_and_hides_profile_content_fields(): void
     {
         $this->actingAs($this->admin())
             ->get('/admin/universities/create')
             ->assertOk()
             ->assertSee('Main Image')
-            ->assertSee('Profile Title')
+            ->assertDontSee('Profile Title')
+            ->assertDontSee('Profile Description')
             ->assertSee('Accreditation Title')
             ->assertSee('Admissions Title')
             ->assertSee('Reviews Title')

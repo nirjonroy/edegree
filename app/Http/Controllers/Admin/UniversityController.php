@@ -178,8 +178,9 @@ class UniversityController extends Controller
         $fields = array_merge($fields, [
             ['name' => 'short_description', 'label' => 'Short Description', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
             ['name' => 'long_description', 'label' => 'Long Description', 'type' => 'summernote', 'col' => 12],
-            ['name' => 'profile_title', 'label' => 'Profile Title', 'type' => 'text', 'col' => 6],
-            ['name' => 'profile_description', 'label' => 'Profile Description', 'type' => 'summernote', 'col' => 12],
+            // Profile title/description are kept in the database for now, but hidden from admin editing.
+            // ['name' => 'profile_title', 'label' => 'Profile Title', 'type' => 'text', 'col' => 6],
+            // ['name' => 'profile_description', 'label' => 'Profile Description', 'type' => 'summernote', 'col' => 12],
             ['name' => 'accomplishment_title', 'label' => 'Accomplishment Title', 'type' => 'text', 'col' => 6],
             ['name' => 'accomplishment_text', 'label' => 'Accomplishment Text', 'type' => 'text', 'col' => 6],
             ['name' => 'accreditation_title', 'label' => 'Accreditation Title', 'type' => 'text', 'col' => 6],

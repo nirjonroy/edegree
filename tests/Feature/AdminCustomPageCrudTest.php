@@ -55,7 +55,28 @@ class AdminCustomPageCrudTest extends TestCase
             ->assertSee('Published At')
             ->assertSee('Background Image')
             ->assertSee('js-rich-editor', false)
+            ->assertSee('verify_html: false', false)
+            ->assertSee('extended_valid_elements', false)
+            ->assertSee('valid_children', false)
             ->assertSee('Meta Image');
+    }
+
+    public function test_admin_can_save_custom_page_script_content(): void
+    {
+        $scriptContent = '<script>console.log("hello");</script><p>hello</p>';
+
+        $this->actingAs($this->admin())
+            ->post('/admin/custom-pages', [
+                'page_name' => 'Script Page',
+                'slug' => 'script-page',
+                'desired_url' => 'script-page',
+                'description' => $scriptContent,
+                'status' => 1,
+                'published_at' => now()->format('Y-m-d H:i:s'),
+            ])
+            ->assertRedirect('/admin/custom-pages');
+
+        $this->assertSame($scriptContent, CustomPage::where('slug', 'script-page')->value('description'));
     }
 
     public function test_custom_page_index_uses_page_list_layout(): void

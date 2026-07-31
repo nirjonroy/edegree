@@ -62,9 +62,6 @@
                                     <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-red mr-1"></i>
                                     <span>{{ $university->location ?: 'Global Online' }}</span>
                                 </div>
-                                <p class="text-xs text-charcoal leading-relaxed line-clamp-3">
-                                    {{ $university->short_description ?: \Illuminate\Support\Str::limit(strip_tags($university->long_description ?: $university->profile_description), 180) }}
-                                </p>
                             </div>
                         </div>
 

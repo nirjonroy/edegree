@@ -22,7 +22,7 @@ class CustomPageController extends Controller
 
     public function terms()
     {
-        return $this->legalPage('terms', 'Terms of Service');
+        return $this->legalPage('terms-of-service', 'Terms of Service');
     }
 
     public function show(string $customPagePath)
@@ -35,7 +35,7 @@ class CustomPageController extends Controller
             })
             ->firstOrFail();
 
-        if (in_array($path, ['privacy-policy', 'terms'], true)) {
+        if (in_array($path, ['privacy-policy', 'terms-of-service'], true)) {
             return $this->renderLegalPage($page);
         }
 
