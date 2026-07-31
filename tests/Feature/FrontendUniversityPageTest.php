@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\University;
 use Database\Seeders\UniversityDataSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -46,5 +47,21 @@ class FrontendUniversityPageTest extends TestCase
 
         $this->get('/frontend/university-single.html?id=london-met')
             ->assertRedirect('/universities/london-met');
+    }
+
+    public function test_university_accreditation_description_renders_html(): void
+    {
+        University::create([
+            'name' => 'HTML Accreditation University',
+            'slug' => 'html-accreditation-university',
+            'status' => true,
+            'accreditation_title' => 'Internationally Recognized Accreditation',
+            'accreditation_description' => '<p>All programs are officially accredited.</p>',
+        ]);
+
+        $this->get('/universities/html-accreditation-university')
+            ->assertOk()
+            ->assertSee('<p>All programs are officially accredited.</p>', false)
+            ->assertDontSee('&lt;p&gt;All programs are officially accredited.&lt;/p&gt;', false);
     }
 }

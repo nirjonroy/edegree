@@ -122,7 +122,9 @@
 
                         <div x-show="activeTab === 'accreditation'" class="space-y-4" style="display: none;">
                             <h2 class="font-heading font-bold text-xl text-ink">{{ $university->accreditation_title ?: 'Recognized Status' }}</h2>
-                            <p class="text-charcoal leading-relaxed text-sm md:text-base">{{ $university->accreditation_description ?: 'This university maintains recognized accreditation and licensing rules for its degree pathways.' }}</p>
+                            <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
+                                {!! $university->accreditation_description ?: 'This university maintains recognized accreditation and licensing rules for its degree pathways.' !!}
+                            </div>
                             <div class="bg-brand-tint border border-brand-red/20 p-5 rounded-lg mt-6">
                                 <h4 class="font-heading font-bold text-xs uppercase text-brand-red tracking-wider mb-2">{{ $university->accrediting_commission_title ?: 'Accrediting Commission' }}</h4>
                                 <p class="text-xs text-charcoal font-semibold leading-relaxed">{{ $university->accrediting_commission_text ?: $university->accreditation_badge }}</p>
