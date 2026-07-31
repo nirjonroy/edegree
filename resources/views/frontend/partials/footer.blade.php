@@ -56,7 +56,7 @@
                 <ul class="space-y-2 text-xs">
                     <li><a href="{{ route('frontend.blog.index') }}" class="hover:text-white transition">Insights Blog</a></li>
                     <li><a href="{{ route('frontend.news.index') }}" class="hover:text-white transition">Admissions News</a></li>
-                    <li><a href="{{ url('faq') }}" class="hover:text-white transition">Common FAQs</a></li>
+                    <li><a href="{{ route('frontend.custom-pages.show', 'faq') }}" class="hover:text-white transition">Common FAQs</a></li>
                 </ul>
             </div>
 

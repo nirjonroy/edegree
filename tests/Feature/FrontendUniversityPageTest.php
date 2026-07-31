@@ -55,12 +55,14 @@ class FrontendUniversityPageTest extends TestCase
             'name' => 'HTML Accreditation University',
             'slug' => 'html-accreditation-university',
             'status' => true,
+            'long_description' => '<p>Long details should show on the program tab.</p>',
             'accreditation_title' => 'Internationally Recognized Accreditation',
             'accreditation_description' => '<p>All programs are officially accredited.</p>',
         ]);
 
         $this->get('/universities/html-accreditation-university')
             ->assertOk()
+            ->assertSee('<p>Long details should show on the program tab.</p>', false)
             ->assertSee('<p>All programs are officially accredited.</p>', false)
             ->assertDontSee('&lt;p&gt;All programs are officially accredited.&lt;/p&gt;', false);
     }

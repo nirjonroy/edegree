@@ -106,8 +106,13 @@
                                 </div>
                             </div>
 
-                            <div class="border-t border-borderGray pt-8">
-                                {{-- Profile title/description hidden for now. --}}
+                            <div class="@if ($university->long_description) border-t border-borderGray pt-8 @endif">
+                                @if ($university->long_description)
+                                    <div class="text-charcoal leading-relaxed text-sm md:text-base prose max-w-none">
+                                        {!! $university->long_description !!}
+                                    </div>
+                                @endif
+
                                 @if ($university->accomplishment_text || $university->rank)
                                     <div class="mt-6 border-t border-borderGray pt-4">
                                         <h4 class="font-heading font-bold text-xs uppercase text-mutedGray mb-2">{{ $university->accomplishment_title ?: 'Key Accomplishments' }}</h4>

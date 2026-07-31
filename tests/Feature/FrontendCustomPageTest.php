@@ -23,6 +23,17 @@ class FrontendCustomPageTest extends TestCase
             ->assertSee('Compare online degree programs');
     }
 
+    public function test_footer_faq_link_points_to_custom_faq_page(): void
+    {
+        $this->seed(UniversityDataSeeder::class);
+        $this->seed(CustomPageDataSeeder::class);
+
+        $this->get('/universities')
+            ->assertOk()
+            ->assertSee('href="http://localhost/faq"', false)
+            ->assertDontSee("{{ route('frontend.about') }}#faq", false);
+    }
+
     public function test_seeded_privacy_and_terms_pages_render_from_custom_pages(): void
     {
         $this->seed(CustomPageDataSeeder::class);
