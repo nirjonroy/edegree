@@ -108,6 +108,21 @@ class AdminBlogCrudTest extends TestCase
         ]);
     }
 
+    public function test_blog_post_rich_editor_syncs_without_native_required_validation(): void
+    {
+        $response = $this->actingAs($this->admin())
+            ->get('/admin/blog-posts/create')
+            ->assertOk()
+            ->assertSee('Long Description')
+            ->assertSee('name="long_description"', false)
+            ->assertSee('data-required="1"', false)
+            ->assertSee('tinymce.triggerSave()', false);
+
+        $content = $response->getContent();
+
+        $this->assertStringNotContainsString('name="long_description" rows="4" class="form-control js-rich-editor" required', $content);
+    }
+
     public function test_admin_can_create_blog_comment(): void
     {
         $category = BlogCategory::create(['name' => 'News', 'slug' => 'news']);

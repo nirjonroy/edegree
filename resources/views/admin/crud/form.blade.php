@@ -25,7 +25,7 @@
                         <label class="form-label">{{ $field['label'] }} @if (! empty($field['required']))<span class="text-danger">*</span>@endif</label>
 
                         @if ($type === 'textarea' || $type === 'summernote')
-                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control {{ $type === 'summernote' ? 'js-rich-editor' : '' }}" @required(! empty($field['required']))>{{ $value }}</textarea>
+                            <textarea name="{{ $name }}" rows="{{ $field['rows'] ?? 4 }}" class="form-control {{ $type === 'summernote' ? 'js-rich-editor' : '' }}" @if ($type === 'summernote' && ! empty($field['required'])) data-required="1" @endif @if ($type !== 'summernote') @required(! empty($field['required'])) @endif>{{ $value }}</textarea>
                         @elseif ($type === 'select')
                             <select name="{{ $name }}" class="form-select" @required(! empty($field['required']))>
                                 <option value="">Select {{ $field['label'] }}</option>
@@ -93,6 +93,17 @@
                         extended_valid_elements: 'script[src|async|defer|type|charset|crossorigin|integrity|referrerpolicy],style[type|media],iframe[src|width|height|frameborder|allowfullscreen|loading|referrerpolicy|allow|title]',
                         valid_children: '+body[script|style|iframe],+div[script|style|iframe],+section[script|style|iframe],+article[script|style|iframe]',
                         content_style: 'body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.7; color: #1f2937; } h1,h2,h3,h4 { color: #111827; font-weight: 700; } blockquote { border-left: 4px solid #dc3545; margin-left: 0; padding-left: 1rem; font-style: italic; }',
+                        setup: function (editor) {
+                            editor.on('change keyup undo redo input', function () {
+                                editor.save();
+                            });
+                        },
+                    });
+
+                    document.querySelectorAll('form').forEach(function (form) {
+                        form.addEventListener('submit', function () {
+                            tinymce.triggerSave();
+                        }, true);
                     });
                 }
             });
