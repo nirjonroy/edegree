@@ -10,7 +10,7 @@
      @keydown.escape.window="$store.global.searchModalOpen = false">
     <div class="bg-white rounded-custom w-full max-w-lg md:max-w-2xl mx-auto overflow-hidden shadow-2xl border border-borderGray" @click.away="$store.global.searchModalOpen = false">
         <div class="p-6 border-b border-borderGray flex justify-between items-center">
-            <h3 class="font-heading font-bold text-ink text-lg">Search Marketplace</h3>
+            <p class="font-heading font-bold text-ink text-lg">Search Marketplace</p>
             <button @click="$store.global.searchModalOpen = false" class="text-charcoal hover:text-brand-red focus:outline-none">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
