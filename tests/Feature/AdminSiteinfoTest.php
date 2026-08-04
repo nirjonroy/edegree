@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Siteinfo;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class AdminSiteinfoTest extends TestCase
@@ -80,6 +81,7 @@ class AdminSiteinfoTest extends TestCase
         $this->assertStringContainsString('Tracking & Verification Scripts', $content);
         $this->assertStringContainsString('Google Search Console Verification', $content);
         $this->assertStringContainsString('Head Scripts', $content);
+        $this->assertStringContainsString('Default Meta Image', $content);
         $this->assertStringNotContainsString('Body Start Scripts', $content);
         $this->assertStringNotContainsString('Footer Scripts', $content);
         $this->assertStringNotContainsString('Currency Rate', $content);
@@ -102,6 +104,32 @@ class AdminSiteinfoTest extends TestCase
             ->assertSee('<script>window.headScriptOk = true;</script>', false)
             ->assertSee('support@example.com')
             ->assertSee('+1 555 123 4567');
+    }
+
+    public function test_admin_can_upload_default_meta_image_for_siteinfo(): void
+    {
+        $this->actingAs($this->admin())
+            ->post('/admin/siteinfo', $this->payload([
+                'default_meta_image' => UploadedFile::fake()->createWithContent(
+                    'default-meta.png',
+                    base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=')
+                ),
+            ]))
+            ->assertRedirect('/admin/siteinfo');
+
+        $this->assertStringStartsWith('uploads/siteinfo/default_meta_image-', Siteinfo::first()->default_meta_image);
+    }
+
+    public function test_frontend_uses_siteinfo_default_meta_image_when_page_has_none(): void
+    {
+        Siteinfo::create($this->payload([
+            'default_meta_image' => 'uploads/siteinfo/default-meta.jpg',
+        ]));
+
+        $this->get('/blog')
+            ->assertOk()
+            ->assertSee('<meta property="og:image" content="'.url('uploads/siteinfo/default-meta.jpg').'">', false)
+            ->assertSee('<meta name="twitter:image" content="'.url('uploads/siteinfo/default-meta.jpg').'">', false);
     }
 
     private function admin(): User

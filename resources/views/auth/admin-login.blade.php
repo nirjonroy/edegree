@@ -33,7 +33,7 @@
                 <div class="relative">
                     <a href="/" class="inline-flex items-center gap-3">
                         @if ($siteinfo?->logo)
-                            <img src="/{{ $siteinfo->logo }}" alt="{{ $brandName }}" class="h-12 w-auto rounded bg-white px-2 py-1">
+                            <img src="{{ asset($siteinfo->logo) }}" alt="{{ $brandName }}" class="h-12 w-auto rounded bg-white px-2 py-1">
                         @else
                             <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-xl font-black text-red-600">e</span>
                             <span class="text-2xl font-extrabold">{{ $brandName }}</span>
@@ -68,7 +68,7 @@
                     <div class="mb-10 text-center md:hidden">
                         <a href="/" class="inline-flex items-center justify-center gap-3">
                             @if ($siteinfo?->logo)
-                                <img src="/{{ $siteinfo->logo }}" alt="{{ $brandName }}" class="h-12 w-auto">
+                                <img src="{{ asset($siteinfo->logo) }}" alt="{{ $brandName }}" class="h-12 w-auto">
                             @else
                                 <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-red-600 text-xl font-black text-white">e</span>
                                 <span class="text-2xl font-extrabold">{{ $brandName }}</span>

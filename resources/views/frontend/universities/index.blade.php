@@ -82,9 +82,10 @@
                 @endforelse
             </div>
 
-            <div class="mt-10">
-                {{ $universitiesPage->links() }}
-            </div>
+            @include('frontend.partials.load-more-pagination', [
+                'paginator' => $universitiesPage,
+                'label' => 'Load More Universities',
+            ])
         </div>
     </section>
 @endsection

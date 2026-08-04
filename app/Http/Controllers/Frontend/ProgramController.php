@@ -67,13 +67,15 @@ class ProgramController extends Controller
         $relatedPrograms = Program::with(['degree', 'university'])
             ->where('status', true)
             ->whereKeyNot($program->id)
-            ->where(function ($query) use ($program) {
-                $query->where('degree_id', $program->degree_id)
-                    ->orWhere('university_id', $program->university_id)
-                    ->orWhere('type', $program->type);
+            ->when($program->degree_id, function ($query) use ($program) {
+                $query->where('degree_id', $program->degree_id);
+            }, function ($query) use ($program) {
+                $query->where('type', $program->type);
             })
-            ->take(3)
-            ->get();
+            ->orderByDesc('recommend')
+            ->latest()
+            ->paginate(10, ['*'], 'related_page')
+            ->withQueryString();
 
         return view('frontend.programs.show', array_merge($this->sharedData(), [
             'program' => $program,

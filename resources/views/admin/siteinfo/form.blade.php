@@ -28,14 +28,22 @@
                 <label class="form-label">Logo</label>
                 <input type="file" name="logo" class="form-control" accept="image/*">
                 @if ($siteinfo->logo)
-                    <img src="/{{ $siteinfo->logo }}" alt="Logo" class="mt-2 bg-light p-2 rounded" style="max-height: 60px">
+                    <img src="{{ asset($siteinfo->logo) }}" alt="Logo" class="mt-2 bg-light p-2 rounded" style="max-height: 60px">
                 @endif
             </div>
             <div class="col-md-6">
                 <label class="form-label">Favicon</label>
                 <input type="file" name="favicon" class="form-control" accept="image/*">
                 @if ($siteinfo->favicon)
-                    <img src="/{{ $siteinfo->favicon }}" alt="Favicon" class="mt-2" style="max-height: 40px">
+                    <img src="{{ asset($siteinfo->favicon) }}" alt="Favicon" class="mt-2" style="max-height: 40px">
+                @endif
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Default Meta Image</label>
+                <input type="file" name="default_meta_image" class="form-control" accept="image/*">
+                <div class="form-text">Used for Open Graph and Twitter previews when a page has no meta image.</div>
+                @if ($siteinfo->default_meta_image)
+                    <img src="{{ asset($siteinfo->default_meta_image) }}" alt="Default Meta Image" class="mt-2 rounded border" style="max-height: 90px">
                 @endif
             </div>
         </div>

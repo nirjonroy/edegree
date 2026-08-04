@@ -22,6 +22,7 @@ class Siteinfo extends Model
         'logo_width',
         'logo_height',
         'favicon',
+        'default_meta_image',
         'favicon_width',
         'favicon_height',
         'image_output_format',

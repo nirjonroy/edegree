@@ -36,27 +36,28 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($posts as $post)
-                    <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col justify-between card-hover-lift" data-aos="fade-up">
-                        <div>
-                            <div class="p-6">
-                                <span class="text-[10px] font-bold text-brand-red uppercase tracking-wider">{{ $post->category?->name ?? 'Education Insights' }}</span>
-                                <h3 class="font-heading font-bold text-base text-ink mt-2 mb-3 leading-snug">
-                                    <a href="{{ route('frontend.blog.show', $post->slug) }}" class="hover:text-brand-red transition">{{ $post->title }}</a>
-                                </h3>
-                                <p class="text-xs text-charcoal leading-relaxed mb-4 line-clamp-3">{{ $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->long_description ?: $post->content), 160) }}</p>
-                            </div>
+                    <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-md transition flex flex-col min-h-[270px]" data-aos="fade-up">
+                        <div class="p-6 flex-grow">
+                            <span class="text-[10px] uppercase font-bold text-brand-red tracking-wider">{{ $post->category?->name ?? 'Education Insights' }}</span>
+                            <h2 class="font-heading font-bold text-lg text-ink leading-snug mt-3 hover:text-brand-red transition">
+                                <a href="{{ route('frontend.blog.show', $post->slug) }}">{{ $post->title }}</a>
+                            </h2>
+                            <p class="text-sm text-charcoal leading-relaxed mt-4 line-clamp-4">
+                                {{ $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->long_description ?: $post->content), 160) }}
+                            </p>
                         </div>
-
-                        <div class="px-6 py-4 bg-altBg/50 border-t border-borderGray/40 flex justify-between items-center text-xs">
+                        <div class="px-6 py-4 bg-altBg/50 border-t border-borderGray/40 flex items-center justify-between text-xs">
                             <div class="flex items-center space-x-2">
-                                <span class="w-6 h-6 rounded-full bg-brand-tint text-brand-red flex items-center justify-center font-bold">{{ \Illuminate\Support\Str::substr($post->author_name ?: $post->author ?: 'A', 0, 1) }}</span>
-                                <span class="font-semibold text-ink">{{ $post->author_name ?: $post->author ?: 'Admin' }}</span>
+                                <span class="w-6 h-6 rounded-full bg-brand-tint text-brand-red flex items-center justify-center font-bold">
+                                    {{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($post->author_name ?: $post->author ?: 'e', 0, 1)) }}
+                                </span>
+                                <span class="font-bold text-ink">{{ $post->author_name ?: $post->author ?: 'eDegree Plus' }}</span>
                             </div>
-                            <span class="text-mutedGray font-medium">{{ optional($post->published_at)->format('M d, Y') ?: $post->created_at->format('M d, Y') }}</span>
+                            <span class="text-mutedGray">{{ optional($post->published_at)->format('M d, Y') ?: $post->created_at->format('M d, Y') }}</span>
                         </div>
                     </article>
                 @empty
-                    <div class="lg:col-span-3 bg-white border border-borderGray rounded-custom p-8 text-center">
+                    <div class="lg:col-span-3 md:col-span-2 bg-white border border-borderGray rounded-custom p-8 text-center">
                         <h2 class="font-heading font-bold text-xl text-ink">No blog posts found</h2>
                         <p class="text-sm text-charcoal mt-2">Publish posts from the admin panel to show them here.</p>
                     </div>
@@ -64,9 +65,10 @@
             </div>
 
             @if ($posts->hasPages())
-                <div class="mt-12">
-                    {{ $posts->links() }}
-                </div>
+                @include('frontend.partials.load-more-pagination', [
+                    'paginator' => $posts,
+                    'label' => 'Load More Articles',
+                ])
             @endif
         </div>
     </main>

@@ -38,8 +38,8 @@
             </nav>
 
             <section class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm mb-8" data-aos="fade-up">
-                <div class="h-64 md:h-80 relative bg-ink">
-                    <img src="{{ $image }}" alt="{{ $university->name }}" class="w-full h-full object-cover opacity-60">
+                <div class="h-64 md:h-80 relative bg-altBg">
+                    <img src="{{ $image }}" alt="{{ $university->name }}" class="w-full h-full object-cover">
                 </div>
 
                 <div class="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative -mt-10 z-10">
@@ -87,17 +87,23 @@
                                 <h2 class="font-heading font-bold text-xl text-ink mb-4">Accredited Online Programs</h2>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     @forelse ($universityPrograms as $program)
+                                        @php
+                                            $programUrl = route('frontend.programs.show', $program->slug);
+                                            $applyUrl = $program->link ?: $programUrl;
+                                        @endphp
                                         <div class="p-4 border border-borderGray rounded-lg hover:border-brand-red hover:shadow-sm transition flex flex-col justify-between">
                                             <div>
                                                 <div class="flex justify-between items-start gap-4">
                                                     <span class="text-[10px] font-bold text-brand-red uppercase tracking-wider">{{ $program->degree?->name ?? $program->type ?? 'Program' }}</span>
                                                     <span class="text-sm font-extrabold text-brand-red">{{ $program->total_fee ?: 'Contact' }}</span>
                                                 </div>
-                                                <h4 class="font-heading font-bold text-sm text-ink mt-1">{{ $program->program }}</h4>
+                                                <h4 class="font-heading font-bold text-sm text-ink mt-1">
+                                                    <a href="{{ $programUrl }}" class="hover:text-brand-red transition-colors">{{ $program->program }}</a>
+                                                </h4>
                                             </div>
                                             <div class="flex justify-between items-center mt-4 pt-3 border-t border-borderGray/40 text-xs">
                                                 <span class="text-mutedGray font-medium">{{ $program->duration ?: 'Flexible' }}</span>
-                                                <a href="{{ $program->link ?: route('frontend.programs.show', $program->slug) }}" class="text-brand-red font-bold">View Syllabus &rarr;</a>
+                                                <a href="{{ $applyUrl }}" class="text-brand-red font-bold hover:text-brand-darkRed transition-colors">Apply Now &rarr;</a>
                                             </div>
                                         </div>
                                     @empty

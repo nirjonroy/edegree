@@ -49,7 +49,10 @@
             </div>
 
             @if ($newsPage->hasPages())
-                <div class="mt-10">{{ $newsPage->links() }}</div>
+                @include('frontend.partials.load-more-pagination', [
+                    'paginator' => $newsPage,
+                    'label' => 'Load More News',
+                ])
             @endif
         </div>
     </section>

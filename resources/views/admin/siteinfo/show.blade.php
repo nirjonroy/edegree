@@ -35,7 +35,7 @@
                                 <div class="border rounded p-3 h-100">
                                     <div class="text-secondary small">{{ ucwords(str_replace('_', ' ', $key)) }}</div>
                                     <div class="fw-semibold text-break">
-                                        @if (in_array($key, ['logo', 'favicon']) && $value)
+                                        @if (in_array($key, ['logo', 'favicon', 'default_meta_image']) && $value)
                                             <img src="{{ asset($value) }}" alt="{{ $key }}" style="max-height: 60px">
                                         @elseif (is_bool($siteinfo->{$key}))
                                             {{ $siteinfo->{$key} ? 'Yes' : 'No' }}

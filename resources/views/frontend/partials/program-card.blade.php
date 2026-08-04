@@ -3,7 +3,8 @@
     $programImage = $programImagePath
         ? (\Illuminate\Support\Str::startsWith($programImagePath, ['http://', 'https://']) ? $programImagePath : asset($programImagePath))
         : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop&q=80';
-    $programUrl = $program->link ?: route('frontend.programs.show', $program->slug);
+    $programUrl = route('frontend.programs.show', $program->slug);
+    $applyUrl = $program->link ?: $programUrl;
     $universityLogo = $program->university?->image_1
         ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
         : 'https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop&q=80';
@@ -11,7 +12,9 @@
 
 <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full card-hover-lift" data-aos="fade-up">
     <div class="relative h-48 bg-altBg overflow-hidden">
-        <img src="{{ $programImage }}" alt="{{ $program->program }}" class="w-full h-full object-cover">
+        <a href="{{ $programUrl }}" class="block w-full h-full" aria-label="View {{ $program->program }}">
+            <img src="{{ $programImage }}" alt="{{ $program->program }}" class="w-full h-full object-cover">
+        </a>
         <span class="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-brand-red uppercase shadow-sm border border-brand-tint">
             {{ $program->degree?->name ?? $program->type ?? 'Program' }}
         </span>
@@ -46,7 +49,7 @@
                     <span>View Curriculum</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
                 </a>
-                <a href="{{ $programUrl }}#inquiry-form" class="bg-brand-red hover:bg-brand-darkRed text-white px-4 py-2 rounded-lg text-xs font-bold shadow hover:shadow-md transition-all duration-150 whitespace-nowrap">
+                <a href="{{ $applyUrl }}" class="bg-brand-red hover:bg-brand-darkRed text-white px-4 py-2 rounded-lg text-xs font-bold shadow hover:shadow-md transition-all duration-150 whitespace-nowrap">
                     Apply Online
                 </a>
             </div>

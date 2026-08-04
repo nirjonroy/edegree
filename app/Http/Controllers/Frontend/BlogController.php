@@ -50,10 +50,38 @@ class BlogController extends Controller
             ->latest('published_at')
             ->take(4)
             ->get();
+        $publishedAt = $post->published_at ?: $post->created_at;
+        $publishedAtValue = $publishedAt->format('Y-m-d H:i:s');
+        $previousPost = BlogPost::where('is_published', true)
+            ->whereKeyNot($post->id)
+            ->where(function ($query) use ($publishedAtValue, $post) {
+                $query->whereRaw('COALESCE(published_at, created_at) < ?', [$publishedAtValue])
+                    ->orWhere(function ($inner) use ($publishedAtValue, $post) {
+                        $inner->whereRaw('COALESCE(published_at, created_at) = ?', [$publishedAtValue])
+                            ->where('id', '<', $post->id);
+                    });
+            })
+            ->orderByRaw('COALESCE(published_at, created_at) DESC')
+            ->latest('id')
+            ->first();
+        $nextPost = BlogPost::where('is_published', true)
+            ->whereKeyNot($post->id)
+            ->where(function ($query) use ($publishedAtValue, $post) {
+                $query->whereRaw('COALESCE(published_at, created_at) > ?', [$publishedAtValue])
+                    ->orWhere(function ($inner) use ($publishedAtValue, $post) {
+                        $inner->whereRaw('COALESCE(published_at, created_at) = ?', [$publishedAtValue])
+                            ->where('id', '>', $post->id);
+                    });
+            })
+            ->orderByRaw('COALESCE(published_at, created_at) ASC')
+            ->orderBy('id')
+            ->first();
 
         return view('frontend.blog.show', array_merge($this->sharedData(), [
             'post' => $post,
             'recentPosts' => $recentPosts,
+            'previousPost' => $previousPost,
+            'nextPost' => $nextPost,
         ]));
     }
 

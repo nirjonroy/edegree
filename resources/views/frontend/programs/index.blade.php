@@ -89,11 +89,15 @@
                                 $logo = $program->university?->image_1
                                     ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
                                     : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png');
+                                $programUrl = route('frontend.programs.show', $program->slug);
+                                $applyUrl = $program->link ?: $programUrl;
                             @endphp
                             <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col h-full justify-between card-hover-lift" data-aos="fade-up">
                                 <div class="flex-grow flex flex-col justify-between">
                                     <div class="relative h-44 bg-altBg overflow-hidden flex-shrink-0">
-                                        <img src="{{ $image }}" alt="{{ $program->program }}" class="w-full h-full object-cover">
+                                        <a href="{{ $programUrl }}" class="block w-full h-full" aria-label="View {{ $program->program }}">
+                                            <img src="{{ $image }}" alt="{{ $program->program }}" class="w-full h-full object-cover">
+                                        </a>
                                         <span class="absolute top-4 left-4 bg-white/95 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider text-brand-red uppercase shadow-sm border border-brand-tint">
                                             {{ $program->degree?->name ?? $program->type ?? 'Program' }}
                                         </span>
@@ -109,11 +113,11 @@
                                                 <span class="text-xs font-bold text-mutedGray">{{ $program->university?->name ?? 'Partner University' }}</span>
                                             </div>
                                             <h3 class="font-heading font-bold text-base text-ink mb-3 leading-snug">
-                                                <a href="{{ route('frontend.programs.show', $program->slug) }}" class="hover:text-brand-red transition-colors">{{ $program->program }}</a>
+                                                <a href="{{ $programUrl }}" class="hover:text-brand-red transition-colors">{{ $program->program }}</a>
                                             </h3>
                                         </div>
 
-                                        <div class="mt-auto border-t border-b border-borderGray/50 py-3 space-y-2">
+                                        <div class="mt-auto border-t border-b border-borderGray/50 py-3">
                                             <div class="flex justify-between items-center text-xs text-charcoal">
                                                 <div class="flex items-center space-x-1.5">
                                                     <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-red flex-shrink-0"></i>
@@ -124,20 +128,16 @@
                                                     <span class="text-base font-extrabold text-brand-red">{{ $program->total_fee ?: 'Contact' }}</span>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center space-x-1.5 text-xs text-charcoal">
-                                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-red flex-shrink-0"></i>
-                                                <span class="truncate">Mode: <strong class="font-semibold text-ink">100% Online</strong></span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="bg-altBg/50 border-t border-borderGray/40 px-6 py-4 flex items-center justify-between flex-shrink-0">
-                                    <a href="{{ route('frontend.programs.show', $program->slug) }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
+                                    <a href="{{ $programUrl }}" class="text-brand-red text-xs font-bold hover:text-brand-darkRed inline-flex items-center">
                                         <span>View Curriculum</span>
                                         <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
                                     </a>
-                                    <a href="{{ route('frontend.programs.show', $program->slug) }}#inquiry-form" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2 rounded-lg text-xs font-bold transition-all duration-150 shadow">
+                                    <a href="{{ $applyUrl }}" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-2 rounded-lg text-xs font-bold transition-all duration-150 shadow">
                                         Apply Online
                                     </a>
                                 </div>
@@ -151,9 +151,10 @@
                         @endforelse
                     </div>
 
-                    <div class="mt-8">
-                        {{ $programsPage->links() }}
-                    </div>
+                    @include('frontend.partials.load-more-pagination', [
+                        'paginator' => $programsPage,
+                        'label' => 'Load More Programs',
+                    ])
                 </section>
             </div>
         </div>

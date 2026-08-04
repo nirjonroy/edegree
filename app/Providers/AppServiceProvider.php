@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Siteinfo;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +17,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        foreach (['app.url', 'app.asset_url'] as $key) {
+            $value = config($key);
+
+            if (is_string($value) && $value !== '') {
+                config([$key => rtrim($value, '/')]);
+            }
+        }
     }
 
     /**
@@ -26,7 +33,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrapFive();
+        if (config('app.url')) {
+            URL::forceRootUrl(rtrim(config('app.url'), '/'));
+        }
+
+        if (request()->is('admin*')) {
+            Paginator::useBootstrapFive();
+        }
 
         View::composer('admin.*', function ($view) {
             $siteinfo = Siteinfo::latest()->first();

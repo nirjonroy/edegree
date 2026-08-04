@@ -215,17 +215,17 @@
                     </div>
                     <div class="space-y-6">
                         @forelse ($blogPosts as $post)
-                            <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex space-x-4 h-36 items-center">
-                                <img src="{{ $post->image ? asset($post->image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=150&h=150&fit=crop&q=80' }}" alt="{{ $post->title }}" class="w-20 h-20 rounded-lg object-cover flex-shrink-0">
-                                <div class="flex flex-col justify-between h-full py-1">
-                                    <div>
+                            <article class="bg-altBg/30 p-6 rounded-custom border border-borderGray shadow-sm hover:shadow transition flex flex-col justify-between h-36">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2 gap-4">
                                         <span class="text-[9px] font-bold text-brand-red tracking-wider uppercase">{{ $post->category?->name ?? 'Education Insights' }}</span>
-                                        <h4 class="font-heading font-bold text-sm text-ink mt-1 hover:text-brand-red transition line-clamp-2">
-                                            <a href="{{ route('frontend.blog.show', $post->slug) }}">{{ $post->title }}</a>
-                                        </h4>
+                                        <span class="text-[10px] font-mono text-mutedGray font-semibold">{{ optional($post->published_at)->format('M d, Y') ?: $post->created_at->format('M d, Y') }}</span>
                                     </div>
-                                    <p class="text-[11px] text-mutedGray">{{ optional($post->published_at)->format('F d, Y') ?: $post->created_at->format('F d, Y') }}</p>
+                                    <h4 class="font-heading font-bold text-sm text-ink hover:text-brand-red transition line-clamp-2">
+                                        <a href="{{ route('frontend.blog.show', $post->slug) }}">{{ $post->title }}</a>
+                                    </h4>
                                 </div>
+                                <p class="text-[11px] text-mutedGray mt-auto">{{ $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->long_description ?: $post->content), 70) }}</p>
                             </article>
                         @empty
                             <div class="bg-altBg/30 p-6 rounded-custom border border-borderGray text-sm">No blog posts have been published yet.</div>

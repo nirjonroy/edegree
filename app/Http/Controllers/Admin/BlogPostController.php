@@ -18,13 +18,13 @@ class BlogPostController extends Controller
             'title' => 'Blog Posts',
             'routeBase' => '/admin/blog-posts',
             'records' => BlogPost::with('category')->latest()->paginate(10),
-            'columns' => ['id' => 'ID', 'title' => 'Title', 'category.name' => 'Category', 'author' => 'Author', 'status' => 'Status', 'created_at' => 'Created'],
+            'columns' => ['id' => 'ID', 'title' => 'Title', 'category.name' => 'Category', 'author' => 'Author', 'published_at' => 'Published', 'status' => 'Status'],
         ]);
     }
 
     public function create()
     {
-        return $this->form(new BlogPost(['status' => 'draft']), 'Create Blog Post');
+        return $this->form(new BlogPost(['status' => 'draft', 'published_at' => now()]), 'Create Blog Post');
     }
 
     public function store(Request $request)
@@ -90,6 +90,7 @@ class BlogPostController extends Controller
             'canonical_url' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
+            'published_at' => ['nullable', 'date'],
         ]);
     }
 
@@ -120,7 +121,9 @@ class BlogPostController extends Controller
         $data['featured_image_path'] = $data['image'] ?? $blogPost?->image;
         $data['tags'] = $data['keywords'];
         $data['is_published'] = $data['status'] === 'published';
-        $data['published_at'] = $data['is_published'] ? ($blogPost?->published_at ?: now()) : null;
+        $data['published_at'] = $data['is_published']
+            ? ($data['published_at'] ?: $blogPost?->published_at ?: now())
+            : null;
         $data['show_on_home'] = false;
 
         return $data;
@@ -134,6 +137,7 @@ class BlogPostController extends Controller
             ['name' => 'blog_category_id', 'label' => 'Category', 'type' => 'select', 'options' => BlogCategory::orderBy('name')->pluck('name', 'id')->toArray(), 'col' => 6],
             ['name' => 'image', 'label' => 'Image', 'type' => 'file', 'accept' => 'image/*', 'col' => 6],
             ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['draft' => 'Draft', 'published' => 'Published', 'archived' => 'Archived'], 'col' => 6],
+            ['name' => 'published_at', 'label' => 'Published At', 'type' => 'datetime-local', 'col' => 6],
             ['name' => 'short_description', 'label' => 'Short Description', 'type' => 'textarea', 'rows' => 3, 'col' => 12],
             ['name' => 'long_description', 'label' => 'Long Description', 'type' => 'summernote', 'required' => true, 'col' => 12],
             ['name' => 'seo_title', 'label' => 'SEO Title', 'type' => 'text', 'col' => 6],

@@ -19,21 +19,23 @@
 @endphp
 
 @section('content')
-    <main class="flex-grow bg-altBg py-12">
+    <!-- Added overflow-hidden on main container to trap AOS animation offsets -->
+    <main class="flex-grow bg-altBg py-8 md:py-12 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex mb-6 text-xs font-semibold uppercase tracking-wider text-mutedGray space-x-2" data-aos="fade-up">
-                <a href="{{ route('frontend.home') }}" class="hover:text-brand-red">Home</a>
+            <nav class="flex mb-6 text-xs font-semibold uppercase tracking-wider text-mutedGray space-x-2 overflow-x-auto whitespace-nowrap" data-aos="fade-up">
+                <a href="{{ route('frontend.home') }}" class="hover:text-brand-red flex-shrink-0">Home</a>
                 <span>/</span>
-                <a href="{{ route('frontend.blog.index') }}" class="hover:text-brand-red">Blog</a>
+                <a href="{{ route('frontend.blog.index') }}" class="hover:text-brand-red flex-shrink-0">Blog</a>
                 <span>/</span>
-                <span class="text-ink truncate">{{ $post->title }}</span>
+                <span class="text-ink truncate min-w-0">{{ $post->title }}</span>
             </nav>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <article class="lg:col-span-9 bg-white p-6 md:p-8 border border-borderGray rounded-custom shadow-sm space-y-6" data-aos="fade-right">
+                <!-- Added min-w-0 to grid children to prevent flex/grid item overflow -->
+                <article class="lg:col-span-9 bg-white p-4 sm:p-6 md:p-8 border border-borderGray rounded-custom shadow-sm space-y-6 min-w-0" data-aos="fade-right">
                     <div>
                         <span class="inline-block bg-brand-tint border border-brand-red/25 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-brand-red uppercase tracking-wider mb-3">{{ $post->category?->name ?? 'Education Insights' }}</span>
-                        <h1 class="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-ink tracking-tight leading-tight">{{ $post->title }}</h1>
+                        <h1 class="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-ink tracking-tight leading-tight break-words">{{ $post->title }}</h1>
 
                         <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-borderGray/65 text-xs text-mutedGray">
                             <div class="flex items-center space-x-2">
@@ -48,50 +50,49 @@
                     </div>
 
                     @if ($image)
-                        <div class="h-64 md:h-96 bg-altBg overflow-hidden rounded-lg">
+                        <div class="h-56 sm:h-64 md:h-96 bg-altBg overflow-hidden rounded-lg">
                             <img src="{{ $image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
                         </div>
                     @endif
 
                     @if ($post->quote)
-                        <blockquote class="border-l-4 border-brand-red pl-4 text-lg font-heading font-semibold italic text-ink">
+                        <blockquote class="border-l-4 border-brand-red pl-4 text-base sm:text-lg font-heading font-semibold italic text-ink break-words">
                             {{ $post->quote }}
                         </blockquote>
                     @endif
 
-                    <div class="prose max-w-none text-charcoal leading-relaxed space-y-4 text-sm md:text-base border-b border-borderGray pb-6">
+                    <!-- Trapped dynamic prose with overflow container -->
+                    <div class="prose max-w-none text-charcoal leading-relaxed space-y-4 text-sm md:text-base overflow-x-auto break-words">
                         {!! $content !!}
                     </div>
-
-                    @if ($post->keywords)
-                        <div class="flex flex-wrap gap-2 pt-2">
-                            @foreach (array_filter(array_map('trim', explode(',', $post->keywords))) as $keyword)
-                                <span class="bg-altBg border border-borderGray rounded-full px-3 py-1 text-[10px] font-bold text-charcoal">{{ $keyword }}</span>
-                            @endforeach
-                        </div>
-                    @endif
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-borderGray">
                         <div class="p-4 border border-borderGray rounded-lg bg-altBg/30 flex items-start space-x-3">
                             <i data-lucide="arrow-left" class="w-5 h-5 text-brand-red flex-shrink-0 mt-0.5"></i>
-                            <div>
+                            <div class="min-w-0">
                                 <div class="text-[9px] uppercase font-bold text-mutedGray">Previous Post</div>
-                                <a href="{{ route('frontend.blog.index') }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block">Back to insights list</a>
+                                @if ($previousPost)
+                                    <a href="{{ route('frontend.blog.show', $previousPost->slug) }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block truncate w-full">{{ $previousPost->title }}</a>
+                                @else
+                                    <a href="{{ route('frontend.blog.index') }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block">Back to insights list</a>
+                                @endif
                             </div>
                         </div>
-                        @if ($recentPosts->isNotEmpty())
-                            <div class="p-4 border border-borderGray rounded-lg bg-altBg/30 flex items-start justify-between space-x-3 text-right">
-                                <div>
-                                    <div class="text-[9px] uppercase font-bold text-mutedGray">Next Post</div>
-                                    <a href="{{ route('frontend.blog.show', $recentPosts->first()->slug) }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block truncate w-48">{{ $recentPosts->first()->title }}</a>
-                                </div>
-                                <i data-lucide="arrow-right" class="w-5 h-5 text-brand-red flex-shrink-0 mt-0.5"></i>
+                        <div class="p-4 border border-borderGray rounded-lg bg-altBg/30 flex items-start justify-between space-x-3 text-right">
+                            <div class="min-w-0 flex-1">
+                                <div class="text-[9px] uppercase font-bold text-mutedGray">Next Post</div>
+                                @if ($nextPost)
+                                    <a href="{{ route('frontend.blog.show', $nextPost->slug) }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block truncate w-full">{{ $nextPost->title }}</a>
+                                @else
+                                    <a href="{{ route('frontend.blog.index') }}" class="text-xs font-bold text-ink hover:text-brand-red mt-1 block">Back to insights list</a>
+                                @endif
                             </div>
-                        @endif
+                            <i data-lucide="arrow-right" class="w-5 h-5 text-brand-red flex-shrink-0 mt-0.5"></i>
+                        </div>
                     </div>
                 </article>
 
-                <aside class="lg:col-span-3 lg:sticky lg:top-24 space-y-6" data-aos="fade-left">
+                <aside class="lg:col-span-3 lg:sticky lg:top-24 space-y-6 min-w-0" data-aos="fade-left">
                     <div class="bg-white p-6 border border-borderGray rounded-custom shadow-sm space-y-4">
                         <h3 class="font-heading font-bold text-sm text-ink uppercase tracking-wider border-b border-borderGray pb-2">Recent Insights</h3>
                         <div class="space-y-4">
@@ -102,11 +103,11 @@
                                         ? (\Illuminate\Support\Str::startsWith($recentImagePath, ['http://', 'https://']) ? $recentImagePath : asset($recentImagePath))
                                         : null;
                                 @endphp
-                                <div class="flex gap-3 items-start">
+                                <div class="flex gap-3 items-start min-w-0">
                                     @if ($recentImage)
                                         <img src="{{ $recentImage }}" alt="{{ $recent->title }}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-altBg">
                                     @endif
-                                    <div>
+                                    <div class="min-w-0 flex-1">
                                         <h4 class="font-heading font-bold text-xs text-ink line-clamp-2 hover:text-brand-red transition">
                                             <a href="{{ route('frontend.blog.show', $recent->slug) }}">{{ $recent->title }}</a>
                                         </h4>

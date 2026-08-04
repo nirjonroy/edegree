@@ -59,6 +59,7 @@ class SiteinfoController extends Controller
     {
         $this->deleteUpload($siteinfo->logo);
         $this->deleteUpload($siteinfo->favicon);
+        $this->deleteUpload($siteinfo->default_meta_image);
         $siteinfo->delete();
 
         return redirect('/admin/siteinfo')->with('success', 'Site info deleted successfully.');
@@ -76,6 +77,7 @@ class SiteinfoController extends Controller
             'logo' => ['nullable', 'image', 'max:2048'],
             'logo_width' => ['nullable', 'integer', 'min:0'],
             'favicon' => ['nullable', 'image', 'max:1024'],
+            'default_meta_image' => ['nullable', 'image', 'max:2048'],
             'contact_email' => ['nullable', 'email', 'max:255'],
             'enable_user_register' => ['nullable', 'boolean'],
             'phone_number_required' => ['nullable', 'boolean'],
@@ -109,7 +111,7 @@ class SiteinfoController extends Controller
 
     private function storeUploads(Request $request, array $data, ?Siteinfo $siteinfo = null): array
     {
-        foreach (['logo', 'favicon'] as $field) {
+        foreach (['logo', 'favicon', 'default_meta_image'] as $field) {
             if (! $request->hasFile($field)) {
                 unset($data[$field]);
                 continue;

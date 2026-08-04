@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Siteinfo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -24,6 +25,7 @@ class SeoMeta
         $robots = self::firstFilled($sources, ['robots', 'robots_tag', 'meta_robots']) ?: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
         $url = self::firstFilled($sources, ['canonical_url', 'url']) ?: url()->current();
         $image = self::firstFilled($sources, ['meta_image', 'og_image', 'twitter_image', 'image', 'image_1', 'featured_image_path', 'background_image', 'hero_background_path'])
+            ?: self::siteDefaultMetaImage()
             ?: 'frontend/assets/img/edegree-plus-logo.png';
         $updatedAt = data_get($model, 'updated_at') ?: ($fallbacks['updated_at'] ?? now());
         $updatedAt = $updatedAt instanceof Carbon ? $updatedAt : Carbon::parse($updatedAt);
@@ -78,6 +80,23 @@ class SeoMeta
         }
     }
 
+    private static function siteDefaultMetaImage(): ?string
+    {
+        try {
+            if (! Schema::hasTable('siteinfo') || ! Schema::hasColumn('siteinfo', 'default_meta_image')) {
+                return null;
+            }
+
+            return Siteinfo::query()
+                ->whereNotNull('default_meta_image')
+                ->where('default_meta_image', '!=', '')
+                ->latest('id')
+                ->value('default_meta_image');
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
     private static function firstFilled(array $sources, array $keys): ?string
     {
         foreach ($keys as $key) {
@@ -101,9 +120,14 @@ class SeoMeta
     private static function absoluteUrl(string $value): string
     {
         if (Str::startsWith($value, ['http://', 'https://'])) {
-            return $value;
+            return self::normalizeUrl($value);
         }
 
-        return url(ltrim($value, '/'));
+        return self::normalizeUrl(url(ltrim($value, '/')));
+    }
+
+    private static function normalizeUrl(string $value): string
+    {
+        return preg_replace('#(?<!:)//+#', '/', $value) ?: $value;
     }
 }

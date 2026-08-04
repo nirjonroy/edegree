@@ -21,6 +21,10 @@
     $documents = $program->documents_required;
     $feesDescription = $program->fees_description ?: '<p>Fees and scholarship details have not been added from the admin panel yet.</p>';
     $outcomes = $program->outcomes_description ?: '<p>Outcome details have not been added from the admin panel yet.</p>';
+    $applyUrl = $program->link ?: route('frontend.programs.show', $program->slug);
+    $categoryName = $program->degree?->name ?? $program->type;
+    $categoryUrl = $categoryName ? route('frontend.programs.index', ['degree' => $categoryName]) : route('frontend.programs.index');
+    $universityUrl = $program->university?->slug ? route('frontend.universities.show', $program->university->slug) : null;
 @endphp
 
 @section('content')
@@ -35,17 +39,16 @@
             </nav>
 
             <section class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm mb-8" data-aos="fade-up">
-                <div class="h-64 md:h-80 relative bg-ink">
-                    <img src="{{ $image }}" alt="{{ $program->program }}" class="w-full h-full object-cover opacity-65">
-                    <div class="absolute inset-0 bg-black/35"></div>
+                <div class="h-64 md:h-80 relative bg-altBg">
+                    <img src="{{ $image }}" alt="{{ $program->program }}" class="w-full h-full object-cover">
                 </div>
 
                 <div class="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start gap-6">
                     <div class="max-w-3xl">
                         <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="bg-brand-tint border border-brand-red/25 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-brand-red uppercase">
-                                {{ $program->degree?->name ?? $program->type ?? 'Program' }}
-                            </span>
+                            <a href="{{ $categoryUrl }}" class="bg-brand-tint border border-brand-red/25 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-brand-red uppercase hover:bg-brand-red hover:text-white transition-colors">
+                                {{ $categoryName ?? 'Program' }}
+                            </a>
                             @if ($program->recommend)
                                 <span class="bg-brand-warningGold text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase">Popular</span>
                             @endif
@@ -53,10 +56,17 @@
                         <h1 class="font-heading font-bold text-2xl md:text-4xl text-ink tracking-tight">{{ $program->program }}</h1>
                         <p class="text-sm text-charcoal mt-3">{{ $program->short_description ?: 'Accredited online program delivered for working professionals.' }}</p>
                         <div class="flex flex-wrap gap-3 mt-5">
-                            <div class="flex items-center space-x-1.5 bg-altBg px-3 py-2 rounded-lg border border-borderGray/50 text-xs text-charcoal">
-                                <i data-lucide="building-2" class="w-4 h-4 text-brand-red"></i>
-                                <span class="font-bold text-ink">{{ $program->university?->name ?? 'Partner University' }}</span>
-                            </div>
+                            @if ($universityUrl)
+                                <a href="{{ $universityUrl }}" class="flex items-center space-x-1.5 bg-altBg px-3 py-2 rounded-lg border border-borderGray/50 text-xs text-charcoal hover:border-brand-red/50 hover:text-brand-red transition-colors">
+                                    <i data-lucide="building-2" class="w-4 h-4 text-brand-red"></i>
+                                    <span class="font-bold text-ink">{{ $program->university->name }}</span>
+                                </a>
+                            @else
+                                <div class="flex items-center space-x-1.5 bg-altBg px-3 py-2 rounded-lg border border-borderGray/50 text-xs text-charcoal">
+                                    <i data-lucide="building-2" class="w-4 h-4 text-brand-red"></i>
+                                    <span class="font-bold text-ink">Partner University</span>
+                                </div>
+                            @endif
                             <div class="flex items-center space-x-1.5 bg-altBg px-3 py-2 rounded-lg border border-borderGray/50 text-xs text-charcoal">
                                 <i data-lucide="clock" class="w-4 h-4 text-brand-red"></i>
                                 <span class="font-bold text-ink">{{ $program->duration ?: 'Flexible' }}</span>
@@ -76,7 +86,7 @@
                                 <div class="text-[10px] text-mutedGray mt-1">{{ $program->scholarship_description }}</div>
                             @endif
                         </div>
-                        <a href="#inquiry-form" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-lg text-sm font-bold text-center shadow hover:shadow-md transition-all duration-150 block">
+                        <a href="{{ $applyUrl }}" class="w-full bg-brand-red hover:bg-brand-darkRed text-white py-3 rounded-lg text-sm font-bold text-center shadow hover:shadow-md transition-all duration-150 block">
                             {{ $program->apply_button_text ?: 'Apply Online Now' }}
                         </a>
                     </div>
@@ -148,7 +158,7 @@
                                             <p class="text-xs text-charcoal leading-relaxed">{{ $program->scholarship_description }}</p>
                                         @endif
                                     </div>
-                                    <a href="#inquiry-form" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-3 rounded-lg text-xs font-bold whitespace-nowrap shadow transition duration-150">
+                                    <a href="{{ $applyUrl }}" class="bg-brand-red hover:bg-brand-darkRed text-white px-5 py-3 rounded-lg text-xs font-bold whitespace-nowrap shadow transition duration-150">
                                         {{ $program->apply_button_text ?: 'Apply Now' }}
                                     </a>
                                 </div>
@@ -175,6 +185,7 @@
                                     </a>
                                 @endforeach
                             </div>
+                            @include('frontend.partials.load-more-pagination', ['paginator' => $relatedPrograms, 'label' => 'Load More Related Programs'])
                         </div>
                     @endif
                 </article>
