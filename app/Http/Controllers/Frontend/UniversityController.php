@@ -9,6 +9,7 @@ use App\Models\Program;
 use App\Models\ProgramCategory;
 use App\Models\Siteinfo;
 use App\Models\University;
+use App\Support\FrontendMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -120,14 +121,6 @@ class UniversityController extends Controller
 
     private function imageUrl(?string $path, string $fallback): string
     {
-        if (! $path) {
-            return $fallback;
-        }
-
-        if (Str::startsWith($path, ['http://', 'https://'])) {
-            return $path;
-        }
-
-        return asset($path);
+        return FrontendMedia::image($path, $fallback);
     }
 }

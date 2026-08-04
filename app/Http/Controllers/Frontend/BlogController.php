@@ -10,6 +10,7 @@ use App\Models\Program;
 use App\Models\ProgramCategory;
 use App\Models\Siteinfo;
 use App\Models\University;
+use App\Support\FrontendMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -166,6 +167,6 @@ class BlogController extends Controller
             return null;
         }
 
-        return Str::startsWith($path, ['http://', 'https://']) ? $path : asset($path);
+        return FrontendMedia::image($path);
     }
 }

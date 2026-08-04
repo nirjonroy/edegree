@@ -12,9 +12,7 @@
 
 @php
     $background = $page->background_image ?: $page->meta_image;
-    $backgroundUrl = $background
-        ? (\Illuminate\Support\Str::startsWith($background, ['http://', 'https://']) ? $background : asset($background))
-        : null;
+    $backgroundUrl = $background ? \App\Support\FrontendMedia::image($background) : null;
 @endphp
 
 @section('content')

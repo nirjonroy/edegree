@@ -11,9 +11,10 @@
 @endsection
 
 @php
-    $heroImage = $slider?->image
-        ? (\Illuminate\Support\Str::startsWith($slider->image, ['http://', 'https://']) ? $slider->image : asset($slider->image))
-        : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1170&auto=format&fit=crop';
+    $heroImage = \App\Support\FrontendMedia::image(
+        $slider?->image,
+        'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1170&auto=format&fit=crop'
+    );
     $heroBadge = $slider?->badge_text ?: 'Accredited Global Partners';
     $heroTitle = $slider?->title ?: 'Advance Your Career with Accredited Online University Degrees';
     $heroSubtitle = $slider?->subtitle ?: "Secure recognized MBA, DBA, Master's, and Bachelor's programs without career disruption. 100% online schedules curated for working professionals.";
@@ -272,9 +273,7 @@
                     @if ($homePartners->isNotEmpty())
                         @foreach ($homePartners as $partner)
                             @php
-                                $partnerImage = $partner->logo
-                                    ? (\Illuminate\Support\Str::startsWith($partner->logo, ['http://', 'https://']) ? $partner->logo : asset($partner->logo))
-                                    : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png');
+                                $partnerImage = \App\Support\FrontendMedia::image($partner->logo, \App\Support\FrontendMedia::LOGO_FALLBACK);
                             @endphp
                             <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                                 @if ($partner->link)
@@ -291,7 +290,7 @@
                     @else
                         @foreach ($universities as $university)
                             <div class="swiper-slide flex flex-col items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                                <img src="{{ $university->image_1 ? asset($university->image_1) : asset('frontend/assets/img/edegree-plus-square-white-bg-logo.png') }}" alt="{{ $university->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
+                                <img src="{{ \App\Support\FrontendMedia::image($university->image_1, \App\Support\FrontendMedia::LOGO_FALLBACK) }}" alt="{{ $university->name }}" class="w-12 h-12 rounded-full object-cover mb-2">
                                 <span class="font-heading font-bold text-xs text-ink text-center">{{ $university->name }}</span>
                             </div>
                         @endforeach

@@ -12,9 +12,7 @@
 
 @php
     $imagePath = $post->image ?: $post->featured_image_path;
-    $image = $imagePath
-        ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
-        : null;
+    $image = $imagePath ? \App\Support\FrontendMedia::image($imagePath) : null;
     $content = $post->long_description ?: $post->content;
 @endphp
 
@@ -99,9 +97,7 @@
                             @forelse ($recentPosts as $recent)
                                 @php
                                     $recentImagePath = $recent->image ?: $recent->featured_image_path;
-                                    $recentImage = $recentImagePath
-                                        ? (\Illuminate\Support\Str::startsWith($recentImagePath, ['http://', 'https://']) ? $recentImagePath : asset($recentImagePath))
-                                        : null;
+                                    $recentImage = $recentImagePath ? \App\Support\FrontendMedia::image($recentImagePath) : null;
                                 @endphp
                                 <div class="flex gap-3 items-start min-w-0">
                                     @if ($recentImage)

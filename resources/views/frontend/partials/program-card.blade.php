@@ -1,13 +1,9 @@
 @php
     $programImagePath = $program->image ?: $program->university?->image_1;
-    $programImage = $programImagePath
-        ? (\Illuminate\Support\Str::startsWith($programImagePath, ['http://', 'https://']) ? $programImagePath : asset($programImagePath))
-        : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop&q=80';
+    $programImage = \App\Support\FrontendMedia::image($programImagePath);
     $programUrl = route('frontend.programs.show', $program->slug);
     $applyUrl = $program->link ?: $programUrl;
-    $universityLogo = $program->university?->image_1
-        ? (\Illuminate\Support\Str::startsWith($program->university->image_1, ['http://', 'https://']) ? $program->university->image_1 : asset($program->university->image_1))
-        : 'https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop&q=80';
+    $universityLogo = \App\Support\FrontendMedia::image($program->university?->image_1, \App\Support\FrontendMedia::LOGO_FALLBACK);
 @endphp
 
 <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full card-hover-lift" data-aos="fade-up">

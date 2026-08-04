@@ -1,5 +1,5 @@
 @php
-    $logo = ! empty($siteinfo?->logo) ? asset($siteinfo->logo) : asset('frontend/assets/img/edegree-plus-logo.png');
+    $logo = \App\Support\FrontendMedia::image($siteinfo?->logo, 'frontend/assets/img/edegree-plus-logo.png');
     $featuredProgram = isset($popularPrograms) ? $popularPrograms->first() : null;
 @endphp
 

@@ -12,9 +12,7 @@
 
 @php
     $imagePath = $program->image ?: $program->university?->image_1;
-    $image = $imagePath
-        ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
-        : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&h=600&fit=crop&q=80';
+    $image = \App\Support\FrontendMedia::image($imagePath, 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&h=600&fit=crop&q=80');
     $overview = $program->long_description ?: '<p>Program overview has not been added from the admin panel yet.</p>';
     $curriculum = $program->curriculum_description ?: '<p>Curriculum details have not been added from the admin panel yet.</p>';
     $eligibility = $program->eligibility_description ?: '<p>Eligibility details have not been added from the admin panel yet.</p>';

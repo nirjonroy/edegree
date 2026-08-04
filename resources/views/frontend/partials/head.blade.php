@@ -7,7 +7,7 @@
     @if (! empty($siteinfo?->google_site_verification))
         <meta name="google-site-verification" content="{{ $siteinfo->google_site_verification }}">
     @endif
-    <link rel="icon" type="image/png" href="{{ ! empty($siteinfo?->favicon) ? asset($siteinfo->favicon) : asset('frontend/assets/img/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ \App\Support\FrontendMedia::image($siteinfo?->favicon, 'frontend/assets/img/favicon.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

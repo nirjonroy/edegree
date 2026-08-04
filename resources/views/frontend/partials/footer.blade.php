@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
             <div>
                 <a href="{{ route('frontend.home') }}" class="flex items-center mb-4">
-                    <img src="{{ ! empty($siteinfo?->logo) ? asset($siteinfo->logo) : asset('frontend/assets/img/edegree-plus-white-logo.png') }}" alt="eDegree+" class="h-10 w-auto" @if (! empty($siteinfo?->logo_width)) style="width: {{ (int) $siteinfo->logo_width }}px; height: auto;" @endif>
+                    <img src="{{ \App\Support\FrontendMedia::image($siteinfo?->logo, 'frontend/assets/img/edegree-plus-white-logo.png') }}" alt="eDegree+" class="h-10 w-auto" @if (! empty($siteinfo?->logo_width)) style="width: {{ (int) $siteinfo->logo_width }}px; height: auto;" @endif>
                 </a>
                 <p class="text-xs text-brand-tint/50 leading-relaxed mb-4">
                     {{ $siteinfo?->footer_contact_note ?: 'Connecting professionals with premium, accredited online university degree programs worldwide.' }}

@@ -41,9 +41,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($universitiesPage as $university)
                     @php
-                        $image = $university->image_1
-                            ? (\Illuminate\Support\Str::startsWith($university->image_1, ['http://', 'https://']) ? $university->image_1 : asset($university->image_1))
-                            : 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=500&fit=crop&q=80';
+                        $image = \App\Support\FrontendMedia::image($university->image_1, 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=500&fit=crop&q=80');
                     @endphp
                     <article class="bg-white border border-borderGray rounded-custom overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between card-hover-lift" data-aos="fade-up">
                         <div>

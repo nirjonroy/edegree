@@ -11,9 +11,7 @@
 @endsection
 
 @php
-    $image = $university->image_1
-        ? (\Illuminate\Support\Str::startsWith($university->image_1, ['http://', 'https://']) ? $university->image_1 : asset($university->image_1))
-        : 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&h=600&fit=crop&q=80';
+    $image = \App\Support\FrontendMedia::image($university->image_1, 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&h=600&fit=crop&q=80');
     $stats = [
         ['label' => 'Founded', 'value' => $university->founded_year ?: 'Online'],
         ['label' => 'Ranking', 'value' => $university->ranking_badge ?: ($university->rank ?: 'Accredited')],

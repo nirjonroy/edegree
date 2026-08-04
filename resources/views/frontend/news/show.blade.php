@@ -12,9 +12,7 @@
 
 @php
     $imagePath = $news->image;
-    $image = $imagePath
-        ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
-        : null;
+    $image = $imagePath ? \App\Support\FrontendMedia::image($imagePath) : null;
 @endphp
 
 @section('content')
