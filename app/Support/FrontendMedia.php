@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class FrontendMedia
 {
-    public const PROGRAM_FALLBACK = 'frontend/assets/img/edegree-plus-square-white-bg-logo.png';
+    public const PROGRAM_FALLBACK = 'frontend/assets/img/program-placeholder.svg';
     public const LOGO_FALLBACK = 'frontend/assets/img/edegree-plus-square-white-bg-logo.png';
     public const HERO_FALLBACK = 'frontend/assets/img/edegreeplus-rectungular-white-bg-logo.png';
 
