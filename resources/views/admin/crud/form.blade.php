@@ -49,7 +49,7 @@
                                             <i class="bi bi-file-earmark-text"></i> View File
                                         </a>
                                     @else
-                                        <img src="/{{ $value }}" alt="{{ $field['label'] }}" class="img-thumbnail" style="max-height: 90px">
+                                        <img src="{{ \App\Support\FrontendMedia::image($value, \App\Support\FrontendMedia::PROGRAM_FALLBACK) }}" alt="{{ $field['label'] }}" class="img-thumbnail" style="max-height: 90px">
                                     @endif
                                 </div>
                             @endif
